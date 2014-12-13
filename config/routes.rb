@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :price
   resources :companies
 
-  resources :user
+  resources :users
   resource :session
 
 end
