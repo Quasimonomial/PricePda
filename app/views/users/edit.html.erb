@@ -1,0 +1,10 @@
+<h1>Change your price range</h1>
+
+
+<form action="<%= user_url(current_user)%>" method="POST">
+	<input type="hidden" name="_method" value="PATCH">	
+	<label>
+		Range Percentage: <input type="text" name="user[price_range_percentage]", value="<%=current_user.price_range_percentage%>">
+	</label>
+	<input type="submit" value="%!!">
+</form>

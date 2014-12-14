@@ -19,8 +19,10 @@ class User < ActiveRecord::Base
 
    after_initialize :ensure_session_token
   
-  def self.find_by_credentials(username, password)
-    user = User.find_by_username(username)
+  attr_accessor :password
+
+  def self.find_by_credentials(email, password)
+    user = User.find_by_email(email)
     if user && user.valid_password?(password)
       return user
     end
