@@ -21,6 +21,23 @@
 			<td> <%= product.product  %> </td>
 			<td> <%= product.dosage  %> </td>
 			<td> <%= product.package  %> </td>
+			<% @companies.each do |company|%>
+				<td>
+				<% this_price = product.prices.where(pricer_id: company.id, pricer_type: "Company").first%> 
+				<% if this_price %>
+					<%= this_price.price %>
+				<% end %>
+				</td>
+			<% end %>
+			
+			<% if logged_in? %>
+				<td> <% this_price = product.prices.where(pricer_type: "User").first%> 
+				<% if this_price %>
+					<%= this_price.price %>
+				<% end %>
+				</td>
+			<% end %>
+
 		</tr>
 	<% end %>
 </table>
@@ -28,6 +45,7 @@
 <br>
 <%= link_to "Company's index", companies_url %><br>
 <%= link_to "Products index", products_url %><br>
+<%= link_to "Add Price", new_price_url %> <br>
 <% if logged_in? %>
 	<%= link_to "Change Price Percentage", edit_user_url(current_user) %>
 <% end %>

@@ -12,4 +12,10 @@
 #
 
 class Price < ActiveRecord::Base
+	belongs_to :pricer, :polymorphic => true
+	belongs_to :product
+
+	def in_price_range?(user)
+
+  end
 end

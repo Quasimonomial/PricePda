@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
 
    after_initialize :ensure_session_token
   
+  has_many :prices, as: :pricer
+
   attr_accessor :password
 
   def self.find_by_credentials(email, password)

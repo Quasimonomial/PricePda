@@ -13,4 +13,5 @@
 
 class Product < ActiveRecord::Base
   #add a uniqueness validation for a set of three or four feilds, ask ethan about this
+  has_many :prices
 end
