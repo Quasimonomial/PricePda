@@ -1,0 +1,22 @@
+<h1>Products Page</h1>
+
+<table border="solid">
+	<tr>
+		<th>Category</th>
+		<th>Product</th>
+		<th>Dosage</th>
+		<th>Package</th>
+	</tr>
+	<% @products.each do |product|%>
+		<tr>
+			<td> <%= link_to product.category, product_url(product)  %> </td>
+			<td> <%= product.product  %> </td>
+			<td> <%= product.dosage  %> </td>
+			<td> <%= product.package  %> </td>
+		</tr>
+	<% end %>
+</table>
+
+
+<%= link_to "Create Product", new_product_url %><br>
+<%= link_to "Root Index", root_url %>
