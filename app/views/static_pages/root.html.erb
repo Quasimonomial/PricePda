@@ -1,5 +1,30 @@
 <h1>Testing Root Page</h1>
 
+<table border="solid">
+	<tr>
+		<th>Product Id</th>
+		<th>Category</th>
+		<th>Product</th>
+		<th>Dosage</th>
+		<th>Package</th>
+		<% @companies.each do |company| %>
+			<th> <%=company.name%> </th>
+		<% end %>
+		<% if logged_in? %>
+			<th> <%= current_user.email %> </th>
+		<% end %>
+	</tr>
+	<% @products.each do |product|%>
+		<tr>
+			<td> <%= link_to product.id, product_url(product)  %> </td>
+			<td> <%= product.category %> </td>
+			<td> <%= product.product  %> </td>
+			<td> <%= product.dosage  %> </td>
+			<td> <%= product.package  %> </td>
+		</tr>
+	<% end %>
+</table>
+
 <br>
 <%= link_to "Company's index", companies_url %><br>
 <%= link_to "Products index", products_url %><br>
