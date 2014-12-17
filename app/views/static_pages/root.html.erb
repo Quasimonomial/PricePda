@@ -25,7 +25,15 @@
 				<td>
 				<% this_price = product.prices.where(pricer_id: company.id, pricer_type: "Company").first%> 
 				<% if this_price %>
+					<% if this_price.ouside_price_range?(current_user)%>
+						<font color="red">	
+					<% end %>
+					
 					<%= this_price.price %>
+					
+					<% if this_price.ouside_price_range?(current_user)%>
+					</font>
+					<% end %>
 				<% end %>
 				</td>
 			<% end %>
