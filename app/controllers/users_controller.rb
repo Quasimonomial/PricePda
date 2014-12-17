@@ -11,6 +11,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    User.price_range_percentage = 10
     if @user.save
       log_in!(@user)
       redirect_to root_url

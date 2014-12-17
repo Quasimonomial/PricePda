@@ -21,7 +21,9 @@ class Price < ActiveRecord::Base
     user_price_obj = user.prices.where(product_id: self.product_id).first
     return false unless user_price_obj
     user_price = user_price_obj.price
-    return user_price
-    ((user_price - self.price)/user_price * 100) >= user.price_range_percentage
+    puts user_price
+    puts (((user_price - self.price) *1.0) * 100/user_price)
+    puts user.price_range_percentage
+    (((user_price - self.price) *1.0) * 100/user_price) >= user.price_range_percentage
   end
 end
