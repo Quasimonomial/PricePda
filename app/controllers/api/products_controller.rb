@@ -2,45 +2,36 @@ module Api
   class ProductsController < ApiController
     def index
       @products = Product.all
-      render :index
+      render json: @products
     end
 
     def show
       @product = Product.find(params[:id])
-      render :show
+      render json: @product
     end
 
     def update
       @product = Product.find(params[:id])
-      unless @product.update(product_params)
-        flash[:errors] = @product.errors.full_messages
+      if @product.update(product_params)
+        render json: @product
+      else
+        render json: @product.errors.full_messages, status: :unprocessable_entity
       end
-      redirect_to product_url(@product)
-    end
-
-    def new
-      render :new
-    end
-
-    def edit 
-      @product = Product.find(params[:id])
-      render :edit
     end
 
     def create
       @product = Product.new(product_params)
       if @product.save
-        redirect_to product_url(@product)
+        render json: @product
       else
-        flash[:errors] = @product.errors.full_messages
-        redirect_to new_product_url
+        render json: @product.errors.full_messages, status: :unprocessable_entity
       end
     end
 
     def destroy
       @product = Product.find(params[:id])
       @product.destroy
-      redirect_to products_url
+      render json: @product
     end
 
     private
@@ -48,9 +39,4 @@ module Api
       params.require(:product).permit(:category, :product, :dosage, :package)
     end
   end
-
-  #  category   :string(255)
-  #  product    :string(255)
-  #  dosage     :string(255)
-  #  package    :string(255)
 end

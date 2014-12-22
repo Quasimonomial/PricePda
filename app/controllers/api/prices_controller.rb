@@ -1,14 +1,16 @@
 module Api
 	class PricesController < ApiController
-		def new
-			@products = Product.all
-			@companies = Company.all
-			@price = Price.new
-			render :new
-		end
+		# def new
+		# 	@products = Product.all
+		# 	@companies = Company.all
+		# 	@price = Price.new
+		# 	render :new
+		# end
 
 
 		def create
+			#definately redo all this
+
 			@price = Price.new(price_params)
 			if @price.pricer_id == -1
 				@price.pricer_id = current_user.id
@@ -16,10 +18,9 @@ module Api
 			end
 
 			if @price.save
-			  redirect_to root_url
+			  render json: @price
 			else
-			  flash[:errors] = @price.errors.full_messages
-			  render :new
+			  render json: @price.errors.full_messages, status: :unprocessable_entity
 			end
 		end
 

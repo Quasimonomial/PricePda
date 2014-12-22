@@ -7,7 +7,7 @@ module Api
 
     def show
       @company = Company.find(params[:id])
-      render :show
+      render json: @company
     end
 
     def create
