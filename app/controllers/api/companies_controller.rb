@@ -29,7 +29,7 @@ module Api
     end
 
     def destroy
-      @company = find(params[:id])
+      @company = Company.find(params[:id])
       @company.try(:destroy)
       render json: @company
     end

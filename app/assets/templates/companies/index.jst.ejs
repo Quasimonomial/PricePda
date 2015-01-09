@@ -1,0 +1,24 @@
+<h1>Companies Index</h1>
+
+Comapnies:
+
+<ul>
+	<% companies.each( function(company) { %>
+	<li>
+		<%= company.escape("name") %>
+		<a class="companyDelete" data-id="<%= company.id%>"> delete </a>
+	</li>
+	<% }); %>
+</ul>
+
+<h2>Add a company</h2>
+<form class="companyAdd">
+	<label>Title:
+		<input type="text" name="name">
+	</label>	
+	<input type="submit" value="Add Company">
+</form>
+
+<ul class="errors">
+</ul>
+

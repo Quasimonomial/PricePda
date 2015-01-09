@@ -1,0 +1,1 @@
+json.extract! @product, :id, :category, :product, :dosage, :package

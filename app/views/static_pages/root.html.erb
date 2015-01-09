@@ -1,59 +1,8 @@
 <h1>Testing Root Page</h1>
 
-<table border="solid">
-	<tr>
-		<th>Product Id</th>
-		<th>Category</th>
-		<th>Product</th>
-		<th>Dosage</th>
-		<th>Package</th>
-		<% @companies.each do |company| %>
-			<th> <%=company.name%> </th>
-		<% end %>
-		<% if logged_in? %>
-			<th> <%= current_user.email %> </th>
-		<% end %>
-	</tr>
-	<% @products.each do |product|%>
-		<tr>
-			<td> <%= link_to product.id + 1000, product_url(product)  %> </td>
-			<td> <%= product.category %> </td>
-			<td> <%= product.product  %> </td>
-			<td> <%= product.dosage  %> </td>
-			<td> <%= product.package  %> </td>
-			<% @companies.each do |company|%>
-				<td>
-				<% this_price = product.prices.where(pricer_id: company.id, pricer_type: "Company").first %> 
-				<% if this_price %>
-					<% if logged_in? && this_price.ouside_price_range?(current_user)%>
-						<font color="red">	
-					<% end %>
-					
-					<%= this_price.price %>
-					
-					<% if logged_in? && this_price.ouside_price_range?(current_user)%>
-						</font>
-					<% end %>
-				<% end %>
-				</td>
-			<% end %>
-			
-			<% if logged_in? %>
-				<td> <% this_price = product.prices.where(pricer_type: "User", pricer_id: current_user.id).first%> 
-				<% if this_price %>
-					<%= this_price.price %>
-				<% end %>
-				</td>
-			<% end %>
+<script>
+</script>
 
-		</tr>
-	<% end %>
-</table>
+<div id='primary'>
+</div>
 
-<br>
-<%= link_to "Company's index", companies_url %><br>
-<%= link_to "Products index", products_url %><br>
-<%= link_to "Add Price", new_price_url %> <br>
-<% if logged_in? %>
-	<%= link_to "Change Price Percentage", edit_user_url(current_user) %>
-<% end %>
