@@ -6,6 +6,7 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 	routes: {
 		'': 'rootIndex',
 		'companies': 'companies',
+		'companies/:id/edit': 'companiesEdit', 
 		'products' : 'productsIndex',
 		'products/:id': 'productShow',
 		'prices/input/user': 'inputUserPrices',
@@ -25,6 +26,15 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 			collection: Vetpda.companies
 		});
 		this._swapView(companiesView);
+	},
+
+	companiesEdit: function(id){
+		var company = Vetpda.companies.getOrFetch(id);
+		console.log("routing to companies");
+		var companyView = new Vetpda.Views.CompanyEdit({
+			model: company
+		});
+		this._swapView(companyView);
 	},
 
 	productsIndex: function(){

@@ -9,7 +9,7 @@ Vetpda.Collections.Companies = Backbone.Collection.extend({
     if(model) {
       model.fetch();
     } else {
-      model = new JournalApp.Models.Company({ id: id });
+      model = new Vetpda.Models.Company({ id: id });
       model.fetch({
         success: function () {
           companies.add(model);

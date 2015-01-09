@@ -6,8 +6,8 @@ Comapnies:
 	<% companies.each( function(company) { %>
 	<li>
 		<%= company.escape("name") %> <br>
-		<a href="/#/companies/<% company.id %>/edit"> edit </a><br>
-		<a class="companyDelete" data-id="<%= company.id%>"> delete </a>
+		<a href="/#/companies/<%= company.id %>/edit"> edit </a><br><br>
+		<a class="companyDelete" data-id="<%= company.id%>"> delete </a><br>
 	</li>
 	<% }); %>
 </ul>
@@ -24,4 +24,4 @@ Comapnies:
 </ul>
 
 
-<a href="">Link to Main Page</a>
+<a href="/#">Link to Main Page</a>

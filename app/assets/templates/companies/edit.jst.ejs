@@ -1,0 +1,14 @@
+<h1>Edit <% company.name %></h1>
+
+<form>
+	<label>Title:
+		<input type="text" name="name" value="<%= company.escape("name") %>">
+	</label>	
+	<input type="submit" value="Update">
+</form>
+
+<ul class="errors">
+</ul>
+
+
+<a href="/#">Link to Main Page</a>
