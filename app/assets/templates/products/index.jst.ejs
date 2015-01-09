@@ -3,34 +3,45 @@
 
 Products:
 
-<ul>
+<table>
+	<tr>
+		<th>Category</th>
+		<th>Product</th>
+		<th>Dosage</th>
+		<th>Package</th>
+		<th></th>
+		<th></th>
+	</tr>
 	<% products.each( function(product) { %>
-	<li>
-		<a class="productDelete" data-id="<%= product.id%>"> delete </a>
-	</li>
+	<tr>
+		<td> <%= product.escape("category") %> </td>
+		<td> <%= product.escape("product") %> </td>
+		<td> <%= product.escape("dosage") %> </td>
+		<td> <%= product.escape("package") %> </td>
+		<td> <a href="/#/products/<%= product.id %>/edit"> Edit </a><td>
+		<td><a class="productDelete" data-id="<%= product.id%>"> delete </a></td>
+	</tr>
 	<% }); %>
-</ul>
 
 
-#  category   :string(255)
-#  product    :string(255)
-#  dosage     :string(255)
-#  package    :string(255)
+</table>
+
+<br>
 
 
 <h2>Add a Product</h2>
 <form class="productAdd">
 	<label>Category:
-		<input type="text" name="name">
+		<input type="text" name="category">
 	</label>
 	<label>Product:
-		<input type="text" name="name">
+		<input type="text" name="product">
 	</label>
 	<label>Dosage:
-		<input type="text" name="name">
+		<input type="text" name="dosage">
 	</label>
 	<label>Package:
-		<input type="text" name="name">
+		<input type="text" name="package">
 	</label>	
 	<input type="submit" value="Add Product">
 </form>
