@@ -1,5 +1,5 @@
 Vetpda.Views.ProductsIndex = Backbone.View.extend({
-	template: JST['producs/index'],
+	template: JST['products/index'],
 
 	initialize: function(){
 		console.log("initializing products Index view");
@@ -56,14 +56,14 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 	// 	console.log("Destroy");
 	// },
 
-	// render: function(){
-	// 	var content = this.template({
-	// 		products: this.collection
-	// 	});
+	render: function(){
+		var content = this.template({
+			products: this.collection
+		});
 
-	// 	this.$el.html(content);
+		this.$el.html(content);
 		
-	// 	return this;
-	// },
+		return this;
+	},
 
 });
