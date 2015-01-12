@@ -5,6 +5,7 @@ Products:
 
 <table>
 	<tr>
+		<th>id</th>
 		<th>Category</th>
 		<th>Product</th>
 		<th>Dosage</th>
@@ -14,6 +15,7 @@ Products:
 	</tr>
 	<% products.each( function(product) { %>
 	<tr>
+		<td> <a href="/#/products/<%= product.id %>"><%= product.id + 1000 %></a> </td>
 		<td> <%= product.escape("category") %> </td>
 		<td> <%= product.escape("name") %> </td>
 		<td> <%= product.escape("dosage") %> </td>

@@ -9,7 +9,7 @@ Vetpda.Collections.Products = Backbone.Collection.extend({
     if(model) {
       model.fetch();
     } else {
-      model = new JournalApp.Models.Product({ id: id });
+      model = new Vetpda.Models.Product({ id: id });
       model.fetch({
         success: function () {
           products.add(model);

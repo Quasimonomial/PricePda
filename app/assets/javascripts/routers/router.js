@@ -50,14 +50,19 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 	productEdit: function(id){
 		var product = Vetpda.products.getOrFetch(id);
 		console.log("routing to product editing");
-		var companyView = new Vetpda.Views.ProductEdit({
+		var productView = new Vetpda.Views.ProductEdit({
 			model: product
 		});
-		this._swapView(companyView);	
+		this._swapView(productView);	
 	},	
 
-	productShow: function(){
-
+	productShow: function(id){
+		var product = Vetpda.products.getOrFetch(id);
+		console.log("routing to product show page");
+		var productView = new Vetpda.Views.ProductShow({
+			model: product
+		});
+		this._swapView(productView);
 	},
 
 	_swapView: function (view) {
