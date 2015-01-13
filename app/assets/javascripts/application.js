@@ -12,6 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.all
+//= require handsontable_rails
 //= require jquery.serializejson
 //= require turbolinks
 //= require underscore
