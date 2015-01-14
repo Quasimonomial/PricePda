@@ -12,7 +12,8 @@
  *
  *= require_tree .
  *= require_self
- *= require jquery.ui.all
+ *= require backgrid
+ *= require backbone.tableview
  *= require handsontable_rails
 
  */

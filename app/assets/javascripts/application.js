@@ -12,12 +12,15 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.ui.all
 //= require handsontable_rails
 //= require jquery.serializejson
 //= require turbolinks
 //= require underscore
 //= require backbone
+//
+//= require backbone.tableview
+//= require backgrid
+//
 //= require vetpda3
 //= require_tree ../templates
 //= require_tree ./models
