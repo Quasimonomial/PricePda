@@ -7,6 +7,9 @@ module Api
 		# 	render :new
 		# end
 
+		#um so we should have any user default the pricer id to that of the current user before we save it
+		
+
 
 		def create
 			#definately redo all this

@@ -3,32 +3,9 @@
 
 Products:
 
-<table>
-	<tr>
-		<th>id</th>
-		<th>Category</th>
-		<th>Product</th>
-		<th>Dosage</th>
-		<th>Package</th>
-		<th></th>
-		<th></th>
-	</tr>
-	<% products.each( function(product) { %>
-	<tr>
-		<td> <a href="/#/products/<%= product.id %>"><%= product.id + 1000 %></a> </td>
-		<td> <%= product.escape("category") %> </td>
-		<td> <%= product.escape("name") %> </td>
-		<td> <%= product.escape("dosage") %> </td>
-		<td> <%= product.escape("package") %> </td>
-		<td> <a href="/#/products/<%= product.id %>/edit"> Edit </a><td>
-		<td><a class="productDelete" data-id="<%= product.id%>"> delete </a></td>
-	</tr>
-	<% }); %>
+<br><br><br>
+<div id="productsTable"></div>
 
-
-</table>
-
-<br>
 
 
 <h2>Add a Product</h2>
