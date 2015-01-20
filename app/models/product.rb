@@ -17,17 +17,19 @@ class Product < ActiveRecord::Base
 
   attr_accessor :pricesArray
 
-  def buildPricesArray
+  def buildPricesArray(user = {id:-1})
     @pricesArray = []
-    companies = Company.all
-    self.prices.each do |price|
-      if price.pricer_type == "Company" && !price.pricer.nil?
+    @pricesForProduct = self.prices.includes(:pricer)
+
+    @pricesForProduct.each do |price|
+      next if price.pricer.nil?
+      if price.pricer_type == "Company"
         puts "Price Found!!"
         puts price.pricer.name
         puts price.price
         @pricesArray << [price.pricer.name, price.price]
-      else
-        puts "Company Does not exist"
+      elsif user && price.pricer_type == "User" && price.pricer_id == user.id
+        @pricesArray << ["User", price.price]
       end
     end
     return @pricesArray
