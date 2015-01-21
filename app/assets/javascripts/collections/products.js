@@ -2,6 +2,10 @@ Vetpda.Collections.Products = Backbone.Collection.extend({
   model: Vetpda.Models.Product,
   url: '/api/products',
 
+  parse: function(response){
+    return response.products
+  },
+
   getOrFetch: function (id) {
     var model = this.get(id),
     products = this;

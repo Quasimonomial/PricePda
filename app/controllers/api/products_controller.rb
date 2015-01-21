@@ -2,18 +2,21 @@ module Api
   class ProductsController < ApiController
     def index
       @products = Product.all
-      render json: @products
+      #render json: @products
+      render json: Product.jsonify_all
     end
 
     def show
       @product = Product.find(params[:id])
-      render json: @product
+      #render json: @product
+      render json: @product.jsonify_this
     end
 
     def update
       @product = Product.find(params[:id])
+      Prices.process_product(@product)
       if @product.update(product_params)
-        render json: @product
+        render json: @product.jsonify_this
       else
         render json: @product.errors.full_messages, status: :unprocessable_entity
       end

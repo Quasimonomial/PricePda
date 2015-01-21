@@ -17,6 +17,11 @@ class Price < ActiveRecord::Base
 	belongs_to :pricer, :polymorphic => true
 	belongs_to :product
 
+  def self.process_product product
+    puts "Processing Product"
+    puts product
+  end
+
 	def ouside_price_range?(user)
     user_price_obj = user.prices.where(product_id: self.product_id).first
     return false unless user_price_obj

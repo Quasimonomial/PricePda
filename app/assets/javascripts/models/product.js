@@ -6,6 +6,5 @@ Vetpda.Models.Product = Backbone.Model.extend({
 	    if (options && options.save === false) return;
 	      model.save();
 	    });
-	    this.getCompanyPrices();
 	 }
 });

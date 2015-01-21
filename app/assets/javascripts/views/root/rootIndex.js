@@ -14,8 +14,8 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		var companyCells = []
 		this.companyCollection.each( function(company) { 
 			companyCells.push({
-				name: company.get("name").toLowerCase(),
-				label: company.get("name").toLowerCase(),
+				name: company.get("name"), //.toLowerCase(),
+				label: company.get("name"), //.toLowerCase(),
 				editable: false,
 				cell: "number" 
 			})

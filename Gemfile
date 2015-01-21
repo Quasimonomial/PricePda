@@ -40,5 +40,6 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'jquery-ui-rails'
 gem 'backbone-on-rails'
 gem 'handsontable_rails', '~> 0.0.2'
+gem 'jsonify', '~> 0.4.1'
 
 ruby '2.1.3'
