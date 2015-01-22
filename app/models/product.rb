@@ -45,7 +45,7 @@ class Product < ActiveRecord::Base
       json_products.package product.package
       json_products.name product.name
       product.prices_array.each do |price|
-        json_products.tag!(price[0], price[1]) 
+        json_products.tag!(price[0], price[1].to_f) 
       end
     end
     return json_products.compile!
@@ -59,7 +59,7 @@ class Product < ActiveRecord::Base
     json_product.package self.package
     json_product.name self.name
     self.prices_array.each do |price|
-      json_product.tag!(price[0], price[1]) 
+      json_product.tag!(price[0], price[1].to_f) 
     end
 
     return json_product.compile!
