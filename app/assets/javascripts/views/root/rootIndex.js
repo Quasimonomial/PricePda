@@ -32,6 +32,13 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			})
 		});
 
+		companyCells.push({
+			name: "User", //possibly get this to be the users username
+			label: "Your Prices",
+			cell: "number",
+			editable: true
+		});
+
 		return companyCells;
 	},
 
@@ -76,7 +83,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 	},
 
 	render: function(){
-		var grid1 = this.buildTable();
+		var grid = this.buildTable();
 
 		var content = this.template({
 			
@@ -85,12 +92,9 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 
 		this.$el.html(content);
-		$('#productsTable').html(grid1.render().el);
+		$('#productsTable').html(grid.render().el);
 		
-		grid1.remove();
-
-		var grid2 = this.buildTable();
-		$('#productsTable').html( grid2.render().el );
+		//grid1.remove();
 
 		return this;
 	},

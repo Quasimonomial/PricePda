@@ -18,42 +18,45 @@ class Price < ActiveRecord::Base
 	belongs_to :pricer, :polymorphic => true
 	belongs_to :product
 
-  def self.process_product params, product
+  def self.process_product params, product, user
     products_hash = params.to_h
     prices = product.prices
 
-    prices_hash = Hash.new
+    prices_hash = Hash.new #has the prices from our datavase
 
     prices.each do |price|
-      next unless price.pricer_type == "Company"
-      #this hash is in the format company_id -> [price_id, price]
-      prices_hash[price.pricer_id] = [price.id, price.price]
+      #this hash is in the format company_id/user_id -> [price_id, price]
+
+      if price.pricer_type == "Company"
+      
+        prices_hash[price.pricer_id] = [price.id, price.price]
+      elsif price.pricer_type == "User" and price.pricer_id == user.id
+        prices_hash["User"] = [price.id, price.price]
+      end
     end
-    puts "Price Hash Here"
-    puts prices_hash
-    # puts "Processing Product"
-    # puts prices
-    # puts "Prices:"
-    # prices.each do |price|
-    #   p price
-    # end
 
     company_name_hash = Company.build_name_hash
 
     set_vars = ["id", "name","category", "dosage", "package", "format", "action", "controller", "product"] #hardcode in some things I don't need    
     products_hash.each do |key, value|
       next if set_vars.include?(key)
-      # puts "doing crazy shit"
-      # p prices.where(pricer: "Company", pricer_id: company_name_hash[key]).first
-      if prices_hash.has_key?(company_name_hash[key])
+      if key == "User" #special case if the user is updating thier price
+        #if we have a user price in teh database see if it is updated
+        if prices_hash.include?("User")
+          unless value == prices_hash["User"][1]
+            price_to_update = Price.find(prices_hash["User"][0])
+            price_to_update.price = value
+            price_to_update.save!
+          end
+        else#, create one
+          new_price = Price.new({product_id: products_hash["id"], pricer_type: "User", pricer_id: user.id, price: value})
+          p new_price
+          new_price.save!
+        end
+      elsif !company_name_hash.include?(key)
+        next # prices not related to a real company name are ignored
+      elsif prices_hash.has_key?(company_name_hash[key])
         price_data = prices_hash[company_name_hash[key]]
-
-        puts "Key Found!"
-        puts key
-        puts "Price incoming"
-        puts value
-        puts "Price Old"
-        puts price_data[1]
         
         if value == price_data[1]
           puts "price match!" 
@@ -63,7 +66,7 @@ class Price < ActiveRecord::Base
           price_to_update.price = value
           price_to_update.save!
         end
-      else
+      else #create new price if we don't jave a real company
         puts "Attempting to load in new price"
         new_price = Price.new({product_id: products_hash["id"], pricer_type: "Company", pricer_id: company_name_hash[key], price: value})
         p new_price
