@@ -9,9 +9,7 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 		'companies/:id/edit': 'companiesEdit', 
 		'products' : 'productsIndex',
 		'products/:id': 'productShow',
-		'products/:id/edit': 'productEdit',
-		'prices/input/user': 'inputUserPrices',
-		'prices/input/:id': 'inputCompanyPrices'
+		'products/:id/edit': 'productEdit'
 	},
 
 	rootIndex: function(){
