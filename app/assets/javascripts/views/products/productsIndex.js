@@ -10,7 +10,15 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 
 	events: {
 		'click .productDelete': 'destroyProduct',
+		'click .saveProducts': 'saveAllProducts',
 		'submit form' : 'addProduct'
+	},
+
+	saveAllProducts: function(){
+		console.log(this.collection);//.save();
+		this.collection.each(function(product){
+			product.save();
+		});
 	},
 
 	createCompanyCells: function(){

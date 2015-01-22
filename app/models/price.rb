@@ -12,6 +12,7 @@
 #
 
 class Price < ActiveRecord::Base
+  validates :price, :product_id, :pricer_id, :pricer_type, presence: true
   validates_uniqueness_of :product_id, scope: [:pricer_id, :pricer_type]
 
 	belongs_to :pricer, :polymorphic => true
@@ -54,7 +55,19 @@ class Price < ActiveRecord::Base
         puts "Price Old"
         puts price_data[1]
         
-        puts "price match!" if value == price_data[1]
+        if value == price_data[1]
+          puts "price match!" 
+        else
+          puts "Attempting to update price in database"
+          price_to_update = Price.find(price_data[0])
+          price_to_update.price = value
+          price_to_update.save!
+        end
+      else
+        puts "Attempting to load in new price"
+        new_price = Price.new({product_id: products_hash["id"], pricer_type: "Company", pricer_id: company_name_hash[key], price: value})
+        p new_price
+        new_price.save!
       end
 
     end

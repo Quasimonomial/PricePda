@@ -65,16 +65,22 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 	},
 
 	render: function(){
-		var grid = this.buildTable();
+		var grid1 = this.buildTable();
 
 		var content = this.template({
 			
 		});
 
 
+
 		this.$el.html(content);
-		$('#productsTable').html(grid.render().el);
+		$('#productsTable').html(grid1.render().el);
 		
+		grid1.remove();
+
+		var grid2 = this.buildTable();
+		$('#productsTable').html( grid2.render().el );
+
 		return this;
 	},
 
