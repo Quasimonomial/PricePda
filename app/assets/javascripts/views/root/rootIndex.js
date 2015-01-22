@@ -49,22 +49,22 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		    label: "Category",
 		    // The cell type can be a reference of a Backgrid.Cell subclass, any Backgrid.Cell subclass instances like *id* above, or a string
 		    cell: "string", // This is converted to "StringCell" and a corresponding class in the Backgrid package namespace is looked up
-		  	//editable: false
+		  	editable: false
 		  }, {
 		    name: "name",
 		    label: "Product",
 		    cell: "string", // An integer cell is a number cell that displays humanized integers
-		    //editable: false
+		    editable: false
 		  }, {
 		    name: "dosage",
 		    label: "Dosage",
 		    cell: "string", // A cell type for floating point value, defaults to have a precision 2 decimal numbers
-		  	//editable: false
+		  	editable: false
 		  }, {
 		    name: "package",
 		    label: "Package",
 		    cell: "string",
-		    //editable: false
+		    editable: false
 		  }
 		  ].concat(this.createCompanyCells());
 		var grid = new Backgrid.Grid({
