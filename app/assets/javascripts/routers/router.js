@@ -46,8 +46,11 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 	productsIndex: function(){
 		console.log("Routing to Product Index");
 		Vetpda.products.fetch();
+		Vetpda.companies.fetch();
 		var productsView = new Vetpda.Views.ProductsIndex({
-			collection: Vetpda.products
+			collection: Vetpda.products,
+			companies: Vetpda.companies
+
 		});
 		this._swapView(productsView);
 	},

@@ -14,7 +14,11 @@ module Api
 
     def update
       @product = Product.find(params[:id])
-      Prices.process_product(@product)
+      Price.process_product(params, @product)
+      # puts "testing"
+      # puts params
+      # puts params.to_h
+      # puts "done testing"
       if @product.update(product_params)
         render json: @product.jsonify_this
       else

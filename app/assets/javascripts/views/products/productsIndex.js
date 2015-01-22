@@ -1,8 +1,10 @@
 Vetpda.Views.ProductsIndex = Backbone.View.extend({
 	template: JST['products/index'],
 
-	initialize: function(){
+	initialize: function(options){
 		console.log("initializing products Index view");
+		this.companyCollection = options.companies;
+		this.listenTo(this.companyCollection, 'sync', this.render)
 		this.listenTo(this.collection, 'sync add remove', this.render)
 	},
 
@@ -11,6 +13,19 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 		'submit form' : 'addProduct'
 	},
 
+	createCompanyCells: function(){
+		var companyCells = []
+		this.companyCollection.each( function(company) { 
+			companyCells.push({
+				name: company.get("name"), //.toLowerCase(),
+				label: company.get("name"), //.toLowerCase(),
+				editable: true,
+				cell: "number" 
+			})
+		});
+
+		return companyCells;
+	},
 		
 	buildTable: function(){
 		var columns = [{
@@ -42,13 +57,13 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 		    label: "Package",
 		    cell: "string",
 		    //editable: true
-		  }, {
-		  	name: "",
-		  	label: "Delete",
-		  	cell: DeleteCell
-		  }
+		  }//, {
+		  // 	name: "",
+		  // 	label: "Delete",
+		  // 	cell: DeleteCell
+		  // }
 
-		  ];
+		  ].concat(this.createCompanyCells());
 		var grid = new Backgrid.Grid({
   			columns: columns,
   			collection: this.collection
