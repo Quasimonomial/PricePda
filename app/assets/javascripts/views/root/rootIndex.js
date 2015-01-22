@@ -10,6 +10,17 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		this.listenTo(this.collection, 'sync', this.render)
 	},
 
+	events: {
+		'click .saveProducts': 'saveAllProducts',
+	},
+
+	saveAllProducts: function(){
+		console.log(this.collection);//.save();
+		this.collection.each(function(product){
+			product.save();
+		});
+	},
+
 	createCompanyCells: function(){
 		var companyCells = []
 		this.companyCollection.each( function(company) { 
