@@ -12,6 +12,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 	events: {
 		'click .saveProducts': 'saveAllProducts',
+		'click .tableFilter' : 'renderTable'
 	},
 
 	saveAllProducts: function(){
@@ -21,16 +22,34 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		});
 	},
 
+	activeCompanies: function(){
+		return $('input:checkbox:checked').map(function() {
+		    return this.value;
+		}).get();
+	},
+	
+
 	createCompanyCells: function(){
 		var companyCells = []
-		this.companyCollection.each( function(company) { 
+
+		var checkedCompanies =  this.activeCompanies()
+
+		for(var i = 0; i < checkedCompanies.length; i++){
 			companyCells.push({
-				name: company.get("name"), //.toLowerCase(),
-				label: company.get("name"), //.toLowerCase(),
+				name: checkedCompanies[i], //.toLowerCase(),
+				label: checkedCompanies[i], //.toLowerCase(),
 				editable: false,
 				cell: "number" 
 			})
-		});
+		}
+		// this.companyCollection.each( function(company) { 
+		// 	companyCells.push({
+		// 		name: company.get("name"), //.toLowerCase(),
+		// 		label: company.get("name"), //.toLowerCase(),
+		// 		editable: false,
+		// 		cell: "number" 
+		// 	})
+		// });
 
 		companyCells.push({
 			name: "User", //possibly get this to be the users username
@@ -90,7 +109,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 	render: function(){
 		
 		var content = this.template({
-			
+			companies: this.companyCollection
 		});
 
 
