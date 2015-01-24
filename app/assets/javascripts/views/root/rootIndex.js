@@ -3,9 +3,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 	initialize: function(options){
 		console.log("Initializing View");
-		console.log(options);
 		this.companyCollection = options.companies;
-		console.log(this.companyCollection);
 		this.listenTo(this.companyCollection, 'sync', this.render)
 		this.listenTo(this.collection, 'sync', this.render)
 	},
@@ -28,6 +26,27 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		}).get();
 	},
 	
+	calculateProductStats: function(){
+		var activeCompanies = this.activeCompanies();
+		this.collection.each(function(product){
+			var pricesArr = [];
+			pricesArrSum = 0;
+			for(var i = 0; i < activeCompanies.length; i++){
+				if(isNaN( product.get(activeCompanies[i]) )){
+					continue;
+				}
+				pricesArr.push(product.get(activeCompanies[i]));
+				pricesArrSum += product.get(activeCompanies[i]);
+			}
+			
+
+			product.set({
+				min: Math.min.apply(null, pricesArr),
+				max: Math.max.apply(null, pricesArr),
+				average: pricesArrSum/pricesArr.length
+			});
+		});
+	},
 
 	createCompanyCells: function(){
 		var companyCells = []
@@ -42,26 +61,25 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 				cell: "number" 
 			})
 		}
-		// this.companyCollection.each( function(company) { 
-		// 	companyCells.push({
-		// 		name: company.get("name"), //.toLowerCase(),
-		// 		label: company.get("name"), //.toLowerCase(),
-		// 		editable: false,
-		// 		cell: "number" 
-		// 	})
-		// });
-
-		companyCells.push({
-			name: "User", //possibly get this to be the users username
-			label: "Your Prices",
-			cell: "number",
-			editable: true
-		});
 
 		return companyCells;
 	},
 
 	buildTable: function(){
+		var statColumns = [{name: "min",
+		    label: "Min",
+		    cell: "number", 
+		  	editable: false
+		  },{ name: "average",
+		    label: "Average",
+		    cell: "number", 
+		  	editable: false
+		  },{ name: "max",
+		    label: "Max",
+		    cell: "number", 
+		  	editable: false
+		  }];
+
 		var columns = [{
 		    name: "id", // The key of the model attribute
 		    label: "ID", // The name to display in the header
@@ -91,8 +109,18 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		    label: "Package",
 		    cell: "string",
 		    editable: false
-		  }
-		  ].concat(this.createCompanyCells());
+		}].concat(this.createCompanyCells());
+
+		if (this.createCompanyCells().length > 0){
+			columns = columns.concat(statColumns)
+		}
+
+	    columns.push({
+			name: "User", //possibly get this to be the users username
+			label: "Your Prices",
+			cell: "number",
+			editable: true
+		});
 		var grid = new Backgrid.Grid({
   			columns: columns,
   			collection: this.collection
@@ -102,6 +130,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 	},
 
 	renderTable: function(){
+		this.calculateProductStats();
 		var grid = this.buildTable();
 		$('#productsTable').html(grid.render().el);
 	},

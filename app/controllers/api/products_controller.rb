@@ -9,7 +9,7 @@ module Api
     def show
       @product = Product.find(params[:id])
       #render json: @product
-      render json: @product.jsonify_this #self.current_user
+      render json: @product.jsonify_this(self.current_user)
     end
 
     def update

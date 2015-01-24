@@ -12,7 +12,7 @@
 #
 
 class User < ActiveRecord::Base
-  validates :email, :session_token, :password_digest, presence: :true
+  validates :email, :session_token, :password_digest, :first_name, :last_name, :hospital_name, :city, :state, :zip_code, presence: :true
   validates :email, :session_token, uniqueness: true
   validates :password, length: { minimum: 6, allow_nil: true }
   validates :price_range_percentage, :numericality => { :greater_than_or_equal_to => 0, less_than_or_equal_to: 100, allow_nil: true}
