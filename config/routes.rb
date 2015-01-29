@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: :json} do
     resources :products
     resources :companies
-    resources :user
+    resource :user_percents, only: [:show, :update]
   end 
 
   resources :users

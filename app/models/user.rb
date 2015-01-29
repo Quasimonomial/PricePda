@@ -31,6 +31,14 @@ class User < ActiveRecord::Base
     nil
   end
 
+  def jsonify_this
+    json_user = Jsonify::Builder.new(:format => :pretty)
+    json_user.id self.id
+    json_user.price_range_percentage self.price_range_percentage
+    
+    return json_user.compile!
+  end
+
   def password=(password)
     @password = password
     self.password_digest = BCrypt::Password.create(password)

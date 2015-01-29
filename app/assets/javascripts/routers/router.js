@@ -14,11 +14,15 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 
 	rootIndex: function(){
 		console.log("reaching root js index")
+		var currentUser = new Vetpda.Models.User();
+		currentUser.fetch();
+
 		Vetpda.products.fetch();
 		Vetpda.companies.fetch();
 		var indexView = new Vetpda.Views.RootIndex({
 			collection: Vetpda.products,
-			companies: Vetpda.companies
+			companies: Vetpda.companies,
+			user: current_user
 		});
 		this._swapView(indexView);
 	},
