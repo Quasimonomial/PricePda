@@ -22,7 +22,7 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 		var indexView = new Vetpda.Views.RootIndex({
 			collection: Vetpda.products,
 			companies: Vetpda.companies,
-			user: current_user
+			user: currentUser
 		});
 		this._swapView(indexView);
 	},
