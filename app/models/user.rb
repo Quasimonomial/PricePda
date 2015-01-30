@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
 
   def jsonify_this
     json_user = Jsonify::Builder.new(:format => :pretty)
-    json_user.id self.id
+  #json_user.id self.id
     json_user.price_range_percentage self.price_range_percentage
     
     return json_user.compile!

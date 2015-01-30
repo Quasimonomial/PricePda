@@ -5,20 +5,19 @@ module Api
       render json: self.current_user.jsonify_this
     end
 
-    # def update
-    #   @product = Product.find(params[:id])
-    #   Price.process_product(params, @product, self.current_user)
+    def create
+      @user = self.current_user
 
-    #   if @product.update(product_params)
-    #     render json: @product.jsonify_this(self.current_user)
-    #   else
-    #     render json: @product.errors.full_messages, status: :unprocessable_entity
-    #   end
-    # end
+      if @user.update(user_params)
+        render json: @user.jsonify_this
+      else
+        render json: @user.errors.full_messages, status: :unprocessable_entity
+      end
+    end
 
     private
-    def user_percent_params
-      params.require(:user).permit(:price_range_percentage)
+    def user_params
+      params.require(:user_percent).permit(:price_range_percentage)
     end
   end
 end

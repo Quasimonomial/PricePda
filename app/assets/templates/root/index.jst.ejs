@@ -11,8 +11,10 @@
 
 <div id="productsTable"></div>
 <br>
-User percentage: <%= user.escape("price_range_percentage") %> <br>
-
+User percentage: <%= user.escape("price_range_percentage") %>
+<form id="userPercentForm">
+	<input type="text" name="price_range_percentage" value="<%= user.escape("price_range_percentage")%>" id="percentInputFeild">
+</form><br>
 <button type="button" class="saveProducts">Save Changes</button> <br>
 
 <a href="/#/companies">Link to Companies Page</a><br>

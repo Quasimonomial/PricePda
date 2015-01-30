@@ -16,10 +16,17 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 	},
 
 	saveAllProducts: function(){
+		//also saves our user
+		var userPercent = $('#percentInputFeild')[0].value;
+		
 		console.log(this.collection);//.save();
 		this.collection.each(function(product){
 			product.save();
 		});
+		console.log("userPercent")
+		console.log(userPercent);
+		this.currentUser.set("price_range_percentage", userPercent);
+		this.currentUser.save();
 	},
 
 	activeCompanies: function(){
