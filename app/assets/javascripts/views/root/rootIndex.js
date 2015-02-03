@@ -12,7 +12,16 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 	events: {
 		'click .saveProducts': 'saveAllProducts',
-		'click .tableFilter' : 'renderTable'
+		'click .tableFilter' : 'renderTable',
+		'focusout #percentInputFeild': 'updateUserModel'
+	},
+
+	updateUserModel:function(){
+		console.log("Event registered")
+		var userPercent = $('#percentInputFeild')[0].value;
+		this.currentUser.set("price_range_percentage", userPercent);
+		console.log("Users price percentage now is")
+		console.log(this.currentUser.escape("price_range_percentage"))
 	},
 
 	saveAllProducts: function(){
@@ -35,6 +44,10 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		}).get();
 	},
 	
+	comparisonCompany: function(){
+		return $('select#comparisonCompany').val();
+	},
+
 	calculateProductStats: function(){
 		var activeCompanies = this.activeCompanies();
 		this.collection.each(function(product){
