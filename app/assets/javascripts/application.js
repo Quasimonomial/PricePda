@@ -19,6 +19,7 @@
 //= require backbone
 //
 //= require backgrid
+//= require backgrid.custom
 //
 //= require vetpda3
 //= require_tree ../templates

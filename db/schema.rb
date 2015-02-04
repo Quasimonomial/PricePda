@@ -37,9 +37,9 @@ ActiveRecord::Schema.define(version: 20150124001949) do
     t.string   "name"
   end
 
-  add_index "products", ["category"], name: "index_products_on_category"
-  add_index "products", ["dosage"], name: "index_products_on_dosage"
-  add_index "products", ["package"], name: "index_products_on_package"
+  add_index "products", ["category"], name: "index_products_on_category", using: :btree
+  add_index "products", ["dosage"], name: "index_products_on_dosage", using: :btree
+  add_index "products", ["package"], name: "index_products_on_package", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email"

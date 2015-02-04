@@ -14,3 +14,7 @@
 //       return this;
 //     }
 // });
+
+var PricePercentMinMaxCell = Backgrid.cell.extend({
+	
+})
