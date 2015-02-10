@@ -13,28 +13,26 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 	events: {
 		'click .saveProducts': 'saveAllProducts',
 		'click .tableFilter' : 'renderTable',
-		'focusout #percentInputFeild': 'updateUserModel'
+		'focusout #percentInputFeild': 'updateUserModel',
+		'change #comparisonCompany' : 'updateUserModel'
 	},
 
 	updateUserModel:function(){
 		console.log("Event registered")
+		console.log( $('#comparisonCompany').val() );
+		console.log(this.currentUser)
 		var userPercent = $('#percentInputFeild')[0].value;
 		this.currentUser.set("price_range_percentage", userPercent);
-		console.log("Users price percentage now is")
-		console.log(this.currentUser.escape("price_range_percentage"))
+		this.currentUser.set("comparison_company_id", $('#comparisonCompany').val());
 	},
 
 	saveAllProducts: function(){
 		//also saves our user
-		var userPercent = $('#percentInputFeild')[0].value;
-		
-		console.log(this.collection);//.save();
+		this.updateUserModel();
+
 		this.collection.each(function(product){
 			product.save();
 		});
-		console.log("userPercent")
-		console.log(userPercent);
-		this.currentUser.set("price_range_percentage", userPercent);
 		this.currentUser.save();
 	},
 
@@ -50,6 +48,8 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 	calculateProductStats: function(){
 		var activeCompanies = this.activeCompanies();
+		var currentUser = this.currentUser
+		var thatCompanyCollection = this.companyCollection
 		this.collection.each(function(product){
 			var pricesArr = [];
 			pricesArrSum = 0;
@@ -65,8 +65,22 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			product.set({
 				min: Math.min.apply(null, pricesArr),
 				max: Math.max.apply(null, pricesArr),
-				average: pricesArrSum/pricesArr.length
+				average: pricesArrSum/pricesArr.length,
 			});
+			if(typeof currentUser.get("price_range_percentage") !== 'undefined'){
+				product.set("priceRangePercentage", currentUser.get("price_range_percentage"));
+
+			}
+			var companiesOutOfRange = [];
+			thatCompanyCollection.each(function(company){
+				console.log(product.get("User"));
+				if(100 * (product.get("User") - product.get(company.get("name")))/product.get("User") >= product.get("priceRangePercentage")){
+					companiesOutOfRange.push(company.get("name"));
+				}
+			});
+			product.set("companiesOutOfRange", companiesOutOfRange);
+			console.log(product);
+
 		});
 	},
 
@@ -145,7 +159,8 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		});
 		var grid = new Backgrid.Grid({
   			columns: columns,
-  			collection: this.collection
+  			collection: this.collection,
+  			row: StyledByDataRow
 		});
 		return grid;
 

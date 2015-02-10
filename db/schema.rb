@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150124001949) do
+ActiveRecord::Schema.define(version: 20150205053801) do
 
   create_table "companies", force: true do |t|
     t.string   "name"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20150124001949) do
     t.string   "state"
     t.string   "zip_code"
     t.string   "phone"
+    t.integer  "comparison_company_id"
   end
 
 end

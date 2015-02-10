@@ -17,7 +17,7 @@ module Api
 
     private
     def user_params
-      params.require(:user_percent).permit(:price_range_percentage)
+      params.require(:user_percent).permit(:price_range_percentage, :comparison_company_id)
     end
   end
 end

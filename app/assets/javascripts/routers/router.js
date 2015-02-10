@@ -16,7 +16,6 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 		console.log("reaching root js index")
 		var currentUser = new Vetpda.Models.User();
 		currentUser.fetch();
-
 		Vetpda.products.fetch();
 		Vetpda.companies.fetch();
 		var indexView = new Vetpda.Views.RootIndex({

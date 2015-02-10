@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
     json_user = Jsonify::Builder.new(:format => :pretty)
   #json_user.id self.id
     json_user.price_range_percentage self.price_range_percentage
-    
+    json_user.comparison_company_id  self.comparison_company_id
     return json_user.compile!
   end
 
