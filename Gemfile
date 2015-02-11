@@ -1,11 +1,16 @@
 source 'https://rubygems.org'
 
+gem 'rails_12factor', group: :production
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.7'
-# Use sqlite3 as the database for Active Record
-#gem 'sqlite3'
-gem  'mysql', '~>2.9.1'
+# Use Postgress as the database for Active Record
+gem 'pg'
+
+#used for heroku deployment
+gem 'puma'
+
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
