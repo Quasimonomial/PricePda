@@ -13,6 +13,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.price_range_percentage = 10
     if @user.save
+      PricesMailer.hello_world_email.deliver
       log_in!(@user)
       redirect_to root_url
     else
