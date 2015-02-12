@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150205053801) do
+ActiveRecord::Schema.define(version: 20150212013027) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "companies", force: true do |t|
     t.string   "name"
@@ -56,6 +59,7 @@ ActiveRecord::Schema.define(version: 20150205053801) do
     t.string   "zip_code"
     t.string   "phone"
     t.integer  "comparison_company_id"
+    t.boolean  "is_admin"
   end
 
 end
