@@ -5,9 +5,9 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		console.log("Initializing Root View");
 		this.companyCollection = options.companies;
 		this.currentUser = options.user;
-		// this.listenTo(this.companyCollection, 'sync', this.render)
-		// this.listenTo(this.collection, 'sync', this.render);
-		// this.listenTo(this.currentUser, 'sync', this.render);
+		this.listenTo(this.companyCollection, 'sync', this.render)
+		this.listenTo(this.collection, 'sync', this.render);
+		this.listenTo(this.currentUser, 'sync', this.render);
 	},
 
 	events: {
@@ -189,7 +189,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		this.$el.html(content);
 		// console.log(this.$el);
 
-		//this.renderTable();
+		this.renderTable();
 
 		return this;
 	},
