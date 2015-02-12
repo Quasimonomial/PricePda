@@ -67,7 +67,7 @@ Rails.application.configure do
     user_name: ENV['app33882497@heroku.com'],
     password: ENV['z9o344l1'],
     domain: 'heroku.com',
-    enable_starttls_auto: true 
+    :enable_starttls_auto => true
   }
 
 

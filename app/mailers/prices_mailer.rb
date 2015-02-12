@@ -1,5 +1,5 @@
 class PricesMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: "app33882497@heroku.com"
 
   def hello_world_email
     @users = User.all
@@ -8,6 +8,7 @@ class PricesMailer < ActionMailer::Base
       mail(to: user.email, subject: 'hello world from vetpda!')
     end
   end
+  # config.action_mailer.default_url_options = { :host => 'heroku.com' }
 
 
 end
