@@ -2,12 +2,12 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 	template: JST['root/index'],
 
 	initialize: function(options){
-		console.log("Initializing View");
+		console.log("Initializing Root View");
 		this.companyCollection = options.companies;
 		this.currentUser = options.user;
-		this.listenTo(this.companyCollection, 'sync', this.render)
-		this.listenTo(this.collection, 'sync', this.render);
-		this.listenTo(this.currentUser, 'sync', this.render);
+		// this.listenTo(this.companyCollection, 'sync', this.render)
+		// this.listenTo(this.collection, 'sync', this.render);
+		// this.listenTo(this.currentUser, 'sync', this.render);
 	},
 
 	events: {
@@ -73,13 +73,13 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			}
 			var companiesOutOfRange = [];
 			thatCompanyCollection.each(function(company){
-				console.log(product.get("User"));
+				//console.log(product.get("User"));
 				if(100 * (product.get("User") - product.get(company.get("name")))/product.get("User") >= product.get("priceRangePercentage")){
 					companiesOutOfRange.push(company.get("name"));
 				}
 			});
 			product.set("companiesOutOfRange", companiesOutOfRange);
-			console.log(product);
+			//console.log(product);
 
 		});
 	},
@@ -167,22 +167,29 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 	},
 
 	renderTable: function(){
+		console.log("rendering the table")
 		this.calculateProductStats();
 		var grid = this.buildTable();
 		$('#productsTable').html(grid.render().el);
 	},
 
 	render: function(){
-		
+		console.log("Rendering View")
 		var content = this.template({
 			companies: this.companyCollection,
 			user: this.currentUser
 		});
 
-
+		// console.log("rendering variables")
+		// console.log("this.$el")
+		// console.log(this.$el);
+		// console.log("content");
+		// console.log(content);
 
 		this.$el.html(content);
-		this.renderTable();
+		// console.log(this.$el);
+
+		//this.renderTable();
 
 		return this;
 	},

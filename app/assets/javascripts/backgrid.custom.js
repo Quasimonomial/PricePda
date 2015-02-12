@@ -28,12 +28,14 @@ var StyledByDataRow = Backgrid.Row.extend({
 
 	    var fragment = document.createDocumentFragment();
 	    for (var i = 0; i < this.cells.length; i++) {
-	    	if(coorIndex < companiesOutOfRange.length){
-	    		if(companiesOutOfRange[coorIndex] === this.cells[i].column.attributes.name){
-	    			this.cells[i].el.classList.add("OutOfRange");
-	    			coorIndex++;
-	    		}
-	    	}
+	        if(typeof companiesOutOfRange != "undefined"){
+		    	if(coorIndex < companiesOutOfRange.length){
+		    		if(companiesOutOfRange[coorIndex] === this.cells[i].column.attributes.name){
+		    			this.cells[i].el.classList.add("OutOfRange");
+		    			coorIndex++;
+		    		}
+		    	}	        	
+	        }
 			fragment.appendChild(this.cells[i].render().el);
 	    }
 

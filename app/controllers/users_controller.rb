@@ -12,6 +12,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     @user.price_range_percentage = 10
+    @user.is_admin = false
     if @user.save
       PricesMailer.hello_world_email.deliver
       log_in!(@user)
