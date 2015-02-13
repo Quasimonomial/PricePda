@@ -90,7 +90,7 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 	// 	// // console.log("Root el is:")
 	// 	// // console.log(this.$rootEl);
 
-	// 	// // this.$rootEl.html(view.$el);
+	// 	// // this.$rootEl.html(vie w.$el);
 	// 	// // view.render()
 	// 	// this.$rootEl.empty();
 	// 	// this.$rootEl.append(view.el);
