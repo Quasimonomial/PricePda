@@ -15,8 +15,14 @@ class Product < ActiveRecord::Base
   #add a uniqueness validation for a set of three or four feilds, ask ethan about this
   has_many :prices
 
-  # attr_accessor :pricesArray
-
+  def self.to_csv
+    CSV.generate do |csv|
+      csv << column_names
+      all.each do |product|
+        csv << product.attributes.values_at(*column_names)
+      end
+    end
+  end
 
 
   def prices_array current_user
