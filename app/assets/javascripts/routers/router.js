@@ -18,6 +18,9 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 		currentUser.fetch();
 		Vetpda.products.fetch();
 		Vetpda.companies.fetch();
+		// //var filteredCompanies = filteredCollection(Vetpda.companies, function(company){
+		// 		return company.get('enabled') === 'true';
+		// 	});
 		var indexView = new Vetpda.Views.RootIndex({
 			collection: Vetpda.products,
 			companies: Vetpda.companies,

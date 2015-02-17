@@ -12,6 +12,7 @@ module Api
 
     def create
       @company = Company.new(company_params)
+      @company.enabled = true
       if @company.save
         render json: @company
       else
@@ -36,7 +37,7 @@ module Api
 
     private
     def company_params
-      params.require(:company).permit(:name)
+      params.require(:company).permit(:name, :enabled)
     end
   end
 end

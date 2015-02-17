@@ -8,13 +8,17 @@ Comapnies:
 		<th> Company Name </th>
 		<th> edit </th>
 		<th> delete </th>
+		<th> Enabled Status</th>
+		<th> Enable/Disabled</th>
 	</tr>
 	<% companies.each( function(company) { %>
 	<tr>
 		<td> <%= company.id %> </td>
 		<td> <%= company.escape("name") %> </td>
 		<td> <a href="/#/companies/<%= company.id %>/edit"> Edit </a> </td>
-		<td> <button class="companyDelete" data-id="<%= company.id%>"> Delete </button> </td>
+		<td> <button class="companyDelete" data-id="<%= company.id %>"> Delete </button> </td>
+		<td> <%= company.enabledString() %> </td>
+		<td> <button class="enableToggle" data-id="<%= company.id %>"> <%= company.enabledToggleString() %> </button> </td>
 	</tr>
 	<% }); %>
 </table>

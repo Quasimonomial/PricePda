@@ -9,7 +9,8 @@ Vetpda.Views.CompaniesIndex = Backbone.View.extend({
 
 	events: {
 		'click .companyDelete': 'destroyCompany',
-		'submit form' : 'addCompany'
+		'submit form' : 'addCompany',
+		'click .enableToggle' : 'toggleCompanyEnabled'
 	},
 
 	addCompany: function(event){
@@ -42,6 +43,14 @@ Vetpda.Views.CompaniesIndex = Backbone.View.extend({
 	      success: success,
 	      error: errors.bind(this)
 	    });
+	},
+
+	toggleCompanyEnabled: function(event){
+		event.preventDefault();
+		var $target = $(event.currentTarget);
+		var company = this.collection.get($target.attr('data-id'));
+		company.toggleEnabled();
+		company.save();
 	},
 
 	destroyCompany: function(event){
