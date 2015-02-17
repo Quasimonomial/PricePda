@@ -47,14 +47,12 @@ Vetpda.Views.CompaniesIndex = Backbone.View.extend({
 	destroyCompany: function(event){
 		event.preventDefault();
 
-		var $target = $(event.currentTarget);
-
-		console.log($target);
-		console.log($target.attr('data-id'));
-
-		var company = this.collection.get($target.attr('data-id'));
-		company.destroy();
-		console.log("Destroy");
+		var confirmation = confirm("Are you sure you want to delete this Company?");
+		if (confirmation == true) {
+			var $target = $(event.currentTarget);
+			var company = this.collection.get($target.attr('data-id'));
+			company.destroy();
+		}
 	},
 
 	render: function(){

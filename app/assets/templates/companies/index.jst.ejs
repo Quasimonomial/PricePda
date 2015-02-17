@@ -2,15 +2,22 @@
 
 Comapnies:
 
-<ul>
+<table>
+	<tr>
+		<th> Id </th>
+		<th> Company Name </th>
+		<th> edit </th>
+		<th> delete </th>
+	</tr>
 	<% companies.each( function(company) { %>
-	<li>
-		<%= company.escape("name") %> <br>
-		<a href="/#/companies/<%= company.id %>/edit"> edit </a><br><br>
-		<a class="companyDelete" data-id="<%= company.id%>"> delete </a><br>
-	</li>
+	<tr>
+		<td> <%= company.id %> </td>
+		<td> <%= company.escape("name") %> </td>
+		<td> <a href="/#/companies/<%= company.id %>/edit"> Edit </a> </td>
+		<td> <button class="companyDelete" data-id="<%= company.id%>"> Delete </button> </td>
+	</tr>
 	<% }); %>
-</ul>
+</table>
 
 <h2>Add a company</h2>
 <form class="companyAdd">
