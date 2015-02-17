@@ -8,8 +8,8 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 		'companies': 'companies',
 		'companies/:id/edit': 'companiesEdit', 
 		'products' : 'productsIndex',
-		'products/:id': 'productShow',
-		'products/delete': 'productDelete'
+		'products/delete': 'productsDelete',
+		'products/:id': 'productShow'
 	},
 
 	rootIndex: function(){
@@ -56,14 +56,11 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 		this._swapView(productsView);
 	},
 
-	productsIndex: function(){
-		console.log("Routing to Product Index");
+	productsDelete: function(){
+		console.log("Routing to Product Delete Page");
 		Vetpda.products.fetch();
-		Vetpda.companies.fetch();
-		var productsView = new Vetpda.Views.ProductsIndex({
+		var productsView = new Vetpda.Views.ProductsDelete({
 			collection: Vetpda.products,
-			companies: Vetpda.companies
-
 		});
 		this._swapView(productsView);
 	},	

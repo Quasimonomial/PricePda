@@ -14,6 +14,6 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 		this.$el.html(content);
 		
 		return this;
-	},
+	}
 
 });

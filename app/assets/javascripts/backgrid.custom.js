@@ -1,19 +1,26 @@
-// var DeleteCell = Backgrid.Cell.extend({
-//     template: _.template('<button>Delete</button>'),
-//     events: {
-//       "click": "deleteRow"
-//     },
-//     deleteRow: function (e) {
-//       console.log("Hello");
-//       e.preventDefault();
-//       this.model.collection.remove(this.model);
-//     },
-//     render: function () {
-//       this.$el.html(this.template());
-//       this.delegateEvents();
-//       return this;
-//     }
-// });
+var DeleteCell = Backgrid.Cell.extend({
+    template: _.template('<button>Delete</button>'),
+    events: {
+      "click": "deleteRow"
+    },
+    deleteRow: function (e) {
+      e.preventDefault();
+      //lets ask a confirmation box
+      var confirmation = confirm("Are you sure you want to delete this object?");
+		if (confirmation == true) {
+		    this.model.collection.remove(this.model);
+      		this.model.destroy();
+		}// else {
+		//     x = "You pressed Cancel!";
+		// } 
+
+    },
+    render: function () {
+      this.$el.html(this.template());
+      this.delegateEvents();
+      return this;
+    }
+});
 
 // var PricePercentMinMaxCell = Backgrid.cell.extend({
 	
