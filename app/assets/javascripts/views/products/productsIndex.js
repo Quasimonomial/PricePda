@@ -9,7 +9,6 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 	},
 
 	events: {
-		'click .productDelete': 'destroyProduct',
 		'click .saveProducts': 'saveAllProducts',
 		'submit form' : 'addProduct'
 	},

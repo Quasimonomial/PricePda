@@ -52,6 +52,7 @@ class Product < ActiveRecord::Base
       json_products.dosage product.dosage
       json_products.package product.package
       json_products.name product.name
+      json_products.enabled product.enabled
       product.prices_array(current_user).each do |price|
         json_products.tag!(price[0], price[1].to_f) 
       end
@@ -66,6 +67,7 @@ class Product < ActiveRecord::Base
     json_product.dosage self.dosage
     json_product.package self.package
     json_product.name self.name
+    json_product.enabled self.enabled
     self.prices_array(current_user).each do |price|
       json_product.tag!(price[0], price[1].to_f) 
     end

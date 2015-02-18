@@ -5,6 +5,16 @@ Vetpda.Views.ProductsDelete = Backbone.View.extend({
 		console.log("initializing products Delete view");
 		this.listenTo(this.collection, 'sync add remove', this.render)
 	},
+
+	events: {
+		'click .saveProducts': 'saveAllProducts',
+	},
+
+	saveAllProducts: function(){
+		this.collection.each(function(product){
+			product.save();
+		});
+	},
 	
 	buildTable: function(){
 		var columns = [{
@@ -40,6 +50,11 @@ Vetpda.Views.ProductsDelete = Backbone.View.extend({
 		  	name: "",
 		  	label: "Delete",
 		  	cell: DeleteCell
+		  }, {
+		    name: "enabled",
+		    label: "Enabled?",
+		    cell: "boolean",
+		    editable: true
 		  }
 
 		  ];
