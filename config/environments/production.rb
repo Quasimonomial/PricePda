@@ -65,8 +65,8 @@ Rails.application.configure do
     adress: 'stmp.sendgrid.net',
     port: '587',
     authentication: :plain,
-    user_name: 'app33882497@heroku.com',
-    password: 'z9o344l1',
+    user_name: ENV['SENDGRID_USERNAME'],
+    password: ENV['SENDGRID_PASSWORD'],
     domain: 'heroku.com',
     enable_starttls_auto: true 
   }
