@@ -6,8 +6,8 @@ class SessionsController < ApplicationController
 		)
 
 		if user
-			# puts "Attempting to send email"
-	    # PricesMailer.hello_world_email.deliver
+			puts "Attempting to send email"
+	    PricesMailer.hello_world_email.deliver
 			log_in!(user)
 			redirect_to root_url
 		else
