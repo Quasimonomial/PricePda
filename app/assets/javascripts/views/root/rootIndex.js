@@ -177,6 +177,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 	render: function(){
 		console.log("Rendering View")
+		console.log(this.currentUser)
 		var content = this.template({
 			companies: this.companyCollection,
 			user: this.currentUser

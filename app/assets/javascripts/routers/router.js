@@ -18,9 +18,6 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 		currentUser.fetch();
 		Vetpda.products.fetch();
 		Vetpda.companies.fetch();
-		// //var filteredCompanies = filteredCollection(Vetpda.companies, function(company){
-		// 		return company.get('enabled') === 'true';
-		// 	});
 		var indexView = new Vetpda.Views.RootIndex({
 			collection: Vetpda.products,
 			companies: Vetpda.companies,
@@ -82,23 +79,4 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 		this._currentView = view;
 		this.$rootEl.html(view.render().$el);
 	}
-
-	// _swapView: function (view) {
-	// 	// this._currentView && this._currentView.remove();
-	// 	// this._currentView = view;
-	// 	// console.log("swapping view")
-	// 	// // console.log("view")
-	// 	// // console.log(view)
-	// 	// // console.log(view.$el)
-	// 	// // console.log("Root el is:")
-	// 	// // console.log(this.$rootEl);
-
-	// 	// // this.$rootEl.html(vie w.$el);
-	// 	// // view.render()
-	// 	// this.$rootEl.empty();
-	// 	// this.$rootEl.append(view.el);
-	// 	// view.render();
-
-	// }
-
 });

@@ -17,7 +17,7 @@ User percentage: <%= user.escape("price_range_percentage") %>
 	<select name="selectionCompany" id="comparisonCompany">
 		<option></option>
 		<% companies.each( function(company) { %>
-			<option value="<%= company.id %>" <% if(user.comparison_company_id === company.id ){ %> selected <% } %>>
+			<option value="<%= company.id %>" <% if(user.get("comparison_company_id") === company.id ){ %> selected <% } %>>
 			<%= company.escape("name")%></option>
 		<% }); %>
 	</select>
