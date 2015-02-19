@@ -71,7 +71,6 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			});
 			if(typeof currentUser.get("price_range_percentage") !== 'undefined'){
 				product.set("priceRangePercentage", currentUser.get("price_range_percentage"));
-
 			}
 			var companiesOutOfRange = [];
 			thatCompanyCollection.each(function(company){
@@ -80,8 +79,15 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 					companiesOutOfRange.push(company.get("name"));
 				}
 			});
+			if(typeof currentUser.get("price_range_percentage") !== 'undefined'){
+				console.log("checking for company")
+				console.log(currentUser.get("comparison_company_id"))
+				if(100 * (product.get("User") - product.get(thatCompanyCollection.get(currentUser.get("comparison_company_id")).get("name")) )/product.get("User") >= product.get("priceRangePercentage") ){
+					console.log("found bad price")
+					companiesOutOfRange.push("User");
+				}
+			}
 			product.set("companiesOutOfRange", companiesOutOfRange);
-			//console.log(product);
 
 		});
 	},

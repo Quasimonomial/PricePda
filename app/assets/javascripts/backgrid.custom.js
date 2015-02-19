@@ -32,7 +32,7 @@ var StyledByDataRow = Backgrid.Row.extend({
         var companiesOutOfRange = this.model.get("companiesOutOfRange");
         var coorIndex = 0;
         this.$el.empty();
-
+        console.log(companiesOutOfRange);
 	    var fragment = document.createDocumentFragment();
 	    for (var i = 0; i < this.cells.length; i++) {
 	        if(typeof companiesOutOfRange != "undefined"){
