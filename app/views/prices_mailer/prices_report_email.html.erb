@@ -5,13 +5,25 @@
 	</head>
 	<body>
 		<h1>Your Monthly Price Report</h1>
-		<p><strong>Your Comparison Company:</strong> <%= Company.find(@user.comparison_company_id).name %></p><br>
+		<% if user.comparison_company_id %>
+		<p><strong>Your Comparison Company:</strong> <%= Company.find(@user.comparison_company_id).name %></p>
 		<p><strong>Your Price Threshold:</strong> <%= @user.price_range_percentage %></p><br>
 
+		<h2>Products</h2>
 		<table>
-
+			<tr>
+				<th>ID</th>
+				<th>Category</th>
+				<th>Product</th>
+				<th>Dosage</th>
+				<th>Package</th>
+				<th><%= Company.find(@user.comparison_company_id).name %> Price</th>
+				<th>Your Price</th>
+			</tr>
 		</table>
-
+		<% else %>
+			<p>Hey, we'd love to give you a report, but it seems as if your account doesn't have a comparison company choosen.  Would you care to log into our site and choose one?</p>
+		<% end %>
 		<br>
 		<a href="vetpdav1.heroku.com">See your full price comparison</a>
 	</body>
