@@ -20,7 +20,18 @@
 				<th><%= Company.find(@user.comparison_company_id).name %> Price</th>
 				<th>Your Price</th>
 			</tr>
-
+			<% @user.build_price_report_email_hash.each do |product| %>
+			<% puts "testing"%>
+			<tr>
+				<td><%= product[:id] %></td>
+				<td><%= product[:category] %></td>
+				<td><%= product[:name] %></td>
+				<td><%= product[:dosage] %></td>
+				<td><%= product[:package] %></td>
+				<td><%= product[:competitor_price] %></td>
+				<td><%= product[:user_price] %></td>
+			</tr>
+			<% end %>
 		</table>
 		<% else %>
 			<p>Hey, we'd love to give you a report, but it seems as if your account doesn't have a comparison company choosen.  Would you care to log into our site and choose one?</p>
