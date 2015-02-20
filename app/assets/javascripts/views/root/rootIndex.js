@@ -78,7 +78,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 					companiesOutOfRange.push(company.get("name"));
 				}
 			});
-			if(typeof currentUser.get("price_range_percentage") !== 'undefined'){
+			if(typeof currentUser !== 'undefined'){
 				console.log("checking for company")
 				console.log(currentUser.get("comparison_company_id"))
 				if(100 * (product.get("User") - product.get(thatCompanyCollection.get(currentUser.get("comparison_company_id")).get("name")) )/product.get("User") >= product.get("priceRangePercentage") ){
