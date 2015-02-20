@@ -1,4 +1,4 @@
-class EmailsController < ApplicationController
+class EmailController < ApplicationController
   before_action :require_logged_in!
 
   def send_to_all

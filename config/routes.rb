@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   resources :users, only: [:update, :create, :edit, :new]
   resource :session, only: [:create, :new, :destroy]
   resource :email
-    get 'emails/send_to_all' => 'email#send_to_all'
-    get 'emails/send_to_self' => 'email#send_to_self'
+    get 'email/send_to_all' => 'email#send_to_all'
+    get 'email/send_to_self' => 'email#send_to_self'
 
 end
