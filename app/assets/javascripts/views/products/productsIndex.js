@@ -64,13 +64,7 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 		    label: "Package",
 		    cell: "string",
 		    //editable: true
-		  }//, {
-		  // 	name: "",
-		  // 	label: "Delete",
-		  // 	cell: DeleteCell
-		  // }
-
-		  ].concat(this.createCompanyCells());
+		  }].concat(this.createCompanyCells());
 		var grid = new Backgrid.Grid({
   			columns: columns,
   			collection: this.collection

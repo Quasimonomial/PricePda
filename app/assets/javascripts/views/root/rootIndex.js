@@ -6,7 +6,6 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		this.companyCollection = options.companies;
 		this.currentUser = options.user;
 		console.log(options.companies);
-		// this.companyCollection.con('reset', this.render, this);
 		this.listenTo(this.companyCollection, 'sync', this.render)
 		this.listenTo(this.collection, 'sync', this.render);
 		this.listenTo(this.currentUser, 'sync', this.render);

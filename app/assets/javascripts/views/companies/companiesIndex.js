@@ -26,7 +26,6 @@ Vetpda.Views.CompaniesIndex = Backbone.View.extend({
 		var success = function () {
 	      console.log("win");
 	      this.collection.add(company, { merge: true });
-	      //Backbone.history.navigate("", { trigger: true });
 	    }.bind(this)
 
 	    function errors (model, response) {

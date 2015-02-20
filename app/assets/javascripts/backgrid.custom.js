@@ -10,9 +10,7 @@ var DeleteCell = Backgrid.Cell.extend({
 		if (confirmation == true) {
 		    this.model.collection.remove(this.model);
       		this.model.destroy();
-		}// else {
-		//     x = "You pressed Cancel!";
-		// } 
+		}
 
     },
     render: function () {
@@ -22,13 +20,8 @@ var DeleteCell = Backgrid.Cell.extend({
     }
 });
 
-// var PricePercentMinMaxCell = Backgrid.cell.extend({
-	
-// });
-
 var StyledByDataRow = Backgrid.Row.extend({
 	render: function () {
-	    //StyledByDataRow.__super__.render.apply(this, arguments);
         var companiesOutOfRange = this.model.get("companiesOutOfRange");
         var coorIndex = 0;
         this.$el.empty();
