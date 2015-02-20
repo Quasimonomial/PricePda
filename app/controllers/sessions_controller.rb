@@ -6,7 +6,6 @@ class SessionsController < ApplicationController
 		)
 
 		if user
-		  # PricesMailer.hello_world_email.deliver
 			log_in!(user)
 			redirect_to root_url
 		else
