@@ -1,7 +1,7 @@
 module Api
   class CompaniesController < ApiController
     def index
-      @companies = Company.all
+      @companies = Company.all.order(:id)
       render json: @companies
     end
 

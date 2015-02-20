@@ -43,7 +43,7 @@ class Product < ActiveRecord::Base
   end
 
   def self.jsonify_all current_user
-    @products = Product.all
+    @products = Product.all.order(:id)
     json_products = Jsonify::Builder.new(:format => :pretty)
 
     json_products.products(@products)do |product|
