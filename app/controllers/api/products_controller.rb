@@ -7,7 +7,7 @@ module Api
         format.json {render json: Product.jsonify_all(self.current_user)}
         format.html {render json: Product.jsonify_all(self.current_user)}
         format.csv { send_data @products.to_csv}
-        format.xls
+        format.xlsx
       end
     end
 
