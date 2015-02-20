@@ -5,7 +5,7 @@
 	</head>
 	<body>
 		<h1>Your Monthly Price Report</h1>
-		<% if user.comparison_company_id %>
+		<% if @user.comparison_company_id %>
 		<p><strong>Your Comparison Company:</strong> <%= Company.find(@user.comparison_company_id).name %></p>
 		<p><strong>Your Price Threshold:</strong> <%= @user.price_range_percentage %></p><br>
 
