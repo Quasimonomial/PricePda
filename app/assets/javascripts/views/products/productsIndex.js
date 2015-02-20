@@ -24,9 +24,9 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 	emailAll: function(){
 		$.ajax({
 			url: "/email/send_to_all",
-			method: "post",
+			method: "get",
   			// dataType: 'json',
-			success: function(book){
+			success: function(){
 				alert("Emails Sent Successfully");
 			}
 		});
