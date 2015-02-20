@@ -5,12 +5,12 @@ class EmailController < ApplicationController
     puts 'routed to'
     users = User.all
     users.each do |user|
-      PricesMailer.hello_world_email(user).deliver
+      PricesMailer.prices_report_email(user).deliver
     end
   end
 
   def send_to_self
     puts 'routed to'
-    PricesMailer.hello_world_email(current_user).deliver
+    PricesMailer.prices_report_email(current_user).deliver
   end
 end
