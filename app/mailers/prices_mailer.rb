@@ -7,6 +7,7 @@ class PricesMailer < ActionMailer::Base
 
     def prices_report_email user
       @user = user
+      @companies = Companies.all
       mail(to: @user.email, subject: 'Your price report is ready')
   end
 end
