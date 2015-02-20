@@ -10,6 +10,7 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 
 	events: {
 		'click .saveProducts': 'saveAllProducts',
+		'click .emailAll': 'emailAll',
 		'submit form' : 'addProduct'
 	},
 
@@ -17,6 +18,17 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 		console.log(this.collection);//.save();
 		this.collection.each(function(product){
 			product.save();
+		});
+	},
+
+	emailAll: function(){
+		$.ajax({
+			url: "/email/send_to_all",
+			method: "post",
+  			// dataType: 'json',
+			success: function(book){
+				alert("Emails Sent Successfully");
+			}
 		});
 	},
 
