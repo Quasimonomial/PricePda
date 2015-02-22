@@ -29,6 +29,8 @@ User percentage: <%= user.escape("price_range_percentage") %>
 <br>
 <br>
 <br>
-Admin functions: <br>
-<a href="/#/companies">Link to Companies Page</a><br>
-<a href="/#/products">Link to Products Page</a>
+<% if(user.is_admin === true){ %>
+	Admin functions: <br>
+	<a href="/#/companies">Link to Companies Page</a><br>
+	<a href="/#/products">Link to Products Page</a>
+<% } %>
