@@ -9,6 +9,15 @@
 #  price_range_percentage :integer
 #  created_at             :datetime
 #  updated_at             :datetime
+#  first_name             :string(255)
+#  last_name              :string(255)
+#  hospital_name          :string(255)
+#  city                   :string(255)
+#  state                  :string(255)
+#  zip_code               :string(255)
+#  phone                  :string(255)
+#  comparison_company_id  :integer
+#  is_admin               :boolean
 #
 
 class User < ActiveRecord::Base
@@ -36,6 +45,7 @@ class User < ActiveRecord::Base
   #json_user.id self.id
     json_user.price_range_percentage self.price_range_percentage
     json_user.comparison_company_id  self.comparison_company_id
+    json_user.is_admin  self.is_admin
     return json_user.compile!
   end
 
