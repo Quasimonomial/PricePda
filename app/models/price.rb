@@ -79,6 +79,16 @@ class Price < ActiveRecord::Base
     end
   end
 
+  def create_historical_price
+    # this should be run whenever we want to create a new price in the database
+    # note convention is that when we update a price, we create a new historical price from the new price we are saving, not from the previous price
+    historical = HistoricalPrice.new()
+    historical.price_id = self.id
+    historical.price = self.price
+    historical.save()
+    historical.assign_month_and_year
+  end
+
 	def ouside_price_range?(user)
     user_price_obj = user.prices.where(product_id: self.product_id).first
     return false unless user_price_obj
