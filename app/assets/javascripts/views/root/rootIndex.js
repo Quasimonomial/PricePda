@@ -15,8 +15,25 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		'click .saveProducts': 'saveAllProducts',
 		'click .tableFilter' : 'renderTable',
 		'focusout #percentInputFeild': 'updateUserModel',
-		'change #comparisonCompany' : 'updateUserModel'
+		'change #comparisonCompany' : 'updateUserModel',
+		'click .emailSelf': 'emailSelf'
 	},
+
+	emailSelf: function(){
+		$.ajax({
+			url: "/email/send_to_self",
+			method: "POST",
+  			dataType: 'json',
+  			// complete: function(response, textStatus) {
+   		// 	 return alert("Hey: " + textStatus);
+  			// },
+			success: function(){
+				console.log("Ajac succeeded");
+				alert("Email Sent Successfully");
+			}
+		});
+	},
+
 
 	updateUserModel:function(){
 		console.log("Event registered")
