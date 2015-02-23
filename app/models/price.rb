@@ -9,8 +9,6 @@
 #  pricer_type :string(255)
 #  created_at  :datetime
 #  updated_at  :datetime
-#  string      :string(255)
-#  integer     :integer
 #
 
 class Price < ActiveRecord::Base
@@ -84,7 +82,7 @@ class Price < ActiveRecord::Base
     # note convention is that when we update a price, we create a new historical price from the new price we are saving, not from the previous price
     historical = HistoricalPrice.new()
     historical.price_id = self.id
-    historical.price = self.price
+    historical.price_value = self.price
     historical.save()
     historical.assign_month_and_year
   end

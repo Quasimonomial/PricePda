@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150223092036) do
+ActiveRecord::Schema.define(version: 20150223094004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,10 +24,10 @@ ActiveRecord::Schema.define(version: 20150223092036) do
   end
 
   create_table "historical_prices", force: true do |t|
-    t.integer  "price_id",                           null: false
+    t.integer  "price_id",                            null: false
     t.integer  "month"
     t.integer  "year"
-    t.decimal  "price",      precision: 7, scale: 2, null: false
+    t.decimal  "price_value", precision: 7, scale: 2, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -43,8 +43,6 @@ ActiveRecord::Schema.define(version: 20150223092036) do
     t.string   "pricer_type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "string"
-    t.integer  "integer"
   end
 
   create_table "products", force: true do |t|
