@@ -9,8 +9,8 @@
 #  pricer_type :string(255)
 #  created_at  :datetime
 #  updated_at  :datetime
-#  month       :string(255)
-#  year        :integer
+#  string      :string(255)
+#  integer     :integer
 #
 
 require 'test_helper'

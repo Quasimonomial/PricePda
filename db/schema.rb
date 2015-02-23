@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220000423) do
+ActiveRecord::Schema.define(version: 20150223090557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,17 @@ ActiveRecord::Schema.define(version: 20150220000423) do
     t.boolean  "enabled"
   end
 
+  create_table "historical_prices", force: true do |t|
+    t.integer "price_id",                         null: false
+    t.integer "month"
+    t.integer "year"
+    t.decimal "price",    precision: 7, scale: 2, null: false
+  end
+
+  add_index "historical_prices", ["month"], name: "index_historical_prices_on_month", using: :btree
+  add_index "historical_prices", ["price_id"], name: "index_historical_prices_on_price_id", using: :btree
+  add_index "historical_prices", ["year"], name: "index_historical_prices_on_year", using: :btree
+
   create_table "prices", force: true do |t|
     t.decimal  "price",       precision: 7, scale: 2, null: false
     t.integer  "product_id"
@@ -30,8 +41,8 @@ ActiveRecord::Schema.define(version: 20150220000423) do
     t.string   "pricer_type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "month"
-    t.integer  "year"
+    t.string   "string"
+    t.integer  "integer"
   end
 
   create_table "products", force: true do |t|

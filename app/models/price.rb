@@ -9,8 +9,8 @@
 #  pricer_type :string(255)
 #  created_at  :datetime
 #  updated_at  :datetime
-#  month       :string(255)
-#  year        :integer
+#  string      :string(255)
+#  integer     :integer
 #
 
 class Price < ActiveRecord::Base
@@ -19,6 +19,7 @@ class Price < ActiveRecord::Base
 
 	belongs_to :pricer, :polymorphic => true
 	belongs_to :product
+  has_many :historical_prices
 
   def self.process_product params, product, user
     products_hash = params.to_h
