@@ -14,6 +14,7 @@
 User percentage: <%= user.escape("price_range_percentage") %>
 <form id="userPercentForm">
 	<input type="text" name="price_range_percentage" value="<%= user.escape("price_range_percentage")%>" id="percentInputFeild"><br>
+	<label>Competitor:</label><br>
 	<select name="selectionCompany" id="comparisonCompany">
 		<option></option>
 		<% companies.each( function(company) { %>
