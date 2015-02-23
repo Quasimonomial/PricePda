@@ -2,11 +2,10 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 	template: JST['root/index'],
 
 	initialize: function(options){
-		console.log("Initializing Root View");
+		// console.log("Initializing Root View");
 		this.companyCollection = options.companies;
 		this.currentUser = options.user;
-		console.log(options.companies);
-		this.listenTo(this.companyCollection, 'sync', this.render)
+		this.listenTo(this.companyCollection, 'sync', this.render);
 		this.listenTo(this.collection, 'sync', this.render);
 		this.listenTo(this.currentUser, 'sync', this.render);
 	},
@@ -98,9 +97,11 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			if(typeof currentUser !== 'undefined'){
 				console.log("checking for company")
 				console.log(currentUser.get("comparison_company_id"))
-				if(100 * (product.get("User") - product.get(thatCompanyCollection.get(currentUser.get("comparison_company_id")).get("name")) )/product.get("User") >= product.get("priceRangePercentage") ){
-					console.log("found bad price")
-					companiesOutOfRange.push("User");
+				if (currentUser.get("comparison_company_id")) {
+					if(100 * (product.get("User") - product.get(thatCompanyCollection.get(currentUser.get("comparison_company_id")).get("name")) )/product.get("User") >= product.get("priceRangePercentage") ){
+						console.log("found bad price")
+						companiesOutOfRange.push("User");
+					}
 				}
 			}
 			product.set("companiesOutOfRange", companiesOutOfRange);
@@ -187,19 +188,18 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
   			row: StyledByDataRow
 		});
 		return grid;
-
 	},
 
 	renderTable: function(){
-		console.log("rendering the table")
+		// console.log("rendering the table")
 		this.calculateProductStats();
 		var grid = this.buildTable();
-		$('#productsTable').html(grid.render().el);
+		this.$('#productsTable').html(grid.render().$el);
 	},
 
 	render: function(){
-		console.log("Rendering View")
-		console.log(this.currentUser)
+		// console.log("Rendering View")
+		// console.log(this.currentUser)
 		var content = this.template({
 			companies: this.companyCollection,
 			user: this.currentUser
