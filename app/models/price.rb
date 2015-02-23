@@ -48,11 +48,13 @@ class Price < ActiveRecord::Base
             price_to_update = Price.find(prices_hash["User"][0])
             price_to_update.price = value
             price_to_update.save!
+            price_to_update.create_historical_price
           end
         else#, create one
           new_price = Price.new({product_id: products_hash["id"], pricer_type: "User", pricer_id: user.id, price: value})
           p new_price
           new_price.save!
+          new_price.create_historical_price
         end
       elsif !company_name_hash.include?(key)
         next # prices not related to a real company name are ignored
@@ -66,12 +68,14 @@ class Price < ActiveRecord::Base
           price_to_update = Price.find(price_data[0])
           price_to_update.price = value
           price_to_update.save!
+          price_to_update.create_historical_price
         end
       else #create new price if we don't jave a real company
         puts "Attempting to load in new price"
         new_price = Price.new({product_id: products_hash["id"], pricer_type: "Company", pricer_id: company_name_hash[key], price: value})
         p new_price
         new_price.save!
+        new_price.create_historical_price
       end
 
     end
