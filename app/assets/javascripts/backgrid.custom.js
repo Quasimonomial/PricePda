@@ -20,12 +20,36 @@ var DeleteCell = Backgrid.Cell.extend({
     }
 });
 
+var CustomButtonCell = Backgrid.Cell.extend({
+	initialize: function(options){
+		CustomButtonCell.__super__.initialize.apply(this, arguments);
+		this.buttonText = options.column.get("buttonText");
+		this.callback = options.column.get("callback");
+		this.render();
+	},
+
+    // template: _.template('<button>' + this.buttonText + '</button>'),
+
+    events: {
+      "click": function(event){
+      	event.preventDefault();
+      	this.callback();
+      }
+    },
+
+    render: function () {
+      this.$el.html('<button>' + this.buttonText + '</button>');
+      this.delegateEvents();
+      return this;
+    }
+});
+
+
 var StyledByDataRow = Backgrid.Row.extend({
 	render: function () {
         var companiesOutOfRange = this.model.get("companiesOutOfRange");
         var coorIndex = 0;
         this.$el.empty();
-        console.log(companiesOutOfRange);
 	    var fragment = document.createDocumentFragment();
 	    for (var i = 0; i < this.cells.length; i++) {
 	        if(typeof companiesOutOfRange != "undefined"){

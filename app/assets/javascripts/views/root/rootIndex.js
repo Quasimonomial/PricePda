@@ -27,7 +27,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
    		// 	 return alert("Hey: " + textStatus);
   			// },
 			success: function(){
-				console.log("Ajac succeeded");
+				console.log("Ajax succeeded");
 				alert("Email Sent Successfully");
 			}
 		});
@@ -35,9 +35,9 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 
 	updateUserModel:function(){
-		console.log("Event registered")
-		console.log( $('#comparisonCompany').val() );
-		console.log(this.currentUser)
+		// console.log("Event registered")
+		// console.log( $('#comparisonCompany').val() );
+		// console.log(this.currentUser)
 		var userPercent = $('#percentInputFeild')[0].value;
 		this.currentUser.set("price_range_percentage", userPercent);
 		this.currentUser.set("comparison_company_id", $('#comparisonCompany').val());
@@ -84,22 +84,26 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 				max: Math.max.apply(null, pricesArr),
 				average: pricesArrSum/pricesArr.length,
 			});
+			if (pricesArr.length === 0) {
+				product.set({
+				min: -1,
+				max: -1,
+				average: -1
+			});
+			}
+
 			if(typeof currentUser.get("price_range_percentage") !== 'undefined'){
 				product.set("priceRangePercentage", currentUser.get("price_range_percentage"));
 			}
 			var companiesOutOfRange = [];
 			thatCompanyCollection.each(function(company){
-				//console.log(product.get("User"));
 				if(100 * (product.get("User") - product.get(company.get("name")))/product.get("User") >= product.get("priceRangePercentage")){
 					companiesOutOfRange.push(company.get("name"));
 				}
 			});
-			if(typeof currentUser !== 'undefined'){
-				console.log("checking for company")
-				console.log(currentUser.get("comparison_company_id"))
+			if(typeof currentUser !== 'undefined' && typeof product !== "undefined" && typeof thatCompanyCollection !== "undefined"){
 				if (currentUser.get("comparison_company_id")) {
 					if(100 * (product.get("User") - product.get(thatCompanyCollection.get(currentUser.get("comparison_company_id")).get("name")) )/product.get("User") >= product.get("priceRangePercentage") ){
-						console.log("found bad price")
 						companiesOutOfRange.push("User");
 					}
 				}
@@ -126,7 +130,13 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		return companyCells;
 	},
 
+
 	buildTable: function(){
+		var graphButtonCallback = function(){
+			// event.preventDefault();
+			console.log("Click Detected");
+		}
+
 		var statColumns = [{name: "min",
 		    label: "Min",
 		    cell: "number", 
@@ -182,6 +192,13 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			cell: "number",
 			editable: true
 		});
+		columns.push({
+			name: "View Graph",
+			callback: graphButtonCallback,
+			buttonText: "Graph!",
+			cell: CustomButtonCell,
+			editable: false
+		});
 		var grid = new Backgrid.Grid({
   			columns: columns,
   			collection: this.collection,
@@ -199,7 +216,6 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 	render: function(){
 		// console.log("Rendering View")
-		// console.log(this.currentUser)
 		var content = this.template({
 			companies: this.companyCollection,
 			user: this.currentUser
