@@ -16,5 +16,7 @@ Rails.application.routes.draw do
   post 'email/send_to_self' => 'email#send_to_self'
   resource :excel, only: []
   post 'excel/import_products' => 'excel#import_products'
+  post 'excel/upload_user_prices' => 'excel#upload_user_prices'
+
 
 end

@@ -19,6 +19,30 @@ class Price < ActiveRecord::Base
 	belongs_to :product
   has_many :historical_prices
 
+  def self.import_user_from_excel file, current_user
+    puts "Importing!"
+    workbook = RubyXL::Parser.parse(file)
+
+    prices = Price.where({pricer_type: "User", pricer_id: current_user.id})
+
+    worksheet = workbook[0]
+
+    worksheet.get_table[:table].each do |price_attrs|
+      price = Price.where({pricer_type: "User", pricer_id: current_user.id, product_id: price_attrs["ID"]}).first
+
+      unless price
+        price = Price.new
+        price.pricer_type = "User"
+        price.pricer_id = current_user.id
+        price.product_id = price_attrs["ID"]
+      end
+      price.price = price_attrs["Price"] || -1 
+      
+      price.save!
+      price.create_historical_price
+    end
+  end
+
   def self.process_product params, product, user
     products_hash = params.to_h
     prices = product.prices

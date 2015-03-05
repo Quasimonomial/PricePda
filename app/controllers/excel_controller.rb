@@ -14,4 +14,14 @@ class ExcelController < ApplicationController
     render json: "Products imported"
   end
 
+  def upload_user_prices
+    if params[:sheet].tempfile.path
+      Price.import_user_from_excel(params[:sheet].tempfile.path, current_user)
+    else
+      puts "no file selected"
+      render json: "No File selected"
+    end
+
+    render json: "Products imported"
+  end
 end

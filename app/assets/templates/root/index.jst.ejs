@@ -29,9 +29,18 @@ User percentage: <%= user.escape("price_range_percentage") %>
 <button type="button" class="emailSelf">Send my report!</button> <br>
 <br>
 <br>
+<h3> Upload Your Prices via Excel</h3>
+<form class="uploadUserPrices" >
+	<label>
+		File: <input type="file" name="sheet" id="userPricesSheet" type="xls|xlsx">
+	</label>
+	<input type="submit" value="Upload!">
+</form>
+<br>
 <br>
 <% if(user.get("is_admin") === true){ %>
 	Admin functions: <br>
 	<a href="/#/companies">Link to Companies Page</a><br>
 	<a href="/#/products">Link to Products Page</a>
 <% } %>
+

@@ -15,8 +15,27 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		'click .tableFilter' : 'renderTable',
 		'focusout #percentInputFeild': 'updateUserModel',
 		'change #comparisonCompany' : 'updateUserModel',
-		'click .emailSelf': 'emailSelf'
+		'click .emailSelf': 'emailSelf',
+		'submit .uploadUserPrices' : 'uploadUserPrices'
 	},
+
+	uploadUserPrices: function(event){
+		that = this;
+		event.preventDefault();
+		console.log("importing file")
+		var attrs = $(event.target);
+		$.ajax({
+			url: "excel/upload_user_prices",
+			method: "POST",
+  			iframe: true,
+  			files: $(event.target).find("#userPricesSheet"),
+ 			success: function(){
+ 				that.render();
+				console.log("Ajax succeeded");
+			}
+		});
+	},
+
 
 	emailSelf: function(){
 		$.ajax({

@@ -16,6 +16,7 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 	},
 
 	uploadProductsFile: function(event){
+		that = this;
 		event.preventDefault();
 		console.log("importing file")
 		var attrs = $(event.target);
@@ -26,7 +27,7 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
   			iframe: true,
   			files: $(event.target).find("#productsSheet"),
  			success: function(){
- 				this.render();
+ 				that.render();
 				console.log("Ajax succeeded");
 			}
 		});
