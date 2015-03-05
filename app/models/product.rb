@@ -25,6 +25,28 @@ class Product < ActiveRecord::Base
     end
   end
 
+  def self.import_from_excel file
+    puts "Importing!"
+    workbook = RubyXL::Parser.parse(file)
+
+    worksheet = workbook[0]
+    worksheet.get_table[:table].each do |product_attrs|
+      this_id = product_attrs["ID"]
+      if Product.exists?(this_id)
+        product = Product.find(this_id)
+      else
+        product = Product.new
+        product.id = this_id
+      end
+      
+      product.category = product_attrs["Category"]
+      product.name = product_attrs["Product"]
+      product.dosage = product_attrs["Dosage"]
+      product.package = product_attrs["Package"]
+      product.save!
+    end
+  end
+
 
   def prices_array current_user
     @pricesArray = []

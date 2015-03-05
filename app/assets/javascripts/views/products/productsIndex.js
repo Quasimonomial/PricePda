@@ -11,7 +11,25 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 	events: {
 		'click .saveProducts': 'saveAllProducts',
 		'click .emailAll': 'emailAll',
-		'submit form' : 'addProduct'
+		'submit .productAdd' : 'addProduct',
+		'submit .uploadProducts' : 'uploadProductsFile'
+	},
+
+	uploadProductsFile: function(event){
+		event.preventDefault();
+		console.log("importing file")
+		var attrs = $(event.target);
+		console.log($(event.target).find("#productsSheet").prop('files')[0]);
+		$.ajax({
+			url: "excel/import_products",
+			method: "POST",
+  			iframe: true,
+  			files: $(event.target).find("#productsSheet"),
+ 			success: function(){
+ 				this.render();
+				console.log("Ajax succeeded");
+			}
+		});
 	},
 
 	saveAllProducts: function(){
@@ -113,18 +131,6 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 	      success: success,
 	      error: errors.bind(this)
 	    });
-	},
-
-	destroyProduct: function(event){
-		event.preventDefault();
-
-		var $target = $(event.currentTarget);
-
-		console.log($target);
-		console.log($target.attr('data-id'));
-
-		var product = this.collection.get($target.attr('data-id'));
-		product.destroy();
 	},
 
 	render: function(){

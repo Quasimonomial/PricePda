@@ -43,6 +43,14 @@ module Api
       render json: @product
     end
 
+    def import
+      puts "IMPORTING A FILE"
+      puts params
+      puts params[:file]
+      # Product.import_from_xls(params[:file])
+      render json: "Products imported"
+    end
+
     private
     def product_params
       params.require(:product).permit(:category, :name, :dosage, :package, :enabled)
