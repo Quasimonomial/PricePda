@@ -19,8 +19,38 @@ class Price < ActiveRecord::Base
 	belongs_to :product
   has_many :historical_prices
 
+  def self.import_company_from_excel file, month, year
+    puts "Importing!"
+    company_name_hash = Company.build_name_hash
+    workbook = RubyXL::Parser.parse(file)
+
+    prices = Price.where({pricer_type: "Company"})
+
+    worksheet = workbook[0]
+
+    worksheet.get_table[:table].each do |price_attrs|
+      price_attrs.each do|key, value|
+        # next unless is_number?(value.to_s)
+        next unless company_name_hash[key]
+        price = Price.where({pricer_type: "Company", pricer_id: company_name_hash[key], product_id: price_attrs["ID"]}).first
+
+        unless price
+          price = Price.new
+          price.pricer_type = "Company"
+          price.pricer_id = company_name_hash[key]
+          price.product_id = price_attrs["ID"]
+        end
+        price.price = value 
+        
+        price.save!
+        price.create_historical_price_by_time month, year
+      end
+    end
+  end
+
   def self.import_user_from_excel file, current_user
     puts "Importing!"
+
     workbook = RubyXL::Parser.parse(file)
 
     prices = Price.where({pricer_type: "User", pricer_id: current_user.id})
@@ -28,18 +58,22 @@ class Price < ActiveRecord::Base
     worksheet = workbook[0]
 
     worksheet.get_table[:table].each do |price_attrs|
-      price = Price.where({pricer_type: "User", pricer_id: current_user.id, product_id: price_attrs["ID"]}).first
+      if price_attrs["Price"]
 
-      unless price
-        price = Price.new
-        price.pricer_type = "User"
-        price.pricer_id = current_user.id
-        price.product_id = price_attrs["ID"]
+
+        price = Price.where({pricer_type: "User", pricer_id: current_user.id, product_id: price_attrs["ID"]}).first
+
+        unless price
+          price = Price.new
+          price.pricer_type = "User"
+          price.pricer_id = current_user.id
+          price.product_id = price_attrs["ID"]
+        end
+        price.price = price_attrs["Price"] 
+        
+        price.save!
+        price.create_historical_price
       end
-      price.price = price_attrs["Price"] || -1 
-      
-      price.save!
-      price.create_historical_price
     end
   end
 
@@ -114,6 +148,15 @@ class Price < ActiveRecord::Base
     historical.save()
     historical.assign_month_and_year
   end
+
+  def create_historical_price_by_time month, year
+    historical = HistoricalPrice.new()
+    historical.price_id = self.id
+    historical.price_value = self.price
+    historical.save()
+    historical.assign_custom_month_and_year month, year
+  end
+
 
 	def ouside_price_range?(user)
     user_price_obj = user.prices.where(product_id: self.product_id).first

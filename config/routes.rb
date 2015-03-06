@@ -17,6 +17,6 @@ Rails.application.routes.draw do
   resource :excel, only: []
   post 'excel/import_products' => 'excel#import_products'
   post 'excel/upload_user_prices' => 'excel#upload_user_prices'
-
+  post 'excel/import_company_prices' => 'excel#import_company_prices'
 
 end

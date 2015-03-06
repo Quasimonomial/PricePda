@@ -1,4 +1,16 @@
 class ExcelController < ApplicationController
+  def import_company_prices
+    puts params  
+    puts params[:month]
+    puts params[:year]
+    puts params[:sheet].tempfile
+    if params[:sheet]
+      Price.import_company_from_excel(params[:sheet].tempfile.path, params[:month], params[:year])
+    end
+
+    render json: "Prices imported"
+  end
+
   def import_products
     puts "IMPORTING A FILE"
     puts params
@@ -14,6 +26,8 @@ class ExcelController < ApplicationController
     render json: "Products imported"
   end
 
+
+
   def upload_user_prices
     if params[:sheet].tempfile.path
       Price.import_user_from_excel(params[:sheet].tempfile.path, current_user)
@@ -22,6 +36,6 @@ class ExcelController < ApplicationController
       render json: "No File selected"
     end
 
-    render json: "Products imported"
+    render json: "prices imported"
   end
 end

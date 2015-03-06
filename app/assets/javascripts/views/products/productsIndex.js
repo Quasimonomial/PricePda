@@ -12,15 +12,35 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 		'click .saveProducts': 'saveAllProducts',
 		'click .emailAll': 'emailAll',
 		'submit .productAdd' : 'addProduct',
-		'submit .uploadProducts' : 'uploadProductsFile'
+		'submit .uploadProducts' : 'uploadProductsFile',
+		'submit .uploadCompanyPrices' : 'uploadCompanyPrices'
 	},
 
+	uploadCompanyPrices: function(event){
+		var that = this;
+		event.preventDefault();
+		console.log("Importing prices file")
+		var attrs = $(event.target).serializeJSON();
+		$.ajax({
+			url: "excel/import_company_prices",
+			method: "POST",
+  			iframe: true,
+  			files: $(event.target).find("#companyPricesSheet"),
+  			dataType: 'json',
+  			data: attrs,
+ 			success: function(){
+ 				that.render();
+				console.log("Ajax succeeded");
+			}
+		});
+	},
+
+
 	uploadProductsFile: function(event){
-		that = this;
+		var that = this;
 		event.preventDefault();
 		console.log("importing file")
 		var attrs = $(event.target);
-		console.log($(event.target).find("#productsSheet").prop('files')[0]);
 		$.ajax({
 			url: "excel/import_products",
 			method: "POST",
