@@ -151,9 +151,10 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 
 	buildTable: function(){
-		var graphButtonCallback = function(){
+		var graphButtonCallback = function(product){
 			// event.preventDefault();
 			console.log("Click Detected");
+			Backbone.history.navigate("#/products/"+ product.id, {trigger: true});
 		}
 
 		var statColumns = [{name: "min",

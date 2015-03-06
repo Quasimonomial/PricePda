@@ -33,7 +33,7 @@ var CustomButtonCell = Backgrid.Cell.extend({
     events: {
       "click": function(event){
       	event.preventDefault();
-      	this.callback();
+      	this.callback(this.model);
       }
     },
 
