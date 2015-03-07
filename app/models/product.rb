@@ -11,6 +11,11 @@
 #  name       :string(255)
 #  enabled    :boolean
 #
+class Hash
+  def self.recursive
+    new { |hash, key| hash[key] = recursive }
+  end
+end
 
 class Product < ActiveRecord::Base
   #add a uniqueness validation for a set of three or four feilds, ask ethan about this
@@ -96,6 +101,23 @@ class Product < ActiveRecord::Base
     end
 
     return json_product.compile!
+  end
+
+  def generate_historical_hash
+    companies = Company.all
+    historical_pile = []
+    historical_hash = Hash.recursive
+    self.prices.where({pricer_type: "Company"}).each do |price|
+      price.historical_prices.each do|historical_price|
+        next unless historical_price.month && historical_price.year
+        historical_hash[historical_price.year][historical_price.month][companies.find(price.pricer_id).name] = historical_price.price_value
+      end
+    end
+    
+    # historical_pile.each do |historical_price|
+    #   historical_hash[{month: historical_price.month, year: historical_hash.year}] = historical_price.price
+    # end
+    historical_hash
   end
 
 end

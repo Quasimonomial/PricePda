@@ -7,6 +7,38 @@ ID: <%= product.id + 1000 %><br>
 <strong> Package:</strong> <%= product.escape("package") %> <br>
 <br>
 
-<h2> Pretend there is an awesome google graph here </h2><br>
+<h2> Historical Prices</h2><br>
+
+<ul>
+	<% historicals = product.get("historicalPrices") %>
+	<% if (product.get("historicalPrices")){ %>
+		<% for(year in historicals){%>
+			<li>
+				<%= year %> <%= historicals[year]%>
+				<ul>
+					<% for(month in historicals[year]){%>
+					<li>
+						<%= month %>
+						<ul>
+							<% for(company in historicals[year][month]){%>
+							<li>
+								<%= company %>:<%= historicals[year][month][company] %>
+							<li>
+							<% } %>	
+						</ul>
+					</li>
+					<% } %>	
+				</ul>
+			<li>
+		<% } %>
+	<% } %>
+</ul>
+<table>
+	<tr>
+		<th>Year</th>
+		<th>Month</th>
+		
+	</tr>
+</table>
 
 <a href="/#">Link to Root Page</a>

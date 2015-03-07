@@ -43,12 +43,9 @@ module Api
       render json: @product
     end
 
-    def import
-      puts "IMPORTING A FILE"
-      puts params
-      puts params[:file]
-      # Product.import_from_xls(params[:file])
-      render json: "Products imported"
+    def historical_prices
+      @product = Product.find(params[:id])
+      render json: @product.generate_historical_hash
     end
 
     private
