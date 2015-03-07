@@ -48,6 +48,7 @@ class Product < ActiveRecord::Base
       product.name = product_attrs["Product"]
       product.dosage = product_attrs["Dosage"]
       product.package = product_attrs["Package"]
+      product.enabled = true
       product.save!
     end
   end
