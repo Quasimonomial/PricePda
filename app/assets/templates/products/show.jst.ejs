@@ -8,37 +8,29 @@ ID: <%= product.id + 1000 %><br>
 <br>
 
 <h2> Historical Prices</h2><br>
-
-<ul>
-	<% historicals = product.get("historicalPrices") %>
-	<% if (product.get("historicalPrices")){ %>
-		<% for(year in historicals){%>
-			<li>
-				<%= year %> <%= historicals[year]%>
-				<ul>
-					<% for(month in historicals[year]){%>
-					<li>
-						<%= month %>
-						<ul>
-							<% for(company in historicals[year][month]){%>
-							<li>
-								<%= company %>:<%= historicals[year][month][company] %>
-							<li>
-							<% } %>	
-						</ul>
-					</li>
-					<% } %>	
-				</ul>
-			<li>
-		<% } %>
-	<% } %>
-</ul>
 <table>
 	<tr>
 		<th>Year</th>
 		<th>Month</th>
+		<% companies.each( function(company) { %>
+			<th> <%= company.escape("name") %> </th>
+		<% }); %>
 		
 	</tr>
+	<% historicals = product.get("historicalPrices") %>
+	<% if (product.get("historicalPrices")){ %>
+		<% for(year in historicals){%>
+			<% for(month in historicals[year]){%>
+				<tr>
+					<td><%= year %> </td>
+					<td><%= month %> </td>
+					<% companies.each( function(company) { %>
+						<td> <%= historicals[year][month][company.escape("name")] %> </td>
+					<% }); %>
+				</tr>
+			<% } %>	
+		<% } %>
+	<% } %>
 </table>
 
 <a href="/#">Link to Root Page</a>

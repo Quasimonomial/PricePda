@@ -67,9 +67,11 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 
 	productShow: function(id){
 		var product = Vetpda.products.getOrFetch(id);
+		Vetpda.companies.fetch();
 		console.log("routing to product show page");
 		var productView = new Vetpda.Views.ProductShow({
-			model: product
+			model: product,
+			collection: Vetpda.companies
 		});
 		this._swapView(productView);
 	},
