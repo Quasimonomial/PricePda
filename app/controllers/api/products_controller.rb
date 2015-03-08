@@ -45,6 +45,8 @@ module Api
 
     def historical_prices
       @product = Product.find(params[:id])
+      puts "Fetching Historicals"
+      puts @product.generate_historical_hash
       render json: @product.generate_historical_hash
     end
 
