@@ -31,6 +31,10 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
  			success: function(){
  				that.render();
 				console.log("Ajax succeeded");
+				alert("Prices Uploaded Successfully")
+			},
+			error: function(){
+				alert("Error Detected")
 			}
 		});
 	},
@@ -49,6 +53,9 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
  			success: function(){
  				that.render();
 				console.log("Ajax succeeded");
+			},
+			error: function(){
+				alert("Error Detected")
 			}
 		});
 	},
