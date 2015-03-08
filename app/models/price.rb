@@ -23,14 +23,12 @@ class Price < ActiveRecord::Base
     puts "Importing!"
     company_name_hash = Company.build_name_hash
     workbook = RubyXL::Parser.parse(file)
-
+    puts "HELLO TO HEROKU"
     prices = Price.where({pricer_type: "Company"})
 
     worksheet = workbook[0]
-
     worksheet.get_table[:table].each do |price_attrs|
       price_attrs.each do|key, value|
-        # next unless is_number?(value.to_s)
         next unless company_name_hash[key]
         price = Price.where({pricer_type: "Company", pricer_id: company_name_hash[key], product_id: price_attrs["ID"]}).first
 
