@@ -11,17 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150223094004) do
+ActiveRecord::Schema.define(version: 20150309063036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "companies", force: true do |t|
-    t.string   "name"
+    t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "enabled"
+    t.boolean  "enabled",    null: false
   end
+
+  add_index "companies", ["name"], name: "index_companies_on_name", unique: true, using: :btree
 
   create_table "historical_prices", force: true do |t|
     t.integer  "price_id",                            null: false
@@ -38,21 +40,24 @@ ActiveRecord::Schema.define(version: 20150223094004) do
 
   create_table "prices", force: true do |t|
     t.decimal  "price",       precision: 7, scale: 2, null: false
-    t.integer  "product_id"
-    t.integer  "pricer_id"
-    t.string   "pricer_type"
+    t.integer  "product_id",                          null: false
+    t.integer  "pricer_id",                           null: false
+    t.string   "pricer_type",                         null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "prices", ["pricer_id", "pricer_type"], name: "index_prices_on_pricer_id_and_pricer_type", using: :btree
+  add_index "prices", ["product_id"], name: "index_prices_on_product_id", using: :btree
+
   create_table "products", force: true do |t|
-    t.string   "category"
+    t.string   "category",   null: false
     t.string   "dosage"
     t.string   "package"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
-    t.boolean  "enabled"
+    t.string   "name",       null: false
+    t.boolean  "enabled",    null: false
   end
 
   add_index "products", ["category"], name: "index_products_on_category", using: :btree
@@ -60,18 +65,18 @@ ActiveRecord::Schema.define(version: 20150223094004) do
   add_index "products", ["package"], name: "index_products_on_package", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email"
-    t.string   "password_digest"
+    t.string   "email",                  null: false
+    t.string   "password_digest",        null: false
     t.string   "session_token"
     t.integer  "price_range_percentage"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "hospital_name"
-    t.string   "city"
-    t.string   "state"
-    t.string   "zip_code"
+    t.string   "first_name",             null: false
+    t.string   "last_name",              null: false
+    t.string   "hospital_name",          null: false
+    t.string   "city",                   null: false
+    t.string   "state",                  null: false
+    t.string   "zip_code",               null: false
     t.string   "phone"
     t.integer  "comparison_company_id"
     t.boolean  "is_admin"

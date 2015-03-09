@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   validates :password, length: { minimum: 6, allow_nil: true }
   validates :price_range_percentage, :numericality => { :greater_than_or_equal_to => 0, less_than_or_equal_to: 100, allow_nil: true}
 
-   after_initialize :ensure_session_token
+  after_initialize :ensure_session_token
   
   has_many :prices, as: :pricer
 
@@ -38,6 +38,28 @@ class User < ActiveRecord::Base
       return user
     end
     nil
+  end
+
+  def build_price_report_email_hash
+    #Goal: an array of hashes
+    product_hashes = []
+    products = Product.all.order(:id)
+    products.each do |product|
+      user_price = product.prices.where({pricer_type: "User", pricer_id: self.id}).first.price
+      competitor_price = product.prices.where({pricer_type: "Company", pricer_id: self.comparison_company_id}).first.price
+      if (100.0 * (user_price - competitor_price)/user_price) >= self.price_range_percentage
+        product_hash = Hash.new
+        product_hash[:id] = product.id
+        product_hash[:category] = product.category
+        product_hash[:name] = product.name
+        product_hash[:dosage] = product.dosage
+        product_hash[:package] = product.package
+        product_hash[:user_price] = user_price.to_f
+        product_hash[:competitor_price] = competitor_price.to_f
+        product_hashes << product_hash
+      end
+    end 
+    product_hashes
   end
 
   def jsonify_this
@@ -64,27 +86,7 @@ class User < ActiveRecord::Base
     self.session_token
   end
 
-  def build_price_report_email_hash
-    #Goal: an array of hashes
-    product_hashes = []
-    products = Product.all.order(:id)
-    products.each do |product|
-      user_price = product.prices.where({pricer_type: "User", pricer_id: self.id}).first.price
-      competitor_price = product.prices.where({pricer_type: "Company", pricer_id: self.comparison_company_id}).first.price
-      if (100.0 * (user_price - competitor_price)/user_price) >= self.price_range_percentage
-        product_hash = Hash.new
-        product_hash[:id] = product.id
-        product_hash[:category] = product.category
-        product_hash[:name] = product.name
-        product_hash[:dosage] = product.dosage
-        product_hash[:package] = product.package
-        product_hash[:user_price] = user_price.to_f
-        product_hash[:competitor_price] = competitor_price.to_f
-        product_hashes << product_hash
-      end
-    end 
-    product_hashes
-  end
+
 
   private
   
