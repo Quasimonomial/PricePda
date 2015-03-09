@@ -151,7 +151,7 @@ class Price < ActiveRecord::Base
     historical = HistoricalPrice.new()
     historical.price_id = self.id
     historical.price_value = self.price
-    historical.save()
+    historical.save
     historical.assign_custom_month_and_year month, year
   end
 
