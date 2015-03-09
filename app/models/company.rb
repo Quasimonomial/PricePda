@@ -11,6 +11,7 @@
 
 class Company < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
+  validates :enabled, presnece: true
   has_many :prices, as: :pricer
 
   def self.build_name_hash
