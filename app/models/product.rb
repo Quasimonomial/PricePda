@@ -19,6 +19,7 @@ end
 
 class Product < ActiveRecord::Base
   has_many :prices
+  has_many :historical_prices, through: :prices
 
   def self.import_from_excel file
     puts "Importing!"
