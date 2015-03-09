@@ -1,29 +1,30 @@
-<h1>Change your price range</h1>
+<h1>Edit your settings</h1>
 
-	<label>
-		First Name: <input type="text" name="user[password]">
-	</label><br>
-	<label>
-		Last Name: <input type="text" name="user[password]">
-	</label><br>
-	<label>
-		Hospital Name: <input type="text" name="user[password]">
-	</label><br>
-	<label>
-		State: <input type="text" name="user[state]">
-	</label><br>
-	<label>
-		Zip: <input type="text" name="user[zip_code]">
-	</label><br>
-	<label>
-		Phone Number: <input type="text" name="user[phone]">
-	</label><br>
 
 
 <form action="<%= user_url(current_user)%>" method="POST">
 	<input type="hidden" name="_method" value="PATCH">	
 	<label>
-		Range Percentage: <input type="text" name="user[price_range_percentage]", value="<%=current_user.price_range_percentage%>">
-	</label>
+		First Name: <input type="text" name="user[first_name]" value="<%= current_user.first_name%>" >
+	</label><br>
+	<label>
+		Last Name: <input type="text" name="user[last_name]" value="<%= current_user.last_name%>" >
+	</label><br>
+	<label>
+		Hospital Name: <input type="text" name="user[hospital_name]" value="<%= current_user.hospital_name%>" >
+	</label><br>
+	<label>
+		City: <input type="text" name="user[city]" value="<%= current_user.city%>" >
+	</label><br>
+	<label>
+		State: <input type="text" name="user[state]" value="<%= current_user.state%>" >
+	</label><br>
+	<label>
+		Zip: <input type="text" name="user[zip_code]" value="<%= current_user.zip_code%>" >
+	</label><br>
+	<label>
+		Phone Number: <input type="text" name="user[phone]" value="<%= current_user.phone%>" >
+	</label><br>
+	
 	<input type="submit" value="Update Price Value">
 </form>

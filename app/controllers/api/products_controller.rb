@@ -30,6 +30,7 @@ module Api
 
     def create
       @product = Product.new(product_params)
+      @product.enabled = true
       if @product.save
         render json: @product
       else

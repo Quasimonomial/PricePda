@@ -12,6 +12,7 @@
 		<% if current_user.is_admin %>
 			<h1>You are an admin!</h1>
 		<% end %>
+		<%= link_to "Edit your settings", edit_user_url(current_user) %>
 		<%= button_to "Sign Out", session_url, :method => :delete %>
 	<% else %>
 		<%= link_to "Sign In", new_session_url %>
