@@ -1,5 +1,6 @@
 class EmailController < ApplicationController
   before_action :require_logged_in!
+  before_action :require_admin_access!, only: [:send_to_all]
 
   def send_to_all
     puts 'routed to'

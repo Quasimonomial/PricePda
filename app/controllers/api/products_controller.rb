@@ -1,5 +1,7 @@
 module Api
   class ProductsController < ApiController
+    before_action :require_admin_access!, only: [:create, :destroy]
+
     def index
       @products = Product.all
       #render json: @products
@@ -20,11 +22,14 @@ module Api
     def update
       @product = Product.find(params[:id])
       Price.process_product(params, @product, self.current_user)
-
-      if @product.update(product_params)
-        render json: @product.jsonify_this(self.current_user)
+      if current_user.is_admin
+        if @product.update(product_params)
+          render json: @product.jsonify_this(self.current_user)
+        else
+          render json: @product.errors.full_messages, status: :unprocessable_entity
+        end
       else
-        render json: @product.errors.full_messages, status: :unprocessable_entity
+        render json: @product.jsonify_this(self.current_user)
       end
     end
 

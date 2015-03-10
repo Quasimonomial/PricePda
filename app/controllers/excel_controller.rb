@@ -1,9 +1,7 @@
 class ExcelController < ApplicationController
+  before_action :require_admin_access!, only: [:import_company_prices, :import_products]
+  
   def import_company_prices
-    puts params  
-    puts params[:month]
-    puts params[:year]
-    puts params[:sheet].tempfile
     if params[:sheet]
       Price.import_company_from_excel(params[:sheet].tempfile.path, params[:month], params[:year])
     end
@@ -12,10 +10,6 @@ class ExcelController < ApplicationController
   end
 
   def import_products
-    puts "IMPORTING A FILE"
-    puts params
-    puts
-    puts params[:sheet].tempfile
     if params[:sheet].tempfile.path
       Product.import_from_excel(params[:sheet].tempfile.path)
     else
@@ -25,8 +19,6 @@ class ExcelController < ApplicationController
 
     render json: "Products imported"
   end
-
-
 
   def upload_user_prices
     if params[:sheet].tempfile.path

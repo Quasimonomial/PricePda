@@ -1,5 +1,7 @@
 module Api
   class CompaniesController < ApiController
+    before_action :require_admin_access!, only: [:create, :update, :destroy]
+
     def index
       @companies = Company.all.order(:id)
       render json: @companies

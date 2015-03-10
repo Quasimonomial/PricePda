@@ -76,6 +76,7 @@ class Price < ActiveRecord::Base
   end
 
   def self.process_product params, product, user
+    puts "PROCESSING PRODUCT"
     products_hash = params.to_h
     prices = product.prices
 
@@ -85,7 +86,6 @@ class Price < ActiveRecord::Base
       #this hash is in the format company_id/user_id -> [price_id, price]
 
       if price.pricer_type == "Company"
-      
         prices_hash[price.pricer_id] = [price.id, price.price]
       elsif price.pricer_type == "User" and price.pricer_id == user.id
         prices_hash["User"] = [price.id, price.price]
@@ -115,6 +115,8 @@ class Price < ActiveRecord::Base
       elsif !company_name_hash.include?(key)
         next # prices not related to a real company name are ignored
       elsif prices_hash.has_key?(company_name_hash[key])
+        next unless user.is_admin
+
         price_data = prices_hash[company_name_hash[key]]
         
         if value == price_data[1]

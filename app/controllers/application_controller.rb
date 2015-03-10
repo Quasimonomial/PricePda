@@ -25,6 +25,10 @@ class ApplicationController < ActionController::Base
     session[:session_token] = nil
   end
 
+  def require_admin_access!
+    render status: 403 unless current_user.is_admin
+  end
+
   def require_logged_in!
     redirect_to new_session_url unless logged_in?
   end
