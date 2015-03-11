@@ -5,12 +5,7 @@ module Api
     def index
       @products = Product.all
       #render json: @products
-      respond_to do |format|
-        format.json {render json: Product.jsonify_all(self.current_user)}
-        format.html {render json: Product.jsonify_all(self.current_user)}
-        format.csv { send_data @products.to_csv}
-        format.xlsx
-      end
+      render json: Product.jsonify_all(self.current_user)
     end
 
     def show
