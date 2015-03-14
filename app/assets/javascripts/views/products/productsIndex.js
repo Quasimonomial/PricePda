@@ -170,6 +170,17 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 
 		this.$el.html(content);
 		$('#productsTable').html(grid.render().el);
+
+		var paginator = new Backgrid.Extension.Paginator({
+		  windowSize: 20, // Default is 10
+
+		  slideScale: 0.25, // Default is 0.5
+
+		  goBackFirstOnSort: false, // Default is true
+
+		  collection: this.collection
+		});
+		$('#productsTable').append(paginator.render().el);
 		return this;
 	},
 

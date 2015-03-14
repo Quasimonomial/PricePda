@@ -152,7 +152,6 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 	buildTable: function(){
 		var graphButtonCallback = function(product){
-			// event.preventDefault();
 			console.log("Click Detected");
 			Backbone.history.navigate("#/products/"+ product.id, {trigger: true});
 		}
@@ -237,13 +236,14 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 	render: function(){
 		// console.log("Rendering View")
 		var content = this.template({
+			products: this.collection,
 			companies: this.companyCollection,
 			user: this.currentUser
 		});
 
 		this.$el.html(content);
 
-		this.renderTable();
+		//this.renderTable();
 
 		return this;
 	},

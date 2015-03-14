@@ -17,8 +17,10 @@
 //= require underscore
 //= require backbone
 //
+//= require backbone.paginator
 //= require backgrid
 //= require backgrid.custom
+//= require backgrid-paginator
 //
 //= require vetpda3
 //= require_tree ../templates
