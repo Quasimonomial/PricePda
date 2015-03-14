@@ -5,14 +5,14 @@ module Api
     def index
       @products = Product.all
       #render json: @products
-      # render json: JSON.parse(Product.jsonify_all(self.current_user))["products"]
-      render json: @products
+      render json: JSON.parse(Product.jsonify_all(self.current_user))["products"]
+      # render json: @products
     end
 
     def show
       @product = Product.find(params[:id])
-      render json: @product
-      # render json: @product.jsonify_this(self.current_user)
+      # render json: @product
+      render json: @product.jsonify_this(self.current_user)
     end
 
     def update

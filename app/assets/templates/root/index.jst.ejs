@@ -10,14 +10,7 @@
 </form>
 
 <div id="productsTable"></div>
-<br>
-<table>
-	
-	<% products.each( function(product) { %>
-		<tr><td><%= product.id %></td></tr>
-	<% }); %>
-	
-</table>
+
 <br>
 User percentage: <%= user.escape("price_range_percentage") %>
 <form id="userPercentForm">
