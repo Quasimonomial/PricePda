@@ -181,7 +181,19 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 		  collection: this.collection
 		});
 		$('#productsTable').append(paginator.render().el);
+		
+		var productsFilter = new Backgrid.Extension.ClientSideFilter({
+		  collection: this.collection,
+		  placeholder: "Search Products",
+		  // The model fields to search for matches
+		  fields: ['category', 'name', 'dosage', 'package'],
+		  // How long to wait after typing has stopped before searching can start
+		  wait: 250
+		});
+		$("#productsTable").prepend(productsFilter.render().el);
+
 		return this;
+
 	},
 
 });
