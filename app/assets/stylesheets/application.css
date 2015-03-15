@@ -15,7 +15,7 @@
  *= require backgrid
  *= require backgrid-paginator
  *= require backbone.tableview
- *= require handsontable_rails
+ *=
  *= require vetpda
 
  */

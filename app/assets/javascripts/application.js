@@ -21,6 +21,7 @@
 //= require backgrid
 //= require backgrid.custom
 //= require backgrid-paginator
+//= backgrid-filter
 //
 //= require vetpda3
 //= require_tree ../templates
