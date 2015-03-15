@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_permission_level! level_required
-    levels = current_user.permission_level.to_s(2).split("").reverse.map! |x|
+    levels = current_user.permission_level.to_s(2).split("").reverse.map! do |x|
       x.to_i
     end
     permission = levels[level_required] == 1
