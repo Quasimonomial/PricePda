@@ -32,4 +32,12 @@ class ApplicationController < ActionController::Base
   def require_logged_in!
     redirect_to new_session_url unless logged_in?
   end
+
+  def require_permission_level! level_required
+    levels = current_user.permission_level.to_s(2).split("").reverse.map! |x|
+      x.to_i
+    end
+    permission = levels[level_required] == 1
+    redirect_to new_session_url unless current_user.is_admin || permission
+  end
 end
