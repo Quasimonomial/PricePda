@@ -4,6 +4,8 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 	initialize: function(options){
 		console.log("initializing products Index view");
 		this.companyCollection = options.companies;
+		this.user = options.user
+		this.listenTo(this.user, 'sync', this.render)
 		this.listenTo(this.companyCollection, 'sync', this.render)
 		this.listenTo(this.collection, 'sync add remove', this.render)
 	},

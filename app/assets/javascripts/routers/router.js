@@ -27,42 +27,89 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 	},
 
 	companies: function(){
+		var that = this;
 		console.log("routing to companies page")
 		Vetpda.companies.fetch();
+		var currentUser = new Vetpda.Models.User();
 		var companiesView = new Vetpda.Views.CompaniesIndex({
 			collection: Vetpda.companies
 		});
-		this._swapView(companiesView);
+
+		currentUser.fetch({
+			success: function () {
+		    	if(currentUser.get("is_admin") ===true){
+					that._swapView(companiesView);
+		    	} else{
+		    		Backbone.history.navigate("#/", {trigger: true});
+		    	}
+			}
+		});
 	},
 
 	companiesEdit: function(id){
+		var that = this;
+
 		var company = Vetpda.companies.getOrFetch(id);
 		console.log("routing to companies");
+		var currentUser = new Vetpda.Models.User();
 		var companyView = new Vetpda.Views.CompanyEdit({
 			model: company
 		});
-		this._swapView(companyView);
+
+		currentUser.fetch({
+			success: function () {
+		    	if(currentUser.get("is_admin") ===true){
+					that._swapView(companyView);
+		    	} else{
+		    		Backbone.history.navigate("#/", {trigger: true});
+		    	}
+			}
+		});
 	},
 
 	productsIndex: function(){
+		var that = this;
+
 		console.log("Routing to Product Index");
 		Vetpda.products.fetch();
 		Vetpda.companies.fetch();
+		var currentUser = new Vetpda.Models.User();
 		var productsView = new Vetpda.Views.ProductsIndex({
 			collection: Vetpda.products,
-			companies: Vetpda.companies
-
+			companies: Vetpda.companies,
+			user: currentUser
 		});
-		this._swapView(productsView);
+
+		currentUser.fetch({
+			success: function () {
+		    	if(currentUser.get("is_admin") ===true){
+					that._swapView(productsView);
+		    	} else{
+		    		Backbone.history.navigate("#/", {trigger: true});
+		    	}
+			}
+		});
 	},
 
 	productsDelete: function(){
+		var that = this;
 		console.log("Routing to Product Delete Page");
 		Vetpda.products.fetch();
+		var currentUser = new Vetpda.Models.User();
 		var productsView = new Vetpda.Views.ProductsDelete({
 			collection: Vetpda.products,
+			user: currentUser
 		});
-		this._swapView(productsView);
+
+		currentUser.fetch({
+			success: function () {
+		    	if(currentUser.get("is_admin") ===true){
+					that._swapView(productsView);
+		    	} else{
+		    		Backbone.history.navigate("#/", {trigger: true});
+		    	}
+			}
+		});
 	},	
 
 	productShow: function(id){
