@@ -30,7 +30,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
   			iframe: true,
   			files: $(event.target).find("#userPricesSheet"),
  			success: function(){
- 				that.render();
+ 				that.collection.fetch();
 				console.log("Ajax succeeded");
 			}
 		});

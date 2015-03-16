@@ -39,7 +39,6 @@ class Price < ActiveRecord::Base
           price.product_id = price_attrs["ID"]
         end
         price.price = value 
-        
         price.save!
         price.create_historical_price_by_time month, year
       end

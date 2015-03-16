@@ -26,12 +26,12 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 			method: "POST",
   			iframe: true,
   			files: $(event.target).find("#companyPricesSheet"),
-  			dataType: 'json',
+  			// dataType: 'json',
   			data: attrs,
  			success: function(){
- 				that.render();
 				console.log("Ajax succeeded");
 				alert("Prices Uploaded Successfully")
+ 				that.collection.fetch();
 			},
 			error: function(){
 				alert("Error Detected")
@@ -51,8 +51,8 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
   			iframe: true,
   			files: $(event.target).find("#productsSheet"),
  			success: function(){
- 				that.render();
 				alert("Uploads Succeeded");
+ 				that.collection.fetch();
 			},
 			error: function(){
 				alert("Error Detected")
@@ -162,6 +162,7 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 	},
 
 	render: function(){
+		console.log("Rendering Product Index Page");
 		var grid = this.buildTable();
 
 		var content = this.template({
