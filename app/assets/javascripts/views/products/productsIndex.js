@@ -52,7 +52,7 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
   			files: $(event.target).find("#productsSheet"),
  			success: function(){
  				that.render();
-				console.log("Ajax succeeded");
+				alert("Uploads Succeeded");
 			},
 			error: function(){
 				alert("Error Detected")
