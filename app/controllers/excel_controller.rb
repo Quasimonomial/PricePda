@@ -20,6 +20,10 @@ class ExcelController < ApplicationController
     render json: "Products imported"
   end
 
+  def export_user_uploads
+    render xlsx: Product.export_user_price_uploads
+  end
+
   def upload_user_prices
     if params[:sheet].tempfile.path
       Price.import_user_from_excel(params[:sheet].tempfile.path, current_user)

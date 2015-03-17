@@ -23,6 +23,29 @@ class Product < ActiveRecord::Base
   has_many :prices
   has_many :historical_prices, through: :prices
 
+  def self.export_user_price_uploads
+    puts "exporting!"
+    workbook = RubyXL::Workbook.new
+    worksheet = workbook.add_worksheet('User Uploads')
+    
+    puts "Wroksheet test"
+    puts  worksheet
+
+    headers = ["ID", "Category", "Product", "Dosage", "Package", "Price"]
+
+    i = 0
+    j = 0
+
+    while j < headers.length
+      worksheet.add_cell(i, j, headers[j])
+      j += 1
+    end
+    puts workbook.stream
+    p workbook.stream
+
+    return workbook.stream
+  end
+
   def self.import_from_excel file
     puts "Importing!"
     workbook = RubyXL::Parser.parse(file)
