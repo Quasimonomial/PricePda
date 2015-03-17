@@ -3,15 +3,17 @@ module Api
     before_action :require_admin_access!, only: [:create, :destroy]
 
     def index
-      @products = Product.all
-      #render json: @products
+      # @products = Product.all
+      # if current_user.is_admin
+      #   @products = Product.all.order(:id)
+      # else
+      #   @companies = Company.where(enabled: true).order(:id)
+      # end
       render json: JSON.parse(Product.jsonify_all(self.current_user))["products"]
-      # render json: @products
     end
 
     def show
       @product = Product.find(params[:id])
-      # render json: @product
       render json: @product.jsonify_this(self.current_user)
     end
 

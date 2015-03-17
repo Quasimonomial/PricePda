@@ -18,7 +18,7 @@ class Hash
 end
 
 class Product < ActiveRecord::Base
-  validates :category, :name, :dosage, :enabled, presence: true
+  validates :category, :name, :dosage, presence: true
   validates :category, uniqueness: {scope: [:name, :dosage, :package]}
   has_many :prices
   has_many :historical_prices, through: :prices
@@ -70,7 +70,12 @@ class Product < ActiveRecord::Base
   end
 
   def self.jsonify_all current_user
-    @products = Product.all.order(:id)
+    if current_user.is_admin
+      @products = Product.all.order(:id)
+    else
+      @products = Product.where(enabled: true).order(:id)
+    end
+
     json_products = Jsonify::Builder.new(:format => :pretty)
 
     json_products.products(@products)do |product|

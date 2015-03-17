@@ -3,7 +3,11 @@ module Api
     before_action :require_admin_access!, only: [:create, :update, :destroy]
 
     def index
-      @companies = Company.all.order(:id)
+      if current_user.is_admin
+        @companies = Company.all.order(:id)
+      else
+        @companies = Company.where(enabled: true).order(:id)
+      end
       render json: @companies
     end
 
