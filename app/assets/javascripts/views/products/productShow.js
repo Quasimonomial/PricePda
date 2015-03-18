@@ -28,7 +28,7 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 
 		for(year in historicals){
 			for(month in historicals[year]){
-				var month_data = [month + "" + year];
+				var month_data = [month + " " + year];
 				month_data.push(Number(historicals[year][month]["User"]));
 				this.collection.each( function(company) {
 					month_data.push(Number(historicals[year][month][company.get("name")]));
