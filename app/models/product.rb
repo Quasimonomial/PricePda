@@ -122,9 +122,12 @@ class Product < ActiveRecord::Base
         historical_hash[historical_price.year][month_names[historical_price.month - 1]][companies.find(price.pricer_id).name] = historical_price.price_value
       end
     end
-    self.prices.where({pricer_type: "User", pricer_id: current_user.id}).first.historical_prices.order(year: :asc).order(month: :asc).each do |historical_price|
-      next unless historical_price.month && historical_price.year
-      historical_hash[historical_price.year][month_names[historical_price.month - 1]]["User"] = historical_price.price_value
+    user_price = self.prices.where({pricer_type: "User", pricer_id: current_user.id}).first
+    if user_price
+      user_price.historical_prices.order(year: :asc).order(month: :asc).each do |historical_price|
+        next unless historical_price.month && historical_price.year
+        historical_hash[historical_price.year][month_names[historical_price.month - 1]]["User"] = historical_price.price_value
+      end
     end
 
     historical_hash
