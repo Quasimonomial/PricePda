@@ -17,8 +17,20 @@ class HistoricalPrice < ActiveRecord::Base
   belongs_to :price
 
   def assign_custom_month_and_year month, year
-    self.month = month || self.created_at.month
-    self.year = year || self.created_at.year 
+    
+    if month.to_i < 1 || month.to_i > 12
+      self.month = self.created_at.month 
+      self.save
+    else
+      self.month = month
+    end
+    
+    if year.to_i > 0
+      self.year = year  
+    else
+      self.year = self.created_at.year
+    end
+    
     self.save
   end
 
