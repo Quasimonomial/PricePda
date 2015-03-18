@@ -23,6 +23,15 @@ class Product < ActiveRecord::Base
   has_many :prices
   has_many :historical_prices, through: :prices
 
+  def self.all_categories
+    category_relation = Product.select(:category).distinct
+    categories = []
+    category_relation.each do |product|
+      categories << product.category
+    end
+    categories
+  end
+
   def self.export_user_price_uploads
     puts "exporting!"
     workbook = RubyXL::Workbook.new

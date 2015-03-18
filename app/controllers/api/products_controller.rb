@@ -11,6 +11,10 @@ module Api
       # end
       render json: JSON.parse(Product.jsonify_all(self.current_user))["products"]
     end
+    
+    def distinct_categories
+      render json: Product.all_categories
+    end
 
     def show
       @product = Product.find(params[:id])

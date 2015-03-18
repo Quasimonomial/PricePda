@@ -1,6 +1,17 @@
 <h1> Price Comparison Tool </h1>
 
 <form>
+	<% if(typeof categoriesArray !== "undefined"){ %>
+		<% for(i = 0; i < categoriesArray.length; i++) { %>
+		<label>
+			<input type="checkbox" name="categoryList" value="<%= categoriesArray[i] %>" class="categoryFilter" checked/>
+			<%= categoriesArray[i] %>
+		</label>
+		<% }; %>
+	<% }; %>
+</form>
+
+<form>
 	<% companies.each( function(company) { %>
 		<label>
 			<input type="checkbox" name="companiesFilter" value="<%= company.escape("name") %>" class="tableFilter" checked/>

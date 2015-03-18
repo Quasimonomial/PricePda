@@ -2,12 +2,24 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 	template: JST['root/index'],
 
 	initialize: function(options){
+		var that = this;
 		// console.log("Initializing Root View");
 		this.companyCollection = options.companies;
 		this.currentUser = options.user;
 		this.listenTo(this.companyCollection, 'sync', this.render);
 		this.listenTo(this.collection, 'sync', this.render);
 		this.listenTo(this.currentUser, 'sync', this.render);
+		$.ajax({
+			url: "/api/products/distinct_categories",
+			method: "Get",
+  			dataType: 'json',
+  			success: function(response){
+				console.log("Categories fetched");
+				that.categoriesArray = response
+				that.render();
+			}
+		});
+		
 	},
 
 	events: {
@@ -73,7 +85,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 	},
 
 	activeCompanies: function(){
-		return $('input:checkbox:checked').map(function() {
+		return $('input:checkbox.tableFilter:checked').map(function() {
 		    return this.value;
 		}).get();
 	},
@@ -259,7 +271,8 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		var content = this.template({
 			products: this.collection,
 			companies: this.companyCollection,
-			user: this.currentUser
+			user: this.currentUser,
+			categoriesArray: this.categoriesArray
 		});
 
 		this.$el.html(content);
