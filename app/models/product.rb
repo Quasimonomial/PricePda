@@ -124,7 +124,7 @@ class Product < ActiveRecord::Base
     end
     user_price = self.prices.where({pricer_type: "User", pricer_id: current_user.id}).first
     if user_price
-      user_price.historical_prices.order(year: :asc).order(month: :asc).each do |historical_price|
+      user_price.historical_prices.order(year: :asc).order(month: :asc).order(created_at: :asc).each do |historical_price|
         next unless historical_price.month && historical_price.year
         historical_hash[historical_price.year][month_names[historical_price.month - 1]]["User"] = historical_price.price_value
       end
