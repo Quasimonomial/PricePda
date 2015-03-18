@@ -110,18 +110,23 @@ class Product < ActiveRecord::Base
     end
   end
 
-  def generate_historical_hash
+  def generate_historical_hash current_user
     companies = Company.all
     historical_pile = []
     historical_hash = Hash.recursive
     month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
     "November", "December"]
     self.prices.where({pricer_type: "Company"}).each do |price|
-      price.historical_prices.each do|historical_price|
+      price.historical_prices.order(year: :asc).order(month: :asc).each do|historical_price|
         next unless historical_price.month && historical_price.year
         historical_hash[historical_price.year][month_names[historical_price.month - 1]][companies.find(price.pricer_id).name] = historical_price.price_value
       end
     end
+    self.prices.where({pricer_type: "User", pricer_id: current_user.id}).first.historical_prices.order(year: :asc).order(month: :asc).each do |historical_price|
+      next unless historical_price.month && historical_price.year
+      historical_hash[historical_price.year][month_names[historical_price.month - 1]]["User"] = historical_price.price_value
+    end
+
     historical_hash
   end
 
