@@ -5,6 +5,18 @@
 
 <button type="button" class="saveProducts">Save Changes</button> <br>
 <br>
+
+<form>
+	<% if(typeof categoriesArray !== "undefined"){ %>
+		<% for(i = 0; i < categoriesArray.length; i++) { %>
+		<label>
+			<input type="checkbox" name="categoryList" value="<%= categoriesArray[i] %>" class="categoryFilter" checked/>
+			<%= categoriesArray[i] %>
+		</label>
+		<% }; %>
+	<% }; %>
+</form>
+
 <div id="productsTable"></div>
 
 <h2>Add a Product</h2>

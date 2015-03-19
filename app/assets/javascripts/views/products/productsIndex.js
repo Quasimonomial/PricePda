@@ -185,14 +185,21 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 		});
 		$('#productsTable').append(paginator.render().el);
 		
-		var productsFilter = new Backgrid.Extension.ClientSideFilter({
-		  collection: this.collection,
-		  placeholder: "Search Products",
-		  // The model fields to search for matches
-		  fields: ['category', 'name', 'dosage', 'package'],
-		  // How long to wait after typing has stopped before searching can start
-		  wait: 250
+		var productsFilter = new Backgrid.ClientSideFilterWithPickFilter({
+			collection: this.collection,
+
+			placeholder: "Search Products",
+			// The model fields to search for matches
+			fields: ['category', 'name', 'dosage', 'package'],
+			// How long to wait after typing has stopped before searching can start
+			wait: 250
 		});
+		productsFilter.setfilterColumn("category");
+		$('input.categoryFilter').change(function(e) {
+			productsFilter.setPickFilter($('input:checkbox.categoryFilter:checked').map(function() {
+			    return this.value;
+			}).get());
+		}); 
 		$("#productsTable").prepend(productsFilter.render().el);
 
 		return this;

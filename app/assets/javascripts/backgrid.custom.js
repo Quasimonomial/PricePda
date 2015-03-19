@@ -69,3 +69,52 @@ var StyledByDataRow = Backgrid.Row.extend({
 	    return this;
 	  }
 });
+
+
+
+
+
+// Subclass Backgrid Filter to pass an extra 'pick' filter
+Backgrid.ClientSideFilterWithPickFilter = Backgrid.Extension.ClientSideFilter.extend({
+  pickFilter: null,
+
+  setfilterColumn: function(value)  {
+    this.filterColumn = value;
+    return this;
+  },
+
+  setPickFilter: function (attrs) {
+    this.pickFilter = attrs;
+    this.search();
+    return this;
+  },
+
+  makeMatcher: function (query) {
+    var regexp = this.makeRegExp(query);
+    return function (model) {
+      var json = model.toJSON();
+
+
+      // Test the pick filter (if set)
+      if (this.pickFilter) {
+        var inCategory = false
+
+        for(i = 0; i < this.pickFilter.length; i++){
+          if(this.pickFilter[i] === model.get(this.filterColumn) ){
+            inCategory = true            
+            break;
+          }
+        }
+
+        if (!inCategory) return false;
+      }
+       
+      // Test the search filter
+      var keys = this.fields || model.keys();
+      for (var i = 0, l = keys.length; i < l; i++) {
+        if (regexp.test(json[keys[i]] + "")) return true;
+      }
+      return false;
+    };
+  }
+});

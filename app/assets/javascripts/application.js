@@ -19,9 +19,9 @@
 //
 //= require backbone.paginator
 //= require backgrid
-//= require backgrid.custom
 //= require backgrid-paginator
-//= backgrid-filter
+//= require backgrid-filter
+//= require backgrid.custom
 //
 //= require vetpda3
 //= require_tree ../templates
