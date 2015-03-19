@@ -2,12 +2,23 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 	template: JST['products/index'],
 
 	initialize: function(options){
+		var that = this;
 		console.log("initializing products Index view");
 		this.companyCollection = options.companies;
 		this.user = options.user
 		this.listenTo(this.user, 'sync', this.render)
 		this.listenTo(this.companyCollection, 'sync', this.render)
 		this.listenTo(this.collection, 'sync add remove', this.render)
+		$.ajax({
+			url: "/api/products/distinct_categories",
+			method: "Get",
+  			dataType: 'json',
+  			success: function(response){
+				console.log("Categories fetched");
+				that.categoriesArray = response
+				that.render();
+			}
+		});
 	},
 
 	events: {
@@ -168,7 +179,8 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 		var grid = this.buildTable();
 
 		var content = this.template({
-			products: this.collection
+			products: this.collection,
+			categoriesArray: this.categoriesArray
 		});
 
 		this.$el.html(content);
