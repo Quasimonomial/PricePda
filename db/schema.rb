@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150315185907) do
+ActiveRecord::Schema.define(version: 20150320044339) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,22 +65,24 @@ ActiveRecord::Schema.define(version: 20150315185907) do
   add_index "products", ["package"], name: "index_products_on_package", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                  null: false
-    t.string   "password_digest",        null: false
+    t.string   "email",                                  null: false
+    t.string   "password_digest",                        null: false
     t.string   "session_token"
     t.integer  "price_range_percentage"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "first_name",             null: false
-    t.string   "last_name",              null: false
-    t.string   "hospital_name",          null: false
-    t.string   "city",                   null: false
-    t.string   "state",                  null: false
-    t.string   "zip_code",               null: false
+    t.string   "first_name",                             null: false
+    t.string   "last_name",                              null: false
+    t.string   "hospital_name",                          null: false
+    t.string   "city",                                   null: false
+    t.string   "state",                                  null: false
+    t.string   "zip_code",                               null: false
     t.string   "phone"
     t.integer  "comparison_company_id"
     t.boolean  "is_admin"
     t.integer  "permission_level"
+    t.string   "activation_digest"
+    t.boolean  "activated",              default: false
   end
 
 end

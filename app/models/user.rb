@@ -27,7 +27,8 @@ class User < ActiveRecord::Base
   validates :price_range_percentage, :numericality => { :greater_than_or_equal_to => 0, less_than_or_equal_to: 100, allow_nil: true}
 
   after_initialize :ensure_session_token
-  
+  before_create :create_activation_digest
+
   has_many :prices, as: :pricer
 
   attr_accessor :password
@@ -87,6 +88,12 @@ class User < ActiveRecord::Base
   end
 
   private
+
+  def create_activation_digest
+    # Create the token and digest
+    self.activation_token = SecureRandom.urlsafe_base64(16)
+    self.activation_digest = BCrypt::Password.create(activation_token)
+  end
   
   def ensure_session_token
     self.session_token ||= SecureRandom.urlsafe_base64(16)
