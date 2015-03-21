@@ -21,6 +21,7 @@
 	<% end %>
 	
 	<%= flash[:errors].join("<br>").html_safe if flash[:errors] %>
+	<%= flash[:info].html_safe if flash[:info] %>
 	<%= yield %>
 
 </body>

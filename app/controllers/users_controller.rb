@@ -15,6 +15,8 @@ class UsersController < ApplicationController
     @user.is_admin = false
     @user.permission_level = 0 #users by default are not allowed to access anything - anything asking for permission will have a permission level OR an is_admin cluase so admins can always do whatever they want
     if @user.save
+      UserMailer.account_activation(@user).deliver
+      flash[:info] = "Please check your email to activate your account."
       log_in!(@user)
       redirect_to root_url
     else

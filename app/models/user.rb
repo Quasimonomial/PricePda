@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
 
   has_many :prices, as: :pricer
 
-  attr_accessor :password
+  attr_accessor :password, :activation_token
 
   def self.find_by_credentials(email, password)
     user = User.find_by_email(email)

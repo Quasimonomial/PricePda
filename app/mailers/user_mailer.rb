@@ -1,4 +1,4 @@
-class UserMailer < ApplicationMailer
+class UserMailer < ActionMailer::Base
   default from: "app33882497@heroku.com"
 
 
