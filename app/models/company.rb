@@ -3,10 +3,10 @@
 # Table name: companies
 #
 #  id         :integer          not null, primary key
-#  name       :string(255)
+#  name       :string(255)      not null
 #  created_at :datetime
 #  updated_at :datetime
-#  enabled    :boolean
+#  enabled    :boolean          not null
 #
 
 class Company < ActiveRecord::Base
