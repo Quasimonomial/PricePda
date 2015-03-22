@@ -1,40 +1,8 @@
-<h1>Product Show Page</h1>
-
-ID: <%= product.id + 1000 %><br>
 <strong> Category:</strong> <%= product.escape("category") %> <br>
 <strong> Name:</strong> <%= product.escape("name") %> <br>
 <strong> Dosage:</strong> <%= product.escape("dosage") %> <br>
 <strong> Package:</strong> <%= product.escape("package") %> <br>
 <br>
-
-<h2> Historical Prices</h2><br>
-<table>
-	<tr>
-		<th>Year</th>
-		<th>Month</th>
-		<% companies.each( function(company) { %>
-			<th> <%= company.escape("name") %> </th>
-		<% }); %>
-		
-	</tr>
-	<% historicals = product.get("historicalPrices") %>
-	<% if (product.get("historicalPrices")){ %>
-		<% for(year in historicals){%>
-			<% for(month in historicals[year]){%>
-				<tr>
-					<td><%= year %> </td>
-					<td><%= month %> </td>
-					<% companies.each( function(company) { %>
-						<td> <%= historicals[year][month][company.escape("name")] %> </td>
-					<% }); %>
-				</tr>
-			<% } %>	
-		<% } %>
-	<% } %>
-</table>
-
-<h2>Google Graph</h2>
-
-<div id="chart_div" style="width: 900px; height: 500px;"></div>
-
+<div id="chart_div" style="width: 1200 px; height: 500px;"></div>
+<br>
 <a href="/#">Link to Root Page</a>

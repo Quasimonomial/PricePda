@@ -16,7 +16,7 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
   			success: function(response){
 				console.log("Categories fetched");
 				that.categoriesArray = response
-				that.render();
+				that.collection.fetch();
 			}
 		});
 	},

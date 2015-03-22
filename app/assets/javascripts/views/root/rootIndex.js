@@ -169,28 +169,29 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		}
 
 		var statColumns = [{name: "min",
-		    label: "Min",
+		    label: "Low",
 		    cell: "number", 
 		  	editable: false
 		  },{ name: "average",
-		    label: "Average",
+		    label: "Avg",
 		    cell: "number", 
 		  	editable: false
 		  },{ name: "max",
-		    label: "Max",
+		    label: "High",
 		    cell: "number", 
 		  	editable: false
 		  }];
 
-		var columns = [{
-		    name: "id", // The key of the model attribute
-		    label: "ID", // The name to display in the header
-		    editable: false, // By default every cell in a column is editable, but *ID* shouldn't be
-		    // Defines a cell type, and ID is displayed as an integer without the ',' separating 1000s.
-		    cell: Backgrid.IntegerCell.extend({
-		      orderSeparator: ''
-		    })
-		  }, {
+		var columns = [//{
+		  //   name: "id", // The key of the model attribute
+		  //   label: "ID", // The name to display in the header
+		  //   editable: false, // By default every cell in a column is editable, but *ID* shouldn't be
+		  //   // Defines a cell type, and ID is displayed as an integer without the ',' separating 1000s.
+		  //   cell: Backgrid.IntegerCell.extend({
+		  //     orderSeparator: ''
+		  //   })
+		  // }, 
+		  {
 		    name: "category",
 		    label: "Category",
 		    // The cell type can be a reference of a Backgrid.Cell subclass, any Backgrid.Cell subclass instances like *id* above, or a string

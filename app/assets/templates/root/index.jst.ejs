@@ -29,7 +29,7 @@ User percentage: <%= user.escape("price_range_percentage") %>
 <form>
 	<% companies.each( function(company) { %>
 		<label>
-			<input type="checkbox" name="companiesFilter" value="<%= company.escape("name") %>" class="tableFilter" checked/>
+			<input type="checkbox" name="companiesFilter" value="<%= company.escape("name") %>" class="tableFilter"/>
 			<%= company.escape("name") %>
 		</label>
 	<% }); %>
