@@ -1,7 +1,7 @@
 class AccountActivationsController < ApplicationController
   def edit
     user = User.find_by(email: params[:email])
-    if user && !user.activated? && user.valid_activation?(params[:id])
+    if user && !user.activated && user.valid_activation?(params[:id])
       user.update_attribute(:activated,    true)
       log_in! user
       puts "success me maybe"
