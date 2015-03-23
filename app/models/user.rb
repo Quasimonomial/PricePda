@@ -21,6 +21,8 @@
 #  permission_level       :integer
 #  activation_digest      :string(255)
 #  activated              :boolean          default(FALSE)
+#  reset_digest           :string(255)
+#  reset_sent_at          :datetime
 #
 
 class User < ActiveRecord::Base
@@ -73,8 +75,8 @@ class User < ActiveRecord::Base
 
   def create_reset_digest
     self.reset_token = SecureRandom.urlsafe_base64(16)
-    update_attribute(:reset_digest,  BCrypt::Password.create(self.reset_token))
-    update_attribute(:reset_sent_at, Time.zone.now)
+    self.update_attribute(:reset_digest,  BCrypt::Password.create(self.reset_token))
+    self.update_attribute(:reset_sent_at, Time.zone.now)
   end
 
   def send_password_reset_email

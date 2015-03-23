@@ -21,6 +21,8 @@
 #  permission_level       :integer
 #  activation_digest      :string(255)
 #  activated              :boolean          default(FALSE)
+#  reset_digest           :string(255)
+#  reset_sent_at          :datetime
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
