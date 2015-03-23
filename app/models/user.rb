@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
   end
 
   def create_reset_digest
-    self.reset_token = User.SecureRandom.urlsafe_base64(16)
+    self.reset_token = SecureRandom.urlsafe_base64(16)
     update_attribute(:reset_digest,  BCrypt::Password.create(self.reset_token))
     update_attribute(:reset_sent_at, Time.zone.now)
   end
