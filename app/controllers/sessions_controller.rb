@@ -6,8 +6,13 @@ class SessionsController < ApplicationController
 		)
 
 		if user
-			log_in!(user)
-			redirect_to root_url
+			if user.activated
+				log_in!(user)
+				redirect_to root_url
+			else
+				flash[:errors] = ["Account not activated. Check your email for the activation link."]
+				render :new
+			end
 		else
 			flash[:errors] = ["Invalid Credentials"]
 			render :new

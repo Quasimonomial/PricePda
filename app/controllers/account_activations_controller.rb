@@ -1,7 +1,6 @@
 class AccountActivationsController < ApplicationController
   def index
-    puts "blar"
-    redirect_to root_url
+    render :index
   end
 
   def edit
