@@ -1,4 +1,9 @@
 class AccountActivationsController < ApplicationController
+  def index
+    puts "blar"
+    redirect_to root_url
+  end
+
   def edit
     puts "editing to do the thing"
     user = User.find_by(email: params[:email])
