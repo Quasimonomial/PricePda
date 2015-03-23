@@ -113,7 +113,7 @@ class User < ActiveRecord::Base
     BCrypt::Password.new(self.activation_digest).is_password?(activation_token)
   end
 
-  def valid_reset(reset_token)
+  def valid_reset?(reset_token)
     return false if self.reset_digest.nil?
     BCrypt::Password.new(self.reset_digest).is_password?(reset_token)
   end
