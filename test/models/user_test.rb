@@ -23,6 +23,7 @@
 #  activated              :boolean          default(FALSE)
 #  reset_digest           :string(255)
 #  reset_sent_at          :datetime
+#  abbreviation           :string(255)
 #
 
 require 'test_helper'

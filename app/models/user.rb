@@ -23,6 +23,7 @@
 #  activated              :boolean          default(FALSE)
 #  reset_digest           :string(255)
 #  reset_sent_at          :datetime
+#  abbreviation           :string(255)
 #
 
 class User < ActiveRecord::Base
@@ -88,6 +89,7 @@ class User < ActiveRecord::Base
     json_user = Jsonify::Builder.new(:format => :pretty)
   #json_user.id self.id
     json_user.price_range_percentage self.price_range_percentage
+    json_user.abbreviation self.abbreviation
     json_user.comparison_company_id  self.comparison_company_id
     json_user.is_admin  self.is_admin
     return json_user.compile!

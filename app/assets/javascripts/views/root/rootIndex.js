@@ -220,7 +220,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 	    columns.push({
 			name: "User", //possibly get this to be the users username
-			label: "Your Prices",
+			label: this.currentUser.escape("abbreviation"),
 			cell: "number",
 			editable: true
 		});
@@ -272,15 +272,6 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			}).get());
 		}); 
 
-		
-		// var productsFilter = new Backgrid.Extension.ClientSideFilter({
-		//   collection: this.collection,
-		//   placeholder: "Search Products",
-		//   // The model fields to search for matches
-		//   fields: ['category', 'name', 'dosage', 'package'],
-		//   // How long to wait after typing has stopped before searching can start
-		//   wait: 250
-		// });
 		$("#productsTable").prepend(productsFilter.render().el);
 	},
 
