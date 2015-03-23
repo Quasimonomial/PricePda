@@ -1,8 +1,4 @@
 class AccountActivationsController < ApplicationController
-  def index
-    render :index
-  end
-
   def edit
     puts "editing to do the thing"
     user = User.find_by(email: params[:email])

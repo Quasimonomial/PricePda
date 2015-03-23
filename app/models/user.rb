@@ -31,10 +31,11 @@ class User < ActiveRecord::Base
 
   after_initialize :ensure_session_token
   before_create :create_activation_digest
+  before_save   :downcase_email
 
   has_many :prices, as: :pricer
 
-  attr_accessor :password, :activation_token
+  attr_accessor :password, :activation_token, :reset_token
 
   def self.find_by_credentials(email, password)
     user = User.find_by_email(email)
@@ -42,6 +43,10 @@ class User < ActiveRecord::Base
       return user
     end
     nil
+  end
+
+  def downcase_email
+    self.email = email.downcase
   end
 
   def build_price_report_email_hash
@@ -65,6 +70,17 @@ class User < ActiveRecord::Base
     end 
     product_hashes
   end
+
+  def create_reset_digest
+    self.reset_token = User.SecureRandom.urlsafe_base64(16)
+    update_attribute(:reset_digest,  BCrypt::Password.create(self.reset_token))
+    update_attribute(:reset_sent_at, Time.zone.now)
+  end
+
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
 
   def jsonify_this
     json_user = Jsonify::Builder.new(:format => :pretty)
@@ -94,6 +110,17 @@ class User < ActiveRecord::Base
     return false if self.activation_digest.nil?
     BCrypt::Password.new(self.activation_digest).is_password?(activation_token)
   end
+
+  def valid_reset(reset_token)
+    return false if self.reset_digest.nil?
+    BCrypt::Password.new(self.reset_digest).is_password?(reset_token)
+  end
+  
+  # Returns true if a password reset has expired.
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+  end
+
   private
 
   def create_activation_digest
