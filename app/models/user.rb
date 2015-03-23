@@ -90,11 +90,11 @@ class User < ActiveRecord::Base
     BCrypt::Password.new(self.password_digest).is_password?(password)
   end
 
-  private
   def valid_activation?(activation_token)
     return false if self.activation_digest.nil?
     BCrypt::Password.new(self.activation_digest).is_password?(activation_token)
   end
+  private
 
   def create_activation_digest
     # Create the token and digest
