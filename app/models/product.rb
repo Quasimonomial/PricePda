@@ -36,8 +36,9 @@ class Product < ActiveRecord::Base
   def self.export_user_price_uploads
     puts "exporting!"
     workbook = RubyXL::Workbook.new
-    worksheet = workbook.add_worksheet('User Uploads')
-    
+    worksheet = workbook[0]
+    worksheet.sheet_name = 'User Uploads'
+
     puts "Wroksheet test"
     puts  worksheet
 
@@ -50,10 +51,24 @@ class Product < ActiveRecord::Base
       worksheet.add_cell(i, j, headers[j])
       j += 1
     end
-    puts workbook.stream
-    p workbook.stream
 
-    return workbook.stream
+    j = 0
+    i += 1
+
+    Product.all.each do |product|
+      puts "Writing Product #{product.id}"
+      product_cells = [product.id, product.category, product.name, product.dosage, product.package]
+      while j <  product_cells.length
+        worksheet.add_cell(i, j, product_cells[j])
+        j += 1
+      end
+      j = 0
+      i += 1
+    end
+
+    # puts workbook.stream
+    workbook.write("public/user_upload.xlsx")
+    # return workbook.stream
   end
 
   def self.import_from_excel file

@@ -24,12 +24,26 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 	events: {
 		'click .saveProducts': 'saveAllProducts',
-		'click .tableFilter' : 'renderTable',
+		'change .tableFilter' : 'render',
 		'focusout #percentInputFeild': 'updateUserModel',
 		'change #comparisonCompany' : 'updateUserModel',
 		'click .emailSelf': 'emailSelf',
 		'submit .uploadUserPrices' : 'uploadUserPrices'
 	},
+
+	// handleTableFilters: function(event){
+	// 	console.log("handling table")
+	// 	var checkbox = event.target;
+	// 	var limit = 3;
+
+	// 	console.log(checkbox)
+	// 	console.log(checkbox.siblings)
+	// 	if(checkbox.siblings(':checked').length >= limit) {
+	// 	   this.checked = false;
+	// 	}
+
+	// 	this.renderTable();
+	// },
 
 	uploadUserPrices: function(event){
 		that = this;
