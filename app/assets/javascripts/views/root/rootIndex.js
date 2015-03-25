@@ -24,7 +24,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 	events: {
 		'click .saveProducts': 'saveAllProducts',
-		'change .tableFilter' : 'render',
+		'change .tableFilter' : 'renderTable',
 		'focusout #percentInputFeild': 'updateUserModel',
 		'change #comparisonCompany' : 'updateUserModel',
 		'click .emailSelf': 'emailSelf',
