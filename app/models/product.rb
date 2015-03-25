@@ -56,7 +56,7 @@ class Product < ActiveRecord::Base
     i += 1
 
     Product.all.each do |product|
-      puts "Writing Product #{product.id}"
+      # puts "Writing Product #{product.id}"
       product_cells = [product.id, product.category, product.name, product.dosage, product.package]
       while j <  product_cells.length
         worksheet.add_cell(i, j, product_cells[j])
@@ -67,8 +67,8 @@ class Product < ActiveRecord::Base
     end
 
     # puts workbook.stream
-    workbook.write("public/user_upload.xlsx")
-    # return workbook.stream
+    # workbook.write("public/user_upload.xlsx")
+    return workbook.stream
   end
 
   def self.import_from_excel file

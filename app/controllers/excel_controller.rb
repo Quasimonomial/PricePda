@@ -21,7 +21,10 @@ class ExcelController < ApplicationController
   end
 
   def export_user_uploads
-    render xlsx: Product.export_user_price_uploads.read
+    puts "export test"
+    puts Product.export_user_price_uploads
+    # puts typeof Product.export_user_price_uploads
+    send_data Product.export_user_price_uploads.read
   end
 
   def upload_user_prices
