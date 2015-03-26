@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
   attr_accessor :password, :activation_token, :reset_token
 
   def self.find_by_credentials(email, password)
-    user = User.find_by_email(email)
+    user = User.find_by_email(email.downcase)
     if user && user.valid_password?(password)
       return user
     end
