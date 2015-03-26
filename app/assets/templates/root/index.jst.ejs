@@ -26,7 +26,7 @@ User percentage: <%= user.escape("price_range_percentage") %>
 	<% }; %>
 </form>
 
-<form>
+<form class="companiesCheckBoxes">
 	<% companies.each( function(company) { %>
 		<label>
 			<input type="checkbox" name="companiesFilter" value="<%= company.escape("name") %>" class="tableFilter"/>
@@ -41,6 +41,9 @@ User percentage: <%= user.escape("price_range_percentage") %>
 <br>
 <button type="button" class="emailSelf">Send my report!</button> <br>
 <br>
+<p>
+	You can upload your prices via an excel document. To do this, download your Price Excel File, fill it out.  Then select your file from the upload form and press upload!
+</p>
 <br>
 <h3> Upload Your Prices via Excel</h3>
 <form class="uploadUserPrices" >
