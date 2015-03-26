@@ -1,3 +1,16 @@
 .OutOfRange{
 	background-color: red;
 }
+
+.backgrid th{
+	text-align: right;
+}
+
+.backgrid th.category,
+.backgrid th.name,
+.backgrid th.dosage,
+.backgrid th.package,
+.backgrid th.graph{
+	text-align: left;	
+}
+
