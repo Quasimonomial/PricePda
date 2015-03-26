@@ -125,13 +125,14 @@ class User < ActiveRecord::Base
     reset_sent_at < 2.hours.ago
   end
 
-  private
-
   def create_activation_digest
     # Create the token and digest
     self.activation_token = SecureRandom.urlsafe_base64(16)
     self.activation_digest = BCrypt::Password.create(activation_token)
   end
+
+  private
+
   
   def ensure_session_token
     self.session_token ||= SecureRandom.urlsafe_base64(16)

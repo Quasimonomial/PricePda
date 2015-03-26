@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resource :email, defaults: {format: :json}, only: []
   post 'email/send_to_all' => 'email#send_to_all'
   post 'email/send_to_self' => 'email#send_to_self'
+  post 'email/resend_activation_email' => 'email#resend_activation_email'
   resource :excel, only: []
   post 'excel/import_products' => 'excel#import_products'
   post 'excel/upload_user_prices' => 'excel#upload_user_prices'
