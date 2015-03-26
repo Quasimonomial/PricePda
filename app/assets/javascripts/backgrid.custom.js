@@ -75,11 +75,22 @@ var StyledByDataRow = Backgrid.Row.extend({
 
 
 // Subclass Backgrid Filter to pass an extra 'pick' filter
+// Also filters out blank shit
 Backgrid.ClientSideFilterWithPickFilter = Backgrid.Extension.ClientSideFilter.extend({
   pickFilter: null,
 
   setfilterColumn: function(value)  {
     this.filterColumn = value;
+    return this;
+  },
+
+  togglePricesEnteredFilter: function(value) {
+    if(this.pricesEnteredFilter){
+      this.pricesEnteredFilter = false;
+    } else{
+      this.pricesEnteredFilter = true;
+    }
+    this.search();
     return this;
   },
 
@@ -108,7 +119,10 @@ Backgrid.ClientSideFilterWithPickFilter = Backgrid.Extension.ClientSideFilter.ex
 
         if (!inCategory) return false;
       }
-       
+      if (this.pricesEnteredFilter){
+        if(typeof model.get("User") === 'undefined') return false;
+      }
+
       // Test the search filter
       var keys = this.fields || model.keys();
       for (var i = 0, l = keys.length; i < l; i++) {

@@ -283,7 +283,10 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			productsFilter.setPickFilter($('input:checkbox.categoryFilter:checked').map(function() {
 			    return this.value;
 			}).get());
-		}); 
+		});
+		$('input.pricedToggle').change(function(e){
+			productsFilter.togglePricesEnteredFilter();
+		});
 
 		$("#productsTable").prepend(productsFilter.render().el);
 	},

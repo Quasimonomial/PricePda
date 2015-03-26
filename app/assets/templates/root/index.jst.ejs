@@ -25,6 +25,12 @@ User percentage: <%= user.escape("price_range_percentage") %>
 		<% }; %>
 	<% }; %>
 </form>
+<form>
+	<label>
+		<input type="checkbox" name="priceToggle" class="pricedToggle"/>
+		View Only Priced Products
+	</label>
+</form>
 
 <form class="companiesCheckBoxes">
 	<% companies.each( function(company) { %>

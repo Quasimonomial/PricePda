@@ -154,7 +154,7 @@ _.extend(Command.prototype, {
 
      @member Backgrid.Command
    */
-  //save: function () { return this.keyCode === 13; },
+  save: function () {},//{ return this.keyCode === 13; },
   /**
      Esc
 
