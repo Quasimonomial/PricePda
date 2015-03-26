@@ -130,13 +130,13 @@ _.extend(Command.prototype, {
 
      @member Backgrid.Command
    */
-  moveUp: function () { return this.keyCode == 38; },
+  moveUp: function () { return this.shiftKey && this.keyCode == 13; },
   /**
      Down Arrow
 
      @member Backgrid.Command
    */
-  moveDown: function () { return this.keyCode === 40; },
+  moveDown: function () { return this.keyCode === 13; },
   /**
      Shift Tab
 
@@ -154,7 +154,7 @@ _.extend(Command.prototype, {
 
      @member Backgrid.Command
    */
-  save: function () { return this.keyCode === 13; },
+  //save: function () { return this.keyCode === 13; },
   /**
      Esc
 
