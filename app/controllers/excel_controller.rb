@@ -20,10 +20,11 @@ class ExcelController < ApplicationController
     render json: "Products imported"
   end
 
+  def export_user_data
+    send_data Product.export_user_data.read
+  end
+
   def export_user_uploads
-    puts "export test"
-    puts Product.export_user_price_uploads
-    # puts typeof Product.export_user_price_uploads
     send_data Product.export_user_price_uploads.read
   end
 

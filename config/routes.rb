@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   post 'excel/upload_user_prices' => 'excel#upload_user_prices'
   post 'excel/import_company_prices' => 'excel#import_company_prices'
   get 'excel/export_user_uploads' => 'excel#export_user_uploads'
+  get 'excel/export_user_data' => 'excel#export_user_data' 
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
 end

@@ -33,6 +33,36 @@ class Product < ActiveRecord::Base
     categories
   end
 
+  def self.export_user_data
+    puts "exporting!"
+    workbook = RubyXL::Workbook.new
+    worksheet = workbook[0]
+    worksheet.sheet_name = 'Users'
+    
+    headers = ["ID", "Email", "First Name", "Last Name", "Hospital Name", "Hospital Abbreviation", "City", "State", "Zip", "Phone", "Admin", "Activated", "Price Percentage"]
+
+    i = 0
+    j = 0
+
+    while j < headers.length
+      worksheet.add_cell(i, j, headers[j])
+      j += 1
+    end            
+
+    User.all.order(:id).each do |product|
+      # puts "Writing Product #{product.id}"
+      product_cells = [product.id, product.category, product.name, product.dosage, product.package]
+      while j <  product_cells.length
+        worksheet.add_cell(i, j, product_cells[j])
+        j += 1
+      end
+      j = 0
+      i += 1
+    end
+
+    return workbook.stream
+  end
+
   def self.export_user_price_uploads
     puts "exporting!"
     workbook = RubyXL::Workbook.new
