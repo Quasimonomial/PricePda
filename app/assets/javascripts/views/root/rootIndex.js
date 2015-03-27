@@ -34,12 +34,25 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 	handleTableFilters: function(event){
 		var limit = 3;
 		var $checkboxes = $(".companiesCheckBoxes").find("input:checkbox");
-		
-		if($checkboxes.filter(":checked").length >= limit){
+		var numCheckBoxes = $checkboxes.filter(":checked").length;
+
+		if(numCheckBoxes >= limit){
 			$checkboxes.not(":checked").attr("disabled","disabled");
 		} else {
 			$checkboxes.removeAttr("disabled");
 		}
+		var checkboxesSelected = $(".companiesCheckBoxes").find("input:checkbox").filter(":checked").map(function(i, el) {
+    		return $(el).val();
+		});
+
+		var checkboxValues = [];
+		for(var i = 0; i < numCheckBoxes; i++ ){
+			checkboxValues[i] = checkboxesSelected[i] 
+		}
+
+		console.log(checkboxValues);
+		// console.log($checkboxes.filter(":checked").val())
+		document.cookie = "selectedCompanies="+ checkboxValues + "; path=/;";
 
 		this.renderTable();
 	},
@@ -292,12 +305,24 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 	},
 
 	render: function(){
-		// console.log("Rendering View")
+		function getCookie(cname) {
+		    var name = cname + "=";
+		    var ca = document.cookie.split(';');
+		    for(var i=0; i<ca.length; i++) {
+		        var c = ca[i];
+		        while (c.charAt(0)==' ') c = c.substring(1);
+		        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+		    }
+		    return "";
+		}
+		
+		var selectedCompanies = getCookie("selectedCompanies").split(',')
 		var content = this.template({
 			products: this.collection,
 			companies: this.companyCollection,
 			user: this.currentUser,
-			categoriesArray: this.categoriesArray
+			categoriesArray: this.categoriesArray,
+			selectedCompanies: selectedCompanies
 		});
 
 		this.$el.html(content);
