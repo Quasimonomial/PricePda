@@ -63,10 +63,10 @@
 <form class="uploadCompanyPrices" >
 	<label> Month:
 		<% var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-		"November", "December"] %>
+		"November", "December", "Quarter 1", "Quarter 2", "Quarter 3", "Quarter 4", "Year"] %>
 		<select name="month">
 			<option value="0">--------------</option>
-			<% for(i = 1; i <= 12; i++){ %>
+			<% for(i = 1; i <= months.length; i++){ %>
 				<option value="<%= i %>"> <%= months[i - 1] %>  </option>
 			<% }; %>
 		</select>
