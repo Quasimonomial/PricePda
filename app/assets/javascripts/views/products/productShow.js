@@ -55,7 +55,6 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 		};
 		
 		for(i = 0; i < historicals["order_array"].length; i++){
-			console.log(i)
 			var month = historicals["order_array"][i][0]
 			var year  = historicals["order_array"][i][1]
 			

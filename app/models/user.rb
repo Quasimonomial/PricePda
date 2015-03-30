@@ -128,7 +128,7 @@ class User < ActiveRecord::Base
   def create_activation_digest
     # Create the token and digest
     self.activation_token = SecureRandom.urlsafe_base64(16)
-    self.activation_digest = BCrypt::Password.create(activation_token)
+    self.activation_digest = BCrypt::Password.create(self.activation_token)
   end
 
   private
