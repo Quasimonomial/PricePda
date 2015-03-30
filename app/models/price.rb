@@ -10,6 +10,11 @@
 #  created_at  :datetime
 #  updated_at  :datetime
 #
+class Hash
+  def self.recursive
+    new { |hash, key| hash[key] = recursive }
+  end
+end
 
 class Price < ActiveRecord::Base
   validates :price, :product_id, :pricer_id, :pricer_type, presence: true
@@ -19,7 +24,7 @@ class Price < ActiveRecord::Base
 	belongs_to :product
   has_many :historical_prices
 
-  def self.export_user_data
+  def self.export_user_data year
     puts "exporting!"
     workbook = RubyXL::Workbook.new
     worksheet = workbook[0]
@@ -78,9 +83,77 @@ class Price < ActiveRecord::Base
       i += 1
     end
 
+    #now to fill out the prices
+    month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+    "November", "December"]
+
+    user_prices_hash = Price.generate_user_prices_hash year
+    
+    month_names.each do |month|
+      worksheet = workbook.add_worksheet(month)
+      i = 0
+      j = 0
+    
+      worksheet.add_cell(i, j, "Product_id")
+
+      j += 1
+
+      users = User.all.order(:id) 
+
+      users.each do |user|
+        worksheet.add_cell(i, j, "User #{user.id}")
+        j += 1
+      end
+
+
+      Product.all.order(:id).each do |product|
+        i += 1
+        j = 0
+        worksheet.add_cell(i, j, product.id)
+
+        users.each do |user|
+          j += 1
+          worksheet.add_cell(i, j, user_prices_hash[month][product.id][user.id])
+        end
+        j = 0
+      end
+    end
+
     return workbook.stream
   end
  
+  def self.generate_user_prices_hash year
+    historical_hash = Hash.recursive
+    month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    
+
+    Product.all.each do |product|
+      puts product
+      User.all.each do |user|
+        user_price = product.prices.where({pricer_type: "User", pricer_id: user.id}).first
+        next unless user_price
+        user_price.historical_prices.where(year: year).order(year: :asc).order(month: :asc).order(created_at: :asc).each do |historical_price|
+          historical_hash[month_names[historical_price.month - 1]][product.id][user.id] = historical_price.price_value
+        end
+      end  
+    end
+    historical_hash
+  end
+
+  # def self.generate_user_prices_hash_no_gaps year
+  #   historical_hash = Price.generate_user_prices_hash year
+
+  #   month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+  #   historical_hash.each do |month|
+  #     historical_hash[month].each do |product|
+  #       historical_hash[month].each do |user|
+
+  #       end
+  #     end
+  #   end
+  # end
+
   def self.import_company_from_excel file, month, year
     puts "Importing!"
     company_name_hash = Company.build_name_hash

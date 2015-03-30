@@ -21,7 +21,7 @@ class ExcelController < ApplicationController
   end
 
   def export_user_data
-    send_data Price.export_user_data.read
+    send_data Price.export_user_data(2015).read
   end
 
   def export_user_uploads
