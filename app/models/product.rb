@@ -179,6 +179,118 @@ class Product < ActiveRecord::Base
     historical_hash
   end
 
+  def graph_hash_user_prices current_user #returns a hash of the users prices for the last three years
+    current_year =  DateTime.now.year
+    
+    historical_hash = Hash.recursive
+    month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+    "November", "December"]
+    years_of_interest = [current_year - 2, current_year - 1, current_year]
+
+    user_price = self.prices.where({pricer_type: "User", pricer_id: current_user.id}).first
+    return historical_hash unless user_price
+
+    if user_price
+      user_price.historical_prices.where(year: years_of_interest[0]..years_of_interest[-1]).order(year: :asc).order(month: :asc).order(created_at: :asc).each do |historical_price|
+        historical_hash[historical_price.year][month_names[historical_price.month - 1]]["User"] = historical_price.price_value
+      end
+    end
+
+    historical_hash
+  end
+
+  def graph_hash_full_user_prices current_user
+
+    historical_hash = self.graph_hash_user_prices current_user
+
+    # return historical_hash
+
+    month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+    "November", "December"]
+
+    current_year =  DateTime.now.year
+    current_month = month_names[DateTime.now.month]
+
+    # years_of_interest = [current_year - 2, current_year - 1, current_year]
+    years_of_interest = [current_year]
+
+    user_price = self.prices.where({pricer_type: "User", pricer_id: current_user.id}).first
+    return historical_hash unless user_price
+    first_price = user_price.historical_prices.where(year: 0...years_of_interest[0]).last 
+    last_price = nil
+
+    current_month_year_flag = false
+
+    years_of_interest.each do |year|
+      month_names.each do |month|
+        break if current_year == year && current_month == month 
+        if historical_hash[year][month]["User"].is_a? Numeric
+          unless first_price
+            first_price = historical_hash[year][month]["User"]
+
+            current_time_flag = false
+            years_of_interest.each do |empty_year|
+              month_names.each do |empty_month|
+                if empty_year == year && empty_month == month
+                  current_time_flag = true
+                  break
+                end
+                historical_hash[empty_year][empty_month]["User"] = first_price
+              end
+              break if current_time_flag
+            end
+          end
+          last_price = historical_hash[year][month]["User"]
+        else
+          if last_price
+            historical_hash[year][month]["User"] = last_price
+          end 
+        end
+      end
+      break if current_month_year_flag
+    end
+    historical_hash
+  end
+
+  def graph_hash_calculated_user_prices current_user
+    #skip this for beta
+  end
+
+  def graph_hash_full_set current_user
+
+    companies = Company.all
+    historical_pile = []
+    historical_hash = Hash.recursive
+    
+    month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+    "November", "December"]
+    current_month = month_names[DateTime.now.month]
+
+    current_year =  DateTime.now.year
+    years_of_interest = [current_year - 2, current_year - 1, current_year]
+
+
+    order_array = []
+
+    years_of_interest.each do |year|
+      month_names.each do |month|
+        order_array << [month, year]
+      end
+    end
+
+
+    self.prices.where({pricer_type: "Company"}).each do |price|
+      price.historical_prices.order(year: :asc).order(month: :asc).order(created_at: :asc).each do|historical_price|
+        historical_hash[historical_price.year][month_names[historical_price.month - 1]][companies.find(price.pricer_id).name] = historical_price.price_value
+        historical_hash[historical_price.year][month_names[historical_price.month - 1]][companies.find(price.pricer_id).name]
+      end
+    end
+    historical_hash = historical_hash.deep_merge(self.graph_hash_full_user_prices current_user)
+    historical_hash["order_array"] = order_array
+    historical_hash
+  end
+
+
   # def generate_historical_hash_by_yr_quarter
   #   #month 13 is Q1
   #   #      14 is Q2

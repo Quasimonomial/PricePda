@@ -24,18 +24,25 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 		this.collection.each(function (company) {
 			historical_data[0].push(company.get("name"));
 		});
-		// historical_data[0].push("Your Price")
 
-		for(year in historicals){
-			for(month in historicals[year]){
-				var month_data = [month + " " + year];
-				month_data.push(Number(historicals[year][month]["User"]));
-				this.collection.each( function(company) {
-					month_data.push(Number(historicals[year][month][company.get("name")]));
-				})
-				console.log(month_data)
-				historical_data.push(month_data);
+		
+		for(i = 0; i < historicals["order_array"].length; i++){
+			var month = historicals["order_array"][i][0]
+			var year  = historicals["order_array"][i][1]
+
+			var month_data = [month + " " + year];
+			if(typeof historicals[year] === "undefined"){
+				continue
 			}
+			if(typeof historicals[year][month] === "undefined"){
+				continue
+			}
+
+			month_data.push(Number(historicals[year][month]["User"]));
+			this.collection.each( function(company) {
+				month_data.push(Number(historicals[year][month][company.get("name")]));
+			})
+			historical_data.push(month_data);
 		}
 
 		var data = google.visualization.arrayToDataTable(historical_data)
@@ -49,9 +56,7 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 		};
 
 		var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-		console.log("chart is")
-		console.log(data)
-		console.log(chart)
+
 		chart.draw(data, options);
 
 	},
