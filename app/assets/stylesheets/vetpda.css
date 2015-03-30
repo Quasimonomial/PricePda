@@ -17,3 +17,8 @@
 tr:nth-child(even) {
     background-color: #CCCCCC;
 }
+
+
+.vex.vex-theme-flat-attack .vex-content .graphVexContent{
+	width: 80%;
+}

@@ -205,7 +205,8 @@
     position: relative;
     margin: 0 auto;
     max-width: 100%;
-    width: 600px; }
+/*    width: 600px; */
+    width: 80%; }
     .vex.vex-theme-flat-attack .vex-content h1, .vex.vex-theme-flat-attack .vex-content h2, .vex.vex-theme-flat-attack .vex-content h3, .vex.vex-theme-flat-attack .vex-content h4, .vex.vex-theme-flat-attack .vex-content h5, .vex.vex-theme-flat-attack .vex-content h6, .vex.vex-theme-flat-attack .vex-content p, .vex.vex-theme-flat-attack .vex-content ul, .vex.vex-theme-flat-attack .vex-content li {
       color: inherit; }
   .vex.vex-theme-flat-attack .vex-close {

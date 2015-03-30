@@ -198,6 +198,8 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			});
 
 			vex.open({
+			  contentClassName: "graphVexContent",
+
 			  content: productView.render().$el,
 			  afterOpen: function($vexContent) {
 			    return $vexContent.append($el);
