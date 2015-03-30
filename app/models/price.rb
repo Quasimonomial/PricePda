@@ -19,6 +19,68 @@ class Price < ActiveRecord::Base
 	belongs_to :product
   has_many :historical_prices
 
+  def self.export_user_data
+    puts "exporting!"
+    workbook = RubyXL::Workbook.new
+    worksheet = workbook[0]
+    worksheet.sheet_name = 'Users'
+    
+    headers = ["ID", "Email", "First Name", "Last Name", "Hospital Name", "Hospital Abbreviation", "City", "State", "Zip", "Phone", "Admin", "Activated", "Price Percentage"]
+
+    i = 0
+    j = 0
+
+    while j < headers.length
+      worksheet.add_cell(i, j, headers[j])
+      j += 1
+    end            
+    i +=1
+    j = 0
+
+    User.all.order(:id).each do |user|
+      puts "User is"
+      puts user
+      user_cells = [user.id, user.email, user.first_name, user.last_name, user.hospital_name, user.abbreviation, user.city, user.state, user.zip_code, user.phone, user.is_admin, user.activated, user.price_range_percentage]
+      p user_cells
+      while j <  user_cells.length
+        puts i
+        puts j
+        worksheet.add_cell(i, j, user_cells[j])
+        j += 1
+      end
+      j = 0
+      i += 1
+    end
+
+    worksheet = workbook.add_worksheet("Products")
+
+
+    headers = ["ID", "Category", "Product", "Dosage", "Package"]
+
+    i = 0
+    j = 0
+
+    while j < headers.length
+      worksheet.add_cell(i, j, headers[j])
+      j += 1
+    end
+
+    j = 0
+    i += 1
+
+    Product.all.order(:id).each do |product|
+      product_cells = [product.id, product.category, product.name, product.dosage, product.package]
+      while j <  product_cells.length
+        worksheet.add_cell(i, j, product_cells[j])
+        j += 1
+      end
+      j = 0
+      i += 1
+    end
+
+    return workbook.stream
+  end
+ 
   def self.import_company_from_excel file, month, year
     puts "Importing!"
     company_name_hash = Company.build_name_hash

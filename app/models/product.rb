@@ -297,41 +297,7 @@ class Product < ActiveRecord::Base
   #   #      15 is Q3
   #   #      16 is Q4
   #   #      17 is Year
-  #   companies = Company.all
-  #   historical_pile = []
-  #   historical_hash = Hash.recursive
 
-  #   current_year =  DateTime.now.year
-  #   current_month = DateTime.now.month
-  #   year_1 = current_year - 2
-  #   year_2 = current_year - 1
-  #   quarter = current_month/4 
-
-  #   self.prices.where({pricer_type: "Company"}).each do |price|
-  #     price.historical_prices.where(year: year_1..current_year).order(year: :asc).order(month: :asc).order(created_at: :asc).each do|historical_price|
-  #       next unless historical_price.month && historical_price.year
-  #       if historical_price.year == year_1 && historical_price.month == 17
-  #         historical_hash[historical_price.year]["Year"][companies.find(price.pricer_id).name] = historical_price.price_value
-  #         next
-  #       end
-  #       if historical_price.year == year_2 = historical_price.month == 17
-  #         historical_hash[historical_price.year]["Year"][companies.find(price.pricer_id).name] = historical_price.price_value
-  #         next
-  #       end
-  #       next unless historical_price.year != current_year 
-  #       next if historical_price.month == 17
-  #       next unless (historical_price.month <= current_month && historical_price.month > quarter * 4) || 
-  #         historical_price.month >= 13
-        
-
-        
-
-
-
-  #       historical_hash[historical_price.year][month_names[historical_price.month - 1]][companies.find(price.pricer_id).name] = historical_price.price_value
-  #     end
-  #   end
-  #   historical_hash
   # end
 
   def jsonify_this current_user #do I ever need to use this?
