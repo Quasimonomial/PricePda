@@ -126,9 +126,12 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		var thatCompanyCollection = this.companyCollection
 		this.collection.each(function(product){
 			var pricesArr = [];
-			pricesArrSum = 0;
+			var pricesArrSum = 0;
 			for(var i = 0; i < activeCompanies.length; i++){
 				if(isNaN( product.get(activeCompanies[i]) )){
+					continue;
+				}
+				if(product.get(activeCompanies[i]) <= 0){
 					continue;
 				}
 				pricesArr.push(product.get(activeCompanies[i]));
