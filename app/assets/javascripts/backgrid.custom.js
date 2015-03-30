@@ -47,18 +47,14 @@ var CustomButtonCell = Backgrid.Cell.extend({
 
 var StyledByDataRow = Backgrid.Row.extend({
 	render: function () {
-        var companiesOutOfRange = this.model.get("companiesOutOfRange");
-        var coorIndex = 0;
-        this.$el.empty();
+      var companiesOutOfRange = this.model.get("companiesOutOfRange");
+      this.$el.empty();
 	    var fragment = document.createDocumentFragment();
 	    for (var i = 0; i < this.cells.length; i++) {
 	        if(typeof companiesOutOfRange != "undefined"){
-		    	if(coorIndex < companiesOutOfRange.length){
-		    		if(companiesOutOfRange[coorIndex] === this.cells[i].column.attributes.name){
+		    		if(companiesOutOfRange.indexOf(this.cells[i].column.attributes.name) >= 0){
 		    			this.cells[i].el.classList.add("OutOfRange");
-		    			coorIndex++;
-		    		}
-		    	}	        	
+		    		}        	
 	        }
 			fragment.appendChild(this.cells[i].render().el);
 	    }
