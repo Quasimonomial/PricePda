@@ -12,24 +12,53 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 		google.setOnLoadCallback(this.drawGoogleGraph);
 	},
 
+	events:{
+		'change .graphFilter' : 'handleGraphFilters',
+	},
+
+	handleGraphFilters: function(event){
+		// var limit = 3;
+		// var $checkboxes = $(".graphCheckBoxes").find("input:checkbox");
+		// var numCheckBoxes = $checkboxes.filter(":checked").length;
+
+		// if(numCheckBoxes >= limit){
+		// 	$checkboxes.not(":checked").attr("disabled","disabled");
+		// } else {
+		// 	$checkboxes.removeAttr("disabled");
+		// }
+
+		this.drawGoogleGraph();
+	},
+
 	drawGoogleGraph: function(){
 		console.log("drawing graph")
+
+		var checkboxesSelected = $(".graphCheckBoxes").find("input:checkbox").filter(":checked").map(function(i, el) {
+    		return $(el).val();
+		});
+
+		var checkboxValues = [];
+		for(var i = 0; i < checkboxesSelected.length; i++ ){
+			checkboxValues[i] = checkboxesSelected[i] 
+		}
+
+		numberSelectedCompanies = checkboxValues.length
 
 		if(!this.model.get("historicalPrices")){
 			return
 		}
-		historicals = this.model.get("historicalPrices")
+		var historicals = this.model.get("historicalPrices")
 
 		var historical_data = [['Month', "Your Price"]];
-		this.collection.each(function (company) {
-			historical_data[0].push(company.get("name"));
-		});
-
+		for(var i = 0; i < numberSelectedCompanies; i++){
+			historical_data[0].push(checkboxValues[i])
+		};
 		
 		for(i = 0; i < historicals["order_array"].length; i++){
+			console.log(i)
 			var month = historicals["order_array"][i][0]
 			var year  = historicals["order_array"][i][1]
-
+			
 			var month_data = [month + " " + year];
 			if(typeof historicals[year] === "undefined"){
 				continue
@@ -39,16 +68,18 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 			}
 
 			month_data.push(Number(historicals[year][month]["User"]));
-			this.collection.each( function(company) {
-				month_data.push(Number(historicals[year][month][company.get("name")]));
-			})
+
+			for(var j = 0; j < numberSelectedCompanies; j++ ){
+				month_data.push(Number(historicals[year][month][checkboxValues[j]]));
+			}
+
 			historical_data.push(month_data);
 		}
 
 		var data = google.visualization.arrayToDataTable(historical_data)
 
 		var options = {
-			title : 'Historical Price of this Product over time',
+			title : this.model.escape("category")  + '\n' + this.model.escape("name") + '\n' + this.model.escape("dosage") + '\n' + this.model.escape("package"),
 			vAxis: {title: "Price in $", minValue: 0},
 			hAxis: {title: "Month"},
 			seriesType: "bars",
@@ -62,10 +93,22 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 	},
 
 	render: function(){
+		function getCookie(cname) {
+		    var name = cname + "=";
+		    var ca = document.cookie.split(';');
+		    for(var i=0; i<ca.length; i++) {
+		        var c = ca[i];
+		        while (c.charAt(0)==' ') c = c.substring(1);
+		        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+		    }
+		    return "";
+		}
+		var selectedCompanies = getCookie("selectedCompanies").split(',')
 
 		var content = this.template({
 			product: this.model,
-			companies: this.collection
+			companies: this.collection,
+			selectedCompanies: selectedCompanies
 		});
 
 		this.$el.html(content);

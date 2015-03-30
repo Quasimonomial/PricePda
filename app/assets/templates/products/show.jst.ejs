@@ -1,6 +1,15 @@
-<strong> Category:</strong> <%= product.escape("category") %> <br>
-<strong> Name:</strong> <%= product.escape("name") %> <br>
-<strong> Dosage:</strong> <%= product.escape("dosage") %> <br>
-<strong> Package:</strong> <%= product.escape("package") %> <br>
-<br>
+<form class="graphCheckBoxes">
+	<% companies.each( function(company) { %>
+		<label>
+			<input type="checkbox" name="graphFilter" value="<%= company.escape("name") %>" class="graphFilter" 
+				<% if(selectedCompanies.indexOf(company.escape("name")) > -1){ %>
+					checked
+				<% } %>s
+			/>
+			<%= company.escape("name") %>
+		</label>
+	<% }); %>
+</form>
+
+
 <div id="chart_div" style="width: 1200 px; height: 500px;"></div>
