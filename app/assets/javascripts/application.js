@@ -23,10 +23,14 @@
 //= require backgrid-filter
 //= require backgrid.custom
 //
+//= require vex
+//= require vex.dialog
+//
 //= require vetpda3
 //= require_tree ../templates
 //= require_tree ./models
 //= require_tree ./collections
 //= require_tree ./views
 //= require_tree ./routers
+//= require_tree ./dependencies
 //= require_tree .

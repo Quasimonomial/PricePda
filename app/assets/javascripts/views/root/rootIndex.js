@@ -189,9 +189,24 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 
 	buildTable: function(){
+		var that = this;
 		var graphButtonCallback = function(product){
 			console.log("Click Detected");
-			Backbone.history.navigate("#/products/"+ product.id, {trigger: true});
+			var productView = new Vetpda.Views.ProductShow({
+				model: product,
+				collection: that.companyCollection
+			});
+
+			vex.open({
+			  content: productView.render().$el,
+			  afterOpen: function($vexContent) {
+			    return $vexContent.append($el);
+			  },
+			  afterClose: function() {
+			    return console.log('vexClose');
+			  }
+			});
+			// Backbone.history.navigate("#/products/"+ product.id, {trigger: true});
 		}
 
 		var statColumns = [{name: "min",
