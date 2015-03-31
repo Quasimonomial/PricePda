@@ -20,7 +20,7 @@ end
 
 class Product < ActiveRecord::Base
   validates :category, :name, :dosage, presence: true
-  validates :category, uniqueness: {scope: [:name, :dosage, :package]}
+  #validates :category, uniqueness: {scope: [:name, :dosage, :package]}
   has_many :prices
   has_many :historical_prices, through: :prices
 
