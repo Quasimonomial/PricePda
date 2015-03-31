@@ -18,7 +18,7 @@ class HistoricalPrice < ActiveRecord::Base
 
   def assign_custom_month_and_year month, year
     
-    if month.to_i < 1 || month.to_i > 12
+    if month.to_i < 1 || month.to_i > 17
       self.month = self.created_at.month 
       self.save
     else
