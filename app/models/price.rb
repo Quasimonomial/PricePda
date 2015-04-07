@@ -140,20 +140,6 @@ class Price < ActiveRecord::Base
     historical_hash
   end
 
-  # def self.generate_user_prices_hash_no_gaps year
-  #   historical_hash = Price.generate_user_prices_hash year
-
-  #   month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-
-  #   historical_hash.each do |month|
-  #     historical_hash[month].each do |product|
-  #       historical_hash[month].each do |user|
-
-  #       end
-  #     end
-  #   end
-  # end
-
   def self.import_company_from_excel file, month, year
     puts "Importing!"
     company_name_hash = Company.build_name_hash
@@ -295,10 +281,6 @@ class Price < ActiveRecord::Base
 	def ouside_price_range?(user)
     user_price_obj = user.prices.where(product_id: self.product_id).first
     return false unless user_price_obj
-    user_price = user_price_obj.price
-    puts user_price
-    puts (((user_price - self.price) *1.0) * 100/user_price)
-    puts user.price_range_percentage
     (((user_price - self.price) *1.0) * 100/user_price) >= user.price_range_percentage
   end
 end

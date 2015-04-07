@@ -20,7 +20,7 @@ end
 
 class Product < ActiveRecord::Base
   validates :category, :name, :dosage, presence: true
-  #validates :category, uniqueness: {scope: [:name, :dosage, :package]}
+
   has_many :prices
   has_many :historical_prices, through: :prices
 
@@ -50,7 +50,6 @@ class Product < ActiveRecord::Base
     end            
 
     User.all.order(:id).each do |product|
-      # puts "Writing Product #{product.id}"
       product_cells = [product.id, product.category, product.name, product.dosage, product.package]
       while j <  product_cells.length
         worksheet.add_cell(i, j, product_cells[j])
@@ -86,7 +85,6 @@ class Product < ActiveRecord::Base
     i += 1
 
     Product.all.each do |product|
-      # puts "Writing Product #{product.id}"
       product_cells = [product.id, product.category, product.name, product.dosage, product.package]
       while j <  product_cells.length
         worksheet.add_cell(i, j, product_cells[j])
@@ -95,9 +93,6 @@ class Product < ActiveRecord::Base
       j = 0
       i += 1
     end
-
-    # puts workbook.stream
-    # workbook.write("public/user_upload.xlsx")
     return workbook.stream
   end
 
@@ -147,14 +142,6 @@ class Product < ActiveRecord::Base
     return json_products.compile!
   end
 
-  def self.to_csv
-    CSV.generate do |csv|
-      csv << column_names
-      all.each do |product|
-        csv << product.attributes.values_at(*column_names)
-      end
-    end
-  end
 
   def generate_historical_hash current_user
     companies = Company.all
@@ -202,8 +189,6 @@ class Product < ActiveRecord::Base
   def graph_hash_full_user_prices current_user
 
     historical_hash = self.graph_hash_user_prices current_user
-
-    # return historical_hash
 
     month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
     "November", "December"]
