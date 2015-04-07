@@ -26,6 +26,8 @@
 //= require vex
 //= require vex.dialog
 //
+//= require googlegraph
+//
 //= require vetpda3
 //= require_tree ../templates
 //= require_tree ./models

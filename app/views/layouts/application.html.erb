@@ -5,13 +5,12 @@
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
-  <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['corechart']}]}"></script>
+
 </head>
 <body>
 	<% if logged_in? %>
-		<%= current_user.email %>
 		<% if current_user.is_admin %>
-			<h1>You are an admin!</h1>
+			<p>You are an admin!</p>
 		<% end %>
 		<% unless current_user.activated %>
 			<h1>Your account is not activated!  Please check your email and activate your account.</h1>
