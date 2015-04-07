@@ -48,30 +48,33 @@ class User < ActiveRecord::Base
     nil
   end
 
-  def downcase_email
-    self.email = email.downcase
-  end
-
   def build_price_report_email_hash
-    #Goal: an array of hashes
     product_hashes = []
     products = Product.all.order(:id)
     products.each do |product|
-      user_price = product.prices.where({pricer_type: "User", pricer_id: self.id}).first.price
-      competitor_price = product.prices.where({pricer_type: "Company", pricer_id: self.comparison_company_id}).first.price
-      if (100.0 * (user_price - competitor_price)/user_price) >= self.price_range_percentage
+      user_price = product.prices.where({pricer_type: "User", pricer_id: self.id}).first
+      competitor_price = product.prices.where({pricer_type: "Company", pricer_id: self.comparison_company_id}).first
+      next unless user_price && competitor_price
+      user_price_value = user_price.price
+      competitor_price_value = competitor_price.price
+      if (100.0 * (user_price_value - competitor_price_value)/user_price_value) >= self.price_range_percentage
         product_hash = Hash.new
         product_hash[:id] = product.id
         product_hash[:category] = product.category
         product_hash[:name] = product.name
         product_hash[:dosage] = product.dosage
         product_hash[:package] = product.package
-        product_hash[:user_price] = user_price.to_f
-        product_hash[:competitor_price] = competitor_price.to_f
+        product_hash[:user_price] = user_price_value.to_f
+        product_hash[:competitor_price] = competitor_price_value.to_f
         product_hashes << product_hash
       end
     end 
     product_hashes
+  end
+
+  def create_activation_digest
+    self.ensure_activation_digest
+    self.save
   end
 
   def create_reset_digest
@@ -80,18 +83,16 @@ class User < ActiveRecord::Base
     self.update_attribute(:reset_sent_at, Time.zone.now)
   end
 
-  def send_password_reset_email
-    UserMailer.password_reset(self).deliver
+  def downcase_email
+    self.email = email.downcase
   end
-
 
   def jsonify_this
     json_user = Jsonify::Builder.new(:format => :pretty)
-  #json_user.id self.id
-    json_user.price_range_percentage self.price_range_percentage
-    json_user.abbreviation self.abbreviation
-    json_user.comparison_company_id  self.comparison_company_id
-    json_user.is_admin  self.is_admin
+      json_user.price_range_percentage self.price_range_percentage
+      json_user.abbreviation self.abbreviation
+      json_user.comparison_company_id  self.comparison_company_id
+      json_user.is_admin  self.is_admin
     return json_user.compile!
   end
 
@@ -100,14 +101,19 @@ class User < ActiveRecord::Base
     self.password_digest = BCrypt::Password.create(password)
   end
 
+  # Returns true if a password reset has expired, set at two hours
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+  end
+
   def reset_token!
     self.session_token = SecureRandom.urlsafe_base64(16)
     self.save!
     self.session_token
   end
 
-  def valid_password?(password)
-    BCrypt::Password.new(self.password_digest).is_password?(password)
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver
   end
 
   def valid_activation?(activation_token)
@@ -115,21 +121,13 @@ class User < ActiveRecord::Base
     BCrypt::Password.new(self.activation_digest).is_password?(activation_token)
   end
 
+  def valid_password?(password)
+    BCrypt::Password.new(self.password_digest).is_password?(password)
+  end
+
   def valid_reset?(reset_token)
     return false if self.reset_digest.nil?
     BCrypt::Password.new(self.reset_digest).is_password?(reset_token)
-  end
-  
-  # Returns true if a password reset has expired.
-  def password_reset_expired?
-    reset_sent_at < 2.hours.ago
-  end
-
-  def create_activation_digest
-    # Create the token and digest
-    self.activation_token = SecureRandom.urlsafe_base64(16)
-    self.activation_digest = BCrypt::Password.create(self.activation_token)
-    self.save
   end
 
   private
