@@ -31,94 +31,103 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		'submit .uploadUserPrices' : 'uploadUserPrices'
 	},
 
-	handleTableFilters: function(event){
-		var limit = 3;
-		var $checkboxes = $(".companiesCheckBoxes").find("input:checkbox");
-		var numCheckBoxes = $checkboxes.filter(":checked").length;
-
-		if(numCheckBoxes >= limit){
-			$checkboxes.not(":checked").attr("disabled","disabled");
-		} else {
-			$checkboxes.removeAttr("disabled");
-		}
-		var checkboxesSelected = $(".companiesCheckBoxes").find("input:checkbox").filter(":checked").map(function(i, el) {
-    		return $(el).val();
-		});
-
-		var checkboxValues = [];
-		for(var i = 0; i < numCheckBoxes; i++ ){
-			checkboxValues[i] = checkboxesSelected[i] 
-		}
-
-		console.log(checkboxValues);
-		// console.log($checkboxes.filter(":checked").val())
-		document.cookie = "selectedCompanies="+ checkboxValues + "; path=/;";
-
-		this.renderTable();
-	},
-
-	uploadUserPrices: function(event){
-		that = this;
-		event.preventDefault();
-		console.log("importing file")
-		var attrs = $(event.target);
-		$.ajax({
-			url: "excel/upload_user_prices",
-			method: "POST",
-  			iframe: true,
-  			files: $(event.target).find("#userPricesSheet"),
- 			success: function(){
- 				that.collection.fetch();
-				console.log("Ajax succeeded");
-			}
-		});
-	},
-
-
-	emailSelf: function(){
-		$.ajax({
-			url: "/email/send_to_self",
-			method: "POST",
-  			dataType: 'json',
-  			// complete: function(response, textStatus) {
-   		// 	 return alert("Hey: " + textStatus);
-  			// },
-			success: function(){
-				console.log("Ajax succeeded");
-				alert("Email Sent Successfully");
-			}
-		});
-	},
-
-
-	updateUserModel:function(){
-		// console.log("Event registered")
-		// console.log( $('#comparisonCompany').val() );
-		// console.log(this.currentUser)
-		var userPercent = $('#percentInputFeild')[0].value;
-		this.currentUser.set("price_range_percentage", userPercent);
-		this.currentUser.set("comparison_company_id", $('#comparisonCompany').val());
-	},
-
-	saveAllProducts: function(){
-		//also saves our user
-		this.updateUserModel();
-
-		this.collection.each(function(product){
-			product.save();
-		});
-		this.currentUser.save();
-	},
-
 	activeCompanies: function(){
 		return $('input:checkbox.tableFilter:checked').map(function() {
 		    return this.value;
 		}).get();
 	},
 	
-	comparisonCompany: function(){
-		return $('select#comparisonCompany').val();
+	buildTable: function(){
+		var that = this;
+		var graphButtonCallback = function(product){
+			console.log("Click Detected");
+			var productView = new Vetpda.Views.ProductShow({
+				model: product,
+				collection: that.companyCollection
+			});
+
+			vex.open({
+			  contentClassName: "graphVexContent",
+
+			  content: productView.render().$el,
+			  afterOpen: function($vexContent) {
+			    return $vexContent.append($el);
+			  },
+			  afterClose: function() {
+			    return console.log('vexClose');
+			  }
+			});
+		}
+
+		var statColumns = [{name: "min",
+		    label: "Low",
+		    cell: "number", 
+		  	editable: false
+		  },{ name: "average",
+		    label: "Avg",
+		    cell: "number", 
+		  	editable: false
+		  },{ name: "max",
+		    label: "High",
+		    cell: "number", 
+		  	editable: false
+		  }];
+
+		var columns = [//{ ID COLUMN CAN BE ADDED FOR DEBUGGING PURPOSES BUT USERS DONT NEED TO SEE IT
+		  //   name: "id", 
+		  //   label: "ID", 
+		  //   editable: false, 
+		  //   cell: Backgrid.IntegerCell.extend({
+		  //     orderSeparator: ''
+		  //   })
+		  // }, 
+		  {
+		    name: "category",
+		    label: "Category",
+		    cell: "string", 
+		  	editable: false
+		  }, {
+		    name: "name",
+		    label: "Product",
+		    cell: "string", 
+		    editable: false
+		  }, {
+		    name: "dosage",
+		    label: "Dosage",
+		    cell: "string",
+		  	editable: false
+		  }, {
+		    name: "package",
+		    label: "Package",
+		    cell: "string",
+		    editable: false
+		}].concat(this.createCompanyCells());
+
+		if (this.createCompanyCells().length > 0){
+			columns = columns.concat(statColumns)
+		}
+
+	    columns.push({
+			name: "User",
+			label: this.currentUser.escape("abbreviation"),
+			cell: "number",
+			editable: true
+		});
+		columns.push({
+			name: "View Graph",
+			callback: graphButtonCallback,
+			buttonText: "Graph!",
+			cell: CustomButtonCell,
+			editable: false
+		});
+		var grid = new Backgrid.Grid({
+  			columns: columns,
+  			collection: this.collection,
+  			row: StyledByDataRow
+		});
+		return grid;
 	},
+
 
 	calculateProductStats: function(){
 		var activeCompanies = this.activeCompanies();
@@ -173,6 +182,10 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		});
 	},
 
+	comparisonCompany: function(){
+		return $('select#comparisonCompany').val();
+	},
+
 	createCompanyCells: function(){
 		var companyCells = []
 
@@ -180,8 +193,8 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 		for(var i = 0; i < checkedCompanies.length; i++){
 			companyCells.push({
-				name: checkedCompanies[i], //.toLowerCase(),
-				label: checkedCompanies[i], //.toLowerCase(),
+				name: checkedCompanies[i],
+				label: checkedCompanies[i],
 				editable: false,
 				cell: "number" 
 			})
@@ -190,113 +203,88 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		return companyCells;
 	},
 
+	emailSelf: function(){
+		$.ajax({
+			url: "/email/send_to_self",
+			method: "POST",
+  			dataType: 'json',
 
-	buildTable: function(){
-		var that = this;
-		var graphButtonCallback = function(product){
-			console.log("Click Detected");
-			var productView = new Vetpda.Views.ProductShow({
-				model: product,
-				collection: that.companyCollection
-			});
+			success: function(){
+				console.log("Ajax succeeded");
+				alert("Email Sent Successfully");
+			}
+		});
+	},
 
-			vex.open({
-			  contentClassName: "graphVexContent",
+	handleTableFilters: function(event){
+		var limit = 3;
+		var $checkboxes = $(".companiesCheckBoxes").find("input:checkbox");
+		var numCheckBoxes = $checkboxes.filter(":checked").length;
 
-			  content: productView.render().$el,
-			  afterOpen: function($vexContent) {
-			    return $vexContent.append($el);
-			  },
-			  afterClose: function() {
-			    return console.log('vexClose');
-			  }
-			});
-			// Backbone.history.navigate("#/products/"+ product.id, {trigger: true});
+		if(numCheckBoxes >= limit){
+			$checkboxes.not(":checked").attr("disabled","disabled");
+		} else {
+			$checkboxes.removeAttr("disabled");
+		}
+		var checkboxesSelected = $(".companiesCheckBoxes").find("input:checkbox").filter(":checked").map(function(i, el) {
+    		return $(el).val();
+		});
+
+		var checkboxValues = [];
+		for(var i = 0; i < numCheckBoxes; i++ ){
+			checkboxValues[i] = checkboxesSelected[i] 
 		}
 
-		var statColumns = [{name: "min",
-		    label: "Low",
-		    cell: "number", 
-		  	editable: false
-		  },{ name: "average",
-		    label: "Avg",
-		    cell: "number", 
-		  	editable: false
-		  },{ name: "max",
-		    label: "High",
-		    cell: "number", 
-		  	editable: false
-		  }];
+		console.log(checkboxValues);
+		document.cookie = "selectedCompanies="+ checkboxValues + "; path=/;";
 
-		var columns = [//{
-		  //   name: "id", // The key of the model attribute
-		  //   label: "ID", // The name to display in the header
-		  //   editable: false, // By default every cell in a column is editable, but *ID* shouldn't be
-		  //   // Defines a cell type, and ID is displayed as an integer without the ',' separating 1000s.
-		  //   cell: Backgrid.IntegerCell.extend({
-		  //     orderSeparator: ''
-		  //   })
-		  // }, 
-		  {
-		    name: "category",
-		    label: "Category",
-		    // The cell type can be a reference of a Backgrid.Cell subclass, any Backgrid.Cell subclass instances like *id* above, or a string
-		    cell: "string", // This is converted to "StringCell" and a corresponding class in the Backgrid package namespace is looked up
-		  	editable: false
-		  }, {
-		    name: "name",
-		    label: "Product",
-		    cell: "string", // An integer cell is a number cell that displays humanized integers
-		    editable: false
-		  }, {
-		    name: "dosage",
-		    label: "Dosage",
-		    cell: "string", // A cell type for floating point value, defaults to have a precision 2 decimal numbers
-		  	editable: false
-		  }, {
-		    name: "package",
-		    label: "Package",
-		    cell: "string",
-		    editable: false
-		}].concat(this.createCompanyCells());
+		this.renderTable();
+	},
 
-		if (this.createCompanyCells().length > 0){
-			columns = columns.concat(statColumns)
-		}
+	saveAllProducts: function(){
+		//also saves our user
+		this.updateUserModel();
 
-	    columns.push({
-			name: "User", //possibly get this to be the users username
-			label: this.currentUser.escape("abbreviation"),
-			cell: "number",
-			editable: true
+		this.collection.each(function(product){
+			product.save();
 		});
-		columns.push({
-			name: "View Graph",
-			callback: graphButtonCallback,
-			buttonText: "Graph!",
-			cell: CustomButtonCell,
-			editable: false
+		this.currentUser.save();
+	},
+
+	updateUserModel:function(){
+		var userPercent = $('#percentInputFeild')[0].value;
+		this.currentUser.set("price_range_percentage", userPercent);
+		this.currentUser.set("comparison_company_id", $('#comparisonCompany').val());
+	},
+	
+	uploadUserPrices: function(event){
+		that = this;
+		event.preventDefault();
+		console.log("importing file")
+		var attrs = $(event.target);
+		$.ajax({
+			url: "excel/upload_user_prices",
+			method: "POST",
+  			iframe: true,
+  			files: $(event.target).find("#userPricesSheet"),
+ 			success: function(){
+ 				that.collection.fetch();
+				console.log("Ajax succeeded");
+			}
 		});
-		var grid = new Backgrid.Grid({
-  			columns: columns,
-  			collection: this.collection,
-  			row: StyledByDataRow
-		});
-		return grid;
 	},
 
 	renderTable: function(){
-		// console.log("rendering the table")
 		this.calculateProductStats();
 		var grid = this.buildTable();
 		this.$('#productsTable').html(grid.render().$el);
 
 		var paginator = new Backgrid.Extension.Paginator({
-		  windowSize: 20, // Default is 10
+		  windowSize: 20,
 
-		  slideScale: 0.25, // Default is 0.5
+		  slideScale: 0.25, 
 
-		  goBackFirstOnSort: false, // Default is true
+		  goBackFirstOnSort: false, 
 
 		  collection: this.collection
 		});

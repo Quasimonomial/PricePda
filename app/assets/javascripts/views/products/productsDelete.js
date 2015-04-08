@@ -12,12 +12,6 @@ Vetpda.Views.ProductsDelete = Backbone.View.extend({
 		'click .saveProducts': 'saveAllProducts',
 	},
 
-	saveAllProducts: function(){
-		this.collection.each(function(product){
-			product.save();
-		});
-	},
-	
 	buildTable: function(){
 		var columns = [{
 		    name: "id", 
@@ -67,6 +61,12 @@ Vetpda.Views.ProductsDelete = Backbone.View.extend({
 		return grid;
 	},
 
+	saveAllProducts: function(){
+		this.collection.each(function(product){
+			product.save();
+		});
+	},
+
 	render: function(){
 		var grid = this.buildTable();
 
@@ -78,11 +78,11 @@ Vetpda.Views.ProductsDelete = Backbone.View.extend({
 		$('#productsTable').html(grid.render().el);
 
 		var paginator = new Backgrid.Extension.Paginator({
-		  windowSize: 20, // Default is 10
+		  windowSize: 20, 
+		  
+		  slideScale: 0.25, 
 
-		  slideScale: 0.25, // Default is 0.5
-
-		  goBackFirstOnSort: false, // Default is true
+		  goBackFirstOnSort: false,
 
 		  collection: this.collection
 		});
@@ -91,9 +91,7 @@ Vetpda.Views.ProductsDelete = Backbone.View.extend({
 		var productsFilter = new Backgrid.Extension.ClientSideFilter({
 		  collection: this.collection,
 		  placeholder: "Search Products",
-		  // The model fields to search for matches
 		  fields: ['category', 'name', 'dosage', 'package'],
-		  // How long to wait after typing has stopped before searching can start
 		  wait: 250
 		});
 		$("#productsTable").prepend(productsFilter.render().el);

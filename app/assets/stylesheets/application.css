@@ -14,7 +14,6 @@
  *= require_self
  *= require backgrid
  *= require backgrid-paginator
- *= require backbone.tableview
  *= reqiore vex
  *= require vex-theme-flat-attack
  *=

@@ -1,25 +1,3 @@
-var DeleteCell = Backgrid.Cell.extend({
-    template: _.template('<button>Delete</button>'),
-    events: {
-      "click": "deleteRow"
-    },
-    deleteRow: function (e) {
-      e.preventDefault();
-      //lets ask a confirmation box
-      var confirmation = confirm("Are you sure you want to delete this object?");
-		if (confirmation == true) {
-		    this.model.collection.remove(this.model);
-      		this.model.destroy();
-		}
-
-    },
-    render: function () {
-      this.$el.html(this.template());
-      this.delegateEvents();
-      return this;
-    }
-});
-
 var CustomButtonCell = Backgrid.Cell.extend({
 	initialize: function(options){
 		CustomButtonCell.__super__.initialize.apply(this, arguments);
@@ -44,6 +22,27 @@ var CustomButtonCell = Backgrid.Cell.extend({
     }
 });
 
+var DeleteCell = Backgrid.Cell.extend({
+    template: _.template('<button>Delete</button>'),
+    events: {
+      "click": "deleteRow"
+    },
+    deleteRow: function (e) {
+      e.preventDefault();
+      //lets ask a confirmation box
+      var confirmation = confirm("Are you sure you want to delete this object?");
+    if (confirmation == true) {
+        this.model.collection.remove(this.model);
+          this.model.destroy();
+    }
+
+    },
+    render: function () {
+      this.$el.html(this.template());
+      this.delegateEvents();
+      return this;
+    }
+});
 
 var StyledByDataRow = Backgrid.Row.extend({
 	render: function () {
@@ -69,9 +68,7 @@ var StyledByDataRow = Backgrid.Row.extend({
 
 
 
-
-// Subclass Backgrid Filter to pass an extra 'pick' filter
-// Also filters out blank shit
+//Filter can be used along with a search bar to filter by categories, or can be used to filter by Products the User has entered prices for
 Backgrid.ClientSideFilterWithPickFilter = Backgrid.Extension.ClientSideFilter.extend({
   pickFilter: null,
 

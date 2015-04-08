@@ -29,124 +29,6 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 		'submit .uploadCompanyPrices' : 'uploadCompanyPrices'
 	},
 
-	uploadCompanyPrices: function(event){
-		var that = this;
-		event.preventDefault();
-		console.log("Importing prices file")
-		var attrs = $(event.target).serializeJSON();
-		$.ajax({
-			url: "excel/import_company_prices",
-			method: "POST",
-  			iframe: true,
-  			files: $(event.target).find("#companyPricesSheet"),
-  			// dataType: 'json',
-  			data: attrs,
- 			success: function(){
-				console.log("Ajax succeeded");
-				alert("Prices Uploaded Successfully")
- 				that.collection.fetch();
-			},
-			error: function(){
-				alert("Error Detected")
-			}
-		});
-	},
-
-
-	uploadProductsFile: function(event){
-		var that = this;
-		event.preventDefault();
-		console.log("importing file")
-		var attrs = $(event.target);
-		$.ajax({
-			url: "excel/import_products",
-			method: "POST",
-  			iframe: true,
-  			files: $(event.target).find("#productsSheet"),
- 			success: function(){
-				alert("Uploads Succeeded");
- 				that.collection.fetch();
-			},
-			error: function(){
-				alert("Error Detected")
-			}
-		});
-	},
-
-	saveAllProducts: function(){
-		console.log(this.collection);//.save();
-		this.collection.each(function(product){
-			product.save();
-		});
-	},
-
-	emailAll: function(){
-		$.ajax({
-			url: "/email/send_to_all",
-			method: "POST",
-  			dataType: 'json',
-  			// complete: function(response, textStatus) {
-   		// 	 return alert("Hey: " + textStatus);
-  			// },
-			success: function(){
-				console.log("Ajac succeeded");
-				alert("Emails Sent Successfully");
-			}
-		});
-	},
-
-	createCompanyCells: function(){
-		var companyCells = []
-		this.companyCollection.each( function(company) { 
-			companyCells.push({
-				name: company.get("name"), //.toLowerCase(),
-				label: company.get("name"), //.toLowerCase(),
-				editable: true,
-				cell: "number" 
-			})
-		});
-
-		return companyCells;
-	},
-		
-	buildTable: function(){
-		var columns = [{
-		    name: "id", // The key of the model attribute
-		    label: "ID", // The name to display in the header
-		    editable: false, // By default every cell in a column is editable, but *ID* shouldn't be
-		    // Defines a cell type, and ID is displayed as an integer without the ',' separating 1000s.
-		    cell: Backgrid.IntegerCell.extend({
-		      orderSeparator: ''
-		    })
-		  }, {
-		    name: "category",
-		    label: "Category",
-		    // The cell type can be a reference of a Backgrid.Cell subclass, any Backgrid.Cell subclass instances like *id* above, or a string
-		    cell: "string", // This is converted to "StringCell" and a corresponding class in the Backgrid package namespace is looked up
-		  	//editable: true
-		  }, {
-		    name: "name",
-		    label: "Product",
-		    cell: "string", // An integer cell is a number cell that displays humanized integers
-		    //editable: true
-		  }, {
-		    name: "dosage",
-		    label: "Dosage",
-		    cell: "string", // A cell type for floating point value, defaults to have a precision 2 decimal numbers
-		  	//editable: true
-		  }, {
-		    name: "package",
-		    label: "Package",
-		    cell: "string",
-		    //editable: true
-		  }].concat(this.createCompanyCells());
-		var grid = new Backgrid.Grid({
-  			columns: columns,
-  			collection: this.collection
-		});
-		return grid;
-	},
-
 	addProduct: function(event){
 		event.preventDefault();
 
@@ -174,6 +56,114 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 	    });
 	},
 
+	buildTable: function(){
+		var columns = [{
+		    name: "id", 
+		    label: "ID",
+		    editable: false,
+		    cell: Backgrid.IntegerCell.extend({
+		      orderSeparator: ''
+		    })
+		  }, {
+		    name: "category",
+		    label: "Category",
+		    cell: "string",
+		  }, {
+		    name: "name",
+		    label: "Product",
+		    cell: "string",
+		  }, {
+		    name: "dosage",
+		    label: "Dosage",
+		    cell: "string",
+		  }, {
+		    name: "package",
+		    label: "Package",
+		    cell: "string",
+		  }].concat(this.createCompanyCells());
+		var grid = new Backgrid.Grid({
+  			columns: columns,
+  			collection: this.collection
+		});
+		return grid;
+	},
+
+	createCompanyCells: function(){
+		var companyCells = []
+		this.companyCollection.each( function(company) { 
+			companyCells.push({
+				name: company.get("name"), //.toLowerCase(),
+				label: company.get("name"), //.toLowerCase(),
+				editable: true,
+				cell: "number" 
+			})
+		});
+
+		return companyCells;
+	},
+		
+	emailAll: function(){
+		$.ajax({
+			url: "/email/send_to_all",
+			method: "POST",
+  			dataType: 'json',
+			success: function(){
+				console.log("Ajac succeeded");
+				alert("Emails Sent Successfully");
+			}
+		});
+	},
+	
+	saveAllProducts: function(){
+		console.log(this.collection);//.save();
+		this.collection.each(function(product){
+			product.save();
+		});
+	},
+
+	uploadCompanyPrices: function(event){
+		var that = this;
+		event.preventDefault();
+		console.log("Importing prices file")
+		var attrs = $(event.target).serializeJSON();
+		$.ajax({
+			url: "excel/import_company_prices",
+			method: "POST",
+  			iframe: true,
+  			files: $(event.target).find("#companyPricesSheet"),
+  			// dataType: 'json',
+  			data: attrs,
+ 			success: function(){
+				console.log("Ajax succeeded");
+				alert("Prices Uploaded Successfully")
+ 				that.collection.fetch();
+			},
+			error: function(){
+				alert("Error Detected")
+			}
+		});
+	},
+
+	uploadProductsFile: function(event){
+		var that = this;
+		event.preventDefault();
+		console.log("importing file")
+		var attrs = $(event.target);
+		$.ajax({
+			url: "excel/import_products",
+			method: "POST",
+  			iframe: true,
+  			files: $(event.target).find("#productsSheet"),
+ 			success: function(){
+				alert("Uploads Succeeded");
+ 				that.collection.fetch();
+			},
+			error: function(){
+				alert("Error Detected")
+			}
+		});
+	},
+
 	render: function(){
 		console.log("Rendering Product Index Page");
 		var grid = this.buildTable();
@@ -187,11 +177,11 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 		$('#productsTable').html(grid.render().el);
 
 		var paginator = new Backgrid.Extension.Paginator({
-		  windowSize: 20, // Default is 10
+		  windowSize: 20,
 
-		  slideScale: 0.25, // Default is 0.5
+		  slideScale: 0.25,
 
-		  goBackFirstOnSort: false, // Default is true
+		  goBackFirstOnSort: false, 
 
 		  collection: this.collection
 		});
@@ -201,11 +191,10 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 			collection: this.collection,
 
 			placeholder: "Search Products",
-			// The model fields to search for matches
 			fields: ['category', 'name', 'dosage', 'package'],
-			// How long to wait after typing has stopped before searching can start
 			wait: 250
 		});
+
 		productsFilter.setfilterColumn("category");
 		$('input.categoryFilter').change(function(e) {
 			productsFilter.setPickFilter($('input:checkbox.categoryFilter:checked').map(function() {

@@ -44,14 +44,6 @@ Vetpda.Views.CompaniesIndex = Backbone.View.extend({
 	    });
 	},
 
-	toggleCompanyEnabled: function(event){
-		event.preventDefault();
-		var $target = $(event.currentTarget);
-		var company = this.collection.get($target.attr('data-id'));
-		company.toggleEnabled();
-		company.save();
-	},
-
 	destroyCompany: function(event){
 		event.preventDefault();
 
@@ -62,6 +54,15 @@ Vetpda.Views.CompaniesIndex = Backbone.View.extend({
 			company.destroy();
 		}
 	},
+	
+	toggleCompanyEnabled: function(event){
+		event.preventDefault();
+		var $target = $(event.currentTarget);
+		var company = this.collection.get($target.attr('data-id'));
+		company.toggleEnabled();
+		company.save();
+	},
+
 
 	render: function(){
 		var content = this.template({
