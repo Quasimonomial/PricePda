@@ -67,6 +67,11 @@ class Product < ActiveRecord::Base
     workbook = RubyXL::Workbook.new
     worksheet = workbook[0]
     worksheet.sheet_name = 'User Uploads'
+    worksheet.change_column_width(0, 10)
+    worksheet.change_column_width(0, 35)
+    worksheet.change_column_width(0, 35)
+    worksheet.change_column_width(0, 35)
+    worksheet.change_column_width(0, 35)
 
     puts "Wroksheet test"
     puts  worksheet
@@ -84,7 +89,7 @@ class Product < ActiveRecord::Base
     j = 0
     i += 1
 
-    Product.all.each do |product|
+    Product.all.where(activated: true).order(:category).order(:name).each do |product|
       product_cells = [product.id, product.category, product.name, product.dosage, product.package]
       while j <  product_cells.length
         worksheet.add_cell(i, j, product_cells[j])
