@@ -89,7 +89,7 @@ class Product < ActiveRecord::Base
     j = 0
     i += 1
 
-    Product.all.where(activated: true).order(:category).order(:name).each do |product|
+    Product.all.where(enabled: true).order(:category).order(:name).each do |product|
       product_cells = [product.id, product.category, product.name, product.dosage, product.package]
       while j <  product_cells.length
         worksheet.add_cell(i, j, product_cells[j])
