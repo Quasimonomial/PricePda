@@ -67,11 +67,11 @@ class Product < ActiveRecord::Base
     workbook = RubyXL::Workbook.new
     worksheet = workbook[0]
     worksheet.sheet_name = 'User Uploads'
-    worksheet.change_column_width(0, 10)
-    worksheet.change_column_width(0, 35)
-    worksheet.change_column_width(0, 35)
-    worksheet.change_column_width(0, 35)
-    worksheet.change_column_width(0, 35)
+    worksheet.change_column_width(0, 6)
+    worksheet.change_column_width(1, 30)
+    worksheet.change_column_width(2, 30)
+    worksheet.change_column_width(3, 30)
+    worksheet.change_column_width(4, 30)
 
     puts "Wroksheet test"
     puts  worksheet
