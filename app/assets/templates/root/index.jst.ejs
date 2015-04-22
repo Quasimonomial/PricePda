@@ -15,7 +15,7 @@ User percentage: <%= user.escape("price_range_percentage") %>
 </form><br>
 <button type="button" class="saveProducts">Save Changes</button> <br>
 
-<form>
+<form class="filterCheckBoxes">
 	<% if(typeof categoriesArray !== "undefined"){ %>
 		<% for(i = 0; i < categoriesArray.length; i++) { %>
 		<label>
@@ -23,7 +23,9 @@ User percentage: <%= user.escape("price_range_percentage") %>
 			<%= categoriesArray[i] %>
 		</label>
 		<% }; %>
-	<% }; %>
+	<% }; %> <br>
+	<button type="button" class="selectAllCategories">Select All</button>
+	<button type="button" class="deselectAllCategories">Deselect All</button>
 </form>
 <form>
 	<label>

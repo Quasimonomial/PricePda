@@ -31,10 +31,6 @@ class SessionsController < ApplicationController
 	end
 
 	private
-	def demand_not_logged_in
-		redirect_to root_url if logged_in?
-	end
-
 	def user_params
 		params.require(:user).permit(:email, :password, :price_range_percentage)
 	end

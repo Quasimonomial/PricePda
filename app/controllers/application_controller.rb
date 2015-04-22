@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
   end
   
   private
+  def demand_not_logged_in
+    redirect_to root_url if logged_in?
+  end
+
   def logged_in?
     !!current_user
   end

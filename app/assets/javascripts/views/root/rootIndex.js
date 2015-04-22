@@ -28,8 +28,30 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		'focusout #percentInputFeild': 'updateUserModel',
 		'change #comparisonCompany' : 'updateUserModel',
 		'click .emailSelf': 'emailSelf',
-		'submit .uploadUserPrices' : 'uploadUserPrices'
+		'submit .uploadUserPrices' : 'uploadUserPrices',
+		'click .selectAllCategories' : 'selectAllCategories',
+		'click .deselectAllCategories' : 'deselectAllCategories'
 	},
+
+	selectAllCategories: function(){
+		var $checkboxes = $(".filterCheckBoxes").find("input:checkbox");
+		$checkboxes.each(function(){
+			this.checked = true;
+		});
+
+		this.handleTableFilters();
+
+	},
+	
+	deselectAllCategories: function(){
+		var $checkboxes = $(".filterCheckBoxes").find("input:checkbox");
+		$checkboxes.each(function(){
+			this.checked = false;
+		});
+
+		this.handleTableFilters();
+	},
+
 
 	activeCompanies: function(){
 		return $('input:checkbox.tableFilter:checked').map(function() {
