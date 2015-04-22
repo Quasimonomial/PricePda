@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :demand_not_logged_in, only: [:new]
+
   def new
     @user = User.new
     render :new
