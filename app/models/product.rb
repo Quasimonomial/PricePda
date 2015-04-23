@@ -24,6 +24,8 @@ class Product < ActiveRecord::Base
   has_many :prices
   has_many :historical_prices, through: :prices
 
+
+
   def self.all_categories
     category_relation = Product.select(:category).distinct
     categories = []
@@ -260,13 +262,7 @@ class Product < ActiveRecord::Base
     years_of_interest = [current_year - 2, current_year - 1, current_year]
 
 
-    order_array = []
-
-    years_of_interest.each do |year|
-      month_names.each do |month|
-        order_array << [month, year]
-      end
-    end
+    order_array = self.graph_columns_by_month current_month, current_year
 
 
     self.prices.where({pricer_type: "Company"}).each do |price|
@@ -318,6 +314,38 @@ class Product < ActiveRecord::Base
       end
     end
     return @pricesArray
+  end
+
+  def graph_columns_by_month month, year
+    case month
+    when 1
+      graph_columns = [[17, year - 2], [13, year - 1], [14, year - 1], [15, year - 1], [16, year - 1], [1, year]]   
+    when 2
+      graph_columns = [[17, year - 2], [13, year - 1], [14, year - 1], [15, year - 1], [16, year - 1], [1, year], [2, year]]
+    when 3
+      graph_columns = [[17, year - 2], [17, year - 1], [1, year], [2, year], [3, year]]
+    when 4
+      graph_columns = [[17, year - 2], [17, year - 1], [1, year], [2, year], [3, year], [4, year]]
+    when 5
+      graph_columns = [[17, year - 2], [17, year - 1], [13, year], [4, year], [5, year]]
+    when 6
+      graph_columns = [[17, year - 2], [17, year - 1], [13, year], [4, year], [5, year], [6, year]]
+    when 7
+      graph_columns = [[17, year - 2], [17, year - 1], [13, year], [4, year], [5, year], [6, year], [7, year]]
+    when 8
+      graph_columns = [[17, year - 2], [17, year - 1], [13, year], [14, year], [7, year], [8, year]]
+    when 9
+      graph_columns = [[17, year - 2], [17, year - 1], [13, year], [14, year], [7, year], [8, year], [9, year]]
+    when 10
+      graph_columns = [[17, year - 2], [17, year - 1], [13, year], [14, year], [15, year], [10, year]]
+    when 11
+      graph_columns = [[17, year - 2], [17, year - 1], [13, year], [14, year], [15, year], [10, year], [11, year]]
+    when 12
+      graph_columns = [[17, year - 1], [13, year], [14, year], [15, year], [10, year], [11, year], [12, year]]
+    else
+      graph_columns = []
+    end
+    return graph_columns
   end
 
 end
