@@ -56,8 +56,6 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 			historical_data[0].push(checkboxValues[i])
 		};
 		
-		console.log("Order Array")
-		console.log(historicals["order_array"])
 
 		for(i = 0; i < historicals["order_array"].length; i++){
 			var month = historicals["order_array"][i][0]

@@ -280,15 +280,6 @@ class Product < ActiveRecord::Base
   end
 
 
-  # def generate_historical_hash_by_yr_quarter
-  #   #month 13 is Q1
-  #   #      14 is Q2
-  #   #      15 is Q3
-  #   #      16 is Q4
-  #   #      17 is Year
-
-  # end
-
   def jsonify_this current_user #do I ever need to use this?
     json_product = Jsonify::Builder.new(:format => :pretty)
     json_product.id self.id
@@ -342,30 +333,30 @@ class Product < ActiveRecord::Base
     puts "MONTH IS #{month}"
 
     case month
-    when month_names[1 - 1]
-      graph_columns = [[17, year - 2], [13, year - 1], [14, year - 1], [15, year - 1], [16, year - 1], [1, year]]   
-    when month_names[2 - 1]
-      graph_columns = [[17, year - 2], [13, year - 1], [14, year - 1], [15, year - 1], [16, year - 1], [1, year], [2, year]]
-    when month_names[3 - 1]
-      graph_columns = [[17, year - 2], [17, year - 1], [1, year], [2, year], [3, year]]
-    when month_names[4 - 1]
+    when "January"
+      graph_columns = [["Year", year - 2], ["Quarter 1", year - 1], ["Quarter 2", year - 1], ["Quarter 3", year - 1], ["Quarter 4", year - 1], ["January", year]]   
+    when "February"
+      graph_columns = [["Year", year - 2], ["Quarter 1", year - 1], ["Quarter 2", year - 1], ["Quarter 3", year - 1], ["Quarter 4", year - 1], ["January", year], ["February", year]]
+    when "March"
+      graph_columns = [["Year", year - 2], ["Year", year - 1], ["January", year], ["February", year], ["March", year]]
+    when "April"
       graph_columns = [["Year", year - 2], ["Year", year - 1], ["January", year], ["February", year], ["March", year], ["April", year]]
-    when month_names[5 - 1]
-      graph_columns = [[17, year - 2], [17, year - 1], [13, year], [4, year], [5, year]]
-    when month_names[6 - 1]
-      graph_columns = [[17, year - 2], [17, year - 1], [13, year], [4, year], [5, year], [6, year]]
-    when month_names[7 - 1]
-      graph_columns = [[17, year - 2], [17, year - 1], [13, year], [4, year], [5, year], [6, year], [7, year]]
-    when month_names[8 - 1]
-      graph_columns = [[17, year - 2], [17, year - 1], [13, year], [14, year], [7, year], [8, year]]
-    when month_names[9 - 1]
-      graph_columns = [[17, year - 2], [17, year - 1], [13, year], [14, year], [7, year], [8, year], [9, year]]
-    when month_names[10 - 1]
-      graph_columns = [[17, year - 2], [17, year - 1], [13, year], [14, year], [15, year], [10, year]]
-    when month_names[11 - 1]
-      graph_columns = [[17, year - 2], [17, year - 1], [13, year], [14, year], [15, year], [10, year], [11, year]]
-    when month_names[12 - 1]
-      graph_columns = [[17, year - 1], [13, year], [14, year], [15, year], [10, year], [11, year], [12, year]]
+    when "May"
+      graph_columns = [["Year", year - 2], ["Year", year - 1], ["Quarter 1", year], ["April", year], ["May", year]]
+    when "June"
+      graph_columns = [["Year", year - 2], ["Year", year - 1], ["Quarter 1", year], ["April", year], ["May", year], ["June", year]]
+    when "July"
+      graph_columns = [["Year", year - 2], ["Year", year - 1], ["Quarter 1", year], ["April", year], ["May", year], ["June", year], ["July", year]]
+    when "August"
+      graph_columns = [["Year", year - 2], ["Year", year - 1], ["Quarter 1", year], ["Quarter 2", year], ["July", year], ["August", year]]
+    when "September"
+      graph_columns = [["Year", year - 2], ["Year", year - 1], ["Quarter 1", year], ["Quarter 2", year], ["July", year], ["August", year], ["September", year]]
+    when "October"
+      graph_columns = [["Year", year - 2], ["Year", year - 1], ["Quarter 1", year], ["Quarter 2", year], ["Quarter 3", year], ["October", year]]
+    when  "November"
+      graph_columns = [["Year", year - 2], ["Year", year - 1], ["Quarter 1", year], ["Quarter 2", year], ["Quarter 3", year], ["October", year], ["November", year]]
+    when "December"
+      graph_columns = [["Year", year - 1], ["Quarter 1", year], ["Quarter 2", year], ["Quarter 3", year], ["October", year], ["November", year], ["December", year]]
     else
       graph_columns = []
     end
