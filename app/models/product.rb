@@ -155,7 +155,7 @@ class Product < ActiveRecord::Base
     historical_pile = []
     historical_hash = Hash.recursive
     month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-    "November", "December"]
+    "November", "December", "Quarter 1", "Quarter 2", "Quarter 3", "Quarter 4", "Year"]
     self.prices.where({pricer_type: "Company"}).each do |price|
       price.historical_prices.order(year: :asc).order(month: :asc).order(created_at: :asc).each do|historical_price|
         next unless historical_price.month && historical_price.year
@@ -178,7 +178,7 @@ class Product < ActiveRecord::Base
     
     historical_hash = Hash.recursive
     month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-    "November", "December"]
+    "November", "December", "Quarter 1", "Quarter 2", "Quarter 3", "Quarter 4", "Year"]
     years_of_interest = [current_year - 2, current_year - 1, current_year]
 
     user_price = self.prices.where({pricer_type: "User", pricer_id: current_user.id}).first
@@ -198,7 +198,7 @@ class Product < ActiveRecord::Base
     historical_hash = self.graph_hash_user_prices current_user
 
     month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-    "November", "December"]
+    "November", "December", "Quarter 1", "Quarter 2", "Quarter 3", "Quarter 4", "Year"]
 
     current_year =  DateTime.now.year
     current_month = month_names[DateTime.now.month]
@@ -255,15 +255,15 @@ class Product < ActiveRecord::Base
     historical_hash = Hash.recursive
     
     month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-    "November", "December"]
-    current_month = month_names[DateTime.now.month]
+    "November", "December", "Quarter 1", "Quarter 2", "Quarter 3", "Quarter 4", "Year"]
+    current_month = month_names[DateTime.now.month - 1]
 
     current_year =  DateTime.now.year
     years_of_interest = [current_year - 2, current_year - 1, current_year]
 
+    puts "MONTH #{current_month}, YEAR #{current_year}"
 
     order_array = self.graph_columns_by_month current_month, current_year
-
 
     self.prices.where({pricer_type: "Company"}).each do |price|
       price.historical_prices.order(year: :asc).order(month: :asc).order(created_at: :asc).each do|historical_price|
@@ -273,6 +273,9 @@ class Product < ActiveRecord::Base
     end
     historical_hash = historical_hash.deep_merge(self.graph_hash_full_user_prices current_user)
     historical_hash["order_array"] = order_array
+
+    historical_hash = ensure_full_order_array historical_hash
+
     historical_hash
   end
 
@@ -316,31 +319,52 @@ class Product < ActiveRecord::Base
     return @pricesArray
   end
 
+  def ensure_full_order_array historical_hash
+    order_array = historical_hash["order_array"]
+    companies = Company.all
+    order_array.each do |time|
+      month = time[0]
+      year = time[1]
+      companies.each do |company|
+        unless historical_hash[year][month][company.name].is_a? Numeric
+          historical_hash[year][month][company.name] = 0 
+        end
+      end
+    end
+    p historical_hash        
+    return historical_hash
+  end
+
   def graph_columns_by_month month, year
+    month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+    "November", "December", "Quarter 1", "Quarter 2", "Quarter 3", "Quarter 4", "Year"]
+    
+    puts "MONTH IS #{month}"
+
     case month
-    when 1
+    when month_names[1 - 1]
       graph_columns = [[17, year - 2], [13, year - 1], [14, year - 1], [15, year - 1], [16, year - 1], [1, year]]   
-    when 2
+    when month_names[2 - 1]
       graph_columns = [[17, year - 2], [13, year - 1], [14, year - 1], [15, year - 1], [16, year - 1], [1, year], [2, year]]
-    when 3
+    when month_names[3 - 1]
       graph_columns = [[17, year - 2], [17, year - 1], [1, year], [2, year], [3, year]]
-    when 4
-      graph_columns = [[17, year - 2], [17, year - 1], [1, year], [2, year], [3, year], [4, year]]
-    when 5
+    when month_names[4 - 1]
+      graph_columns = [["Year", year - 2], ["Year", year - 1], ["January", year], ["February", year], ["March", year], ["April", year]]
+    when month_names[5 - 1]
       graph_columns = [[17, year - 2], [17, year - 1], [13, year], [4, year], [5, year]]
-    when 6
+    when month_names[6 - 1]
       graph_columns = [[17, year - 2], [17, year - 1], [13, year], [4, year], [5, year], [6, year]]
-    when 7
+    when month_names[7 - 1]
       graph_columns = [[17, year - 2], [17, year - 1], [13, year], [4, year], [5, year], [6, year], [7, year]]
-    when 8
+    when month_names[8 - 1]
       graph_columns = [[17, year - 2], [17, year - 1], [13, year], [14, year], [7, year], [8, year]]
-    when 9
+    when month_names[9 - 1]
       graph_columns = [[17, year - 2], [17, year - 1], [13, year], [14, year], [7, year], [8, year], [9, year]]
-    when 10
+    when month_names[10 - 1]
       graph_columns = [[17, year - 2], [17, year - 1], [13, year], [14, year], [15, year], [10, year]]
-    when 11
+    when month_names[11 - 1]
       graph_columns = [[17, year - 2], [17, year - 1], [13, year], [14, year], [15, year], [10, year], [11, year]]
-    when 12
+    when month_names[12 - 1]
       graph_columns = [[17, year - 1], [13, year], [14, year], [15, year], [10, year], [11, year], [12, year]]
     else
       graph_columns = []

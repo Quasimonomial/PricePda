@@ -2,7 +2,7 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 	template: JST['products/show'],
 
 	initialize: function(){
-		console.log("initializing Products Edit view");
+		console.log("initializing Products show view");
 		this.listenTo(this.model, 'sync', this.drawGoogleGraph);
 		this.listenTo(this.model, 'sync', this.drawGoogleGraph);
 		this.listenTo(this.collection, 'sync', this.render);
@@ -49,11 +49,16 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 		}
 		var historicals = this.model.get("historicalPrices")
 
+		console.log(historicals)
+
 		var historical_data = [['Month', "Your Price"]];
 		for(var i = 0; i < numberSelectedCompanies; i++){
 			historical_data[0].push(checkboxValues[i])
 		};
 		
+		console.log("Order Array")
+		console.log(historicals["order_array"])
+
 		for(i = 0; i < historicals["order_array"].length; i++){
 			var month = historicals["order_array"][i][0]
 			var year  = historicals["order_array"][i][1]
@@ -76,6 +81,8 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 		}
 
 		var data = google.visualization.arrayToDataTable(historical_data)
+
+		console.log(data)
 
 		var options = {
 			title : this.model.escape("category")  + '\n' + this.model.escape("name") + '\n' + this.model.escape("dosage") + '\n' + this.model.escape("package"),
