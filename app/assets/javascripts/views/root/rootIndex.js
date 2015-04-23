@@ -39,7 +39,9 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			this.checked = true;
 		});
 
-		this.handleTableFilters();
+		this.categoryFilter.setPickFilter($('input:checkbox.categoryFilter:checked').map(function() {
+			return this.value;
+		}).get());
 
 	},
 	
@@ -49,7 +51,9 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			this.checked = false;
 		});
 
-		this.handleTableFilters();
+		this.categoryFilter.setPickFilter($('input:checkbox.categoryFilter:checked').map(function() {
+			return this.value;
+		}).get());
 	},
 
 
@@ -332,6 +336,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		});
 
 		$("#productsTable").prepend(productsFilter.render().el);
+		this.categoryFilter = productsFilter;
 	},
 
 	render: function(){
