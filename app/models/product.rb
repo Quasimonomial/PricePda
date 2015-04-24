@@ -251,9 +251,11 @@ class Product < ActiveRecord::Base
 
     historical_hash = self.graph_hash_full_user_prices current_user
 
+    return historical_hash unless historical_hash[current_year - 2]["Year"]["User"].is_a? Numeric
+
 
     month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-    "November", "December", "Quarter 1", "Quarter 2", "Quarter 3", "Quarter 4", "Year"]
+    "November", "December"]
     current_month = DateTime.now.month
 
     current_year =  DateTime.now.year
