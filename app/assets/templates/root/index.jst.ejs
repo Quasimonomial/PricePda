@@ -19,7 +19,18 @@ User percentage: <%= user.escape("price_range_percentage") %>
 	<% if(typeof categoriesArray !== "undefined"){ %>
 		<% for(i = 0; i < categoriesArray.length; i++) { %>
 		<label>
-			<input type="checkbox" name="categoryList" value="<%= categoriesArray[i] %>" class="categoryFilter" checked/>
+			<input type="checkbox" name="categoryList" value="<%= categoriesArray[i] %>" class="categoryFilter"
+				
+
+				<% if(Cookie.get("categoriesSelected") != null){ %>
+
+					<% if(Cookie.get("categoriesSelected").split(",").indexOf(categoriesArray[i]) > -1){ %>
+						checked
+					<% } %>
+				<% } else{ %>
+					checked
+				<% } %>
+			/>
 			<%= categoriesArray[i] %>
 		</label>
 		<% }; %>

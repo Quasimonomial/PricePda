@@ -333,18 +333,25 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 		productsFilter.setfilterColumn("category");
 		$('input.categoryFilter').change(function(e) {
-			productsFilter.setPickFilter($('input:checkbox.categoryFilter:checked').map(function() {
+			var categoriesSelected = $('input:checkbox.categoryFilter:checked').map(function() {
 			    return this.value;
-			}).get());
+			}).get();
+
+			Cookie.set("categoriesSelected", categoriesSelected, 480, '/');
+			productsFilter.setPickFilter(categoriesSelected);
 		});
 		$('input.pricedToggle').change(function(e){
 			productsFilter.togglePricesEnteredFilter();
-			Cookie.set("pricesEnteredFilter", productsFilter.pricesEnteredFilter, 480, '/')
+			Cookie.set("pricesEnteredFilter", productsFilter.pricesEnteredFilter, 480, '/');
 		});
 
 
 		$("#productsTable").prepend(productsFilter.render().el);
 		this.categoryFilter = productsFilter;
+
+		productsFilter.setPickFilter(Cookie.get("categoriesSelected").split(","));
+
+
 		productsFilter.search()
 	},
 
@@ -358,6 +365,8 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		}
 
 		
+
+
 		var content = this.template({
 			products: this.collection,
 			companies: this.companyCollection,
