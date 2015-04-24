@@ -78,7 +78,7 @@ Backgrid.ClientSideFilterWithPickFilter = Backgrid.Extension.ClientSideFilter.ex
   },
 
   togglePricesEnteredFilter: function(value) {
-    if(this.pricesEnteredFilter){
+    if(this.pricesEnteredFilter == true){
       this.pricesEnteredFilter = false;
     } else{
       this.pricesEnteredFilter = true;
@@ -112,7 +112,7 @@ Backgrid.ClientSideFilterWithPickFilter = Backgrid.Extension.ClientSideFilter.ex
 
         if (!inCategory) return false;
       }
-      if (this.pricesEnteredFilter){
+      if (this.pricesEnteredFilter === true){
         if(typeof model.get("User") === 'undefined') return false;
       }
 

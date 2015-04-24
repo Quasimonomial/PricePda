@@ -15,7 +15,6 @@ Cookie = {
 	get: function(key) {
 		// Still not sure that "[a-zA-Z0-9.()=|%/]+($|;)" match *all* allowed characters in cookies
 		tmp =  document.cookie.match((new RegExp(key +'=[a-zA-Z0-9.()=|%/]+($|;)','g')));
-		console.log("temp is " + tmp)
 		if(!tmp || !tmp[0]) return null;
 		else return unescape(tmp[0].substring(key.length+1,tmp[0].length).replace(';','')) || null;
 		
@@ -39,7 +38,6 @@ Cookie = {
 		
 		if (ttl)         cookie.push(Cookie.hoursToExpireDate(ttl));
 		if (secure)      cookie.push('secure');
-		console.log("cookie is " + cookie)
 
 		return document.cookie = cookie.join('; ');
 	},

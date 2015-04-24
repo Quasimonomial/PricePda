@@ -326,6 +326,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			// How long to wait after typing has stopped before searching can start
 			wait: 250
 		});
+		productsFilter.pricesEnteredFilter = Cookie.get("pricesEnteredFilter") === "true";
 		productsFilter.setfilterColumn("category");
 		$('input.categoryFilter').change(function(e) {
 			productsFilter.setPickFilter($('input:checkbox.categoryFilter:checked').map(function() {
@@ -334,38 +335,25 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		});
 		$('input.pricedToggle').change(function(e){
 			productsFilter.togglePricesEnteredFilter();
+			Cookie.set("pricesEnteredFilter", productsFilter.pricesEnteredFilter, 480, '/')
 		});
+
 
 		$("#productsTable").prepend(productsFilter.render().el);
 		this.categoryFilter = productsFilter;
+		productsFilter.search()
 	},
 
 	render: function(){
-		// function getCookie(cname) {
-		//     var name = cname + "=";
-		//     var ca = document.cookie.split(';');
-		//     for(var i=0; i<ca.length; i++) {
-		//         var c = ca[i];
-		//         while (c.charAt(0)==' ') c = c.substring(1);
-		//         if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-		//     }
-		//     return "";
-		// }
-				
-
 		var selectedCompanies = Cookie.get("selectedCompanies");
-		console.log("cookie")
-		console.log("rendering with cookie " + document.cookie)
-		console.log("rendering with selected companies: " + selectedCompanies)
-
+		
 		if(selectedCompanies == null){
-			console.log("Fixing Cookies")
 			selectedCompanies = []
+		} else {
+			selectedCompanies = selectedCompanies.slice( 1 ).split(",");
 		}
 
-		selectedCompanies = selectedCompanies.slice( 1 ).split(",");
-		console.log("Split selected companies: " + selectedCompanies)
-
+		
 		var content = this.template({
 			products: this.collection,
 			companies: this.companyCollection,
