@@ -31,9 +31,10 @@ User percentage: <%= user.escape("price_range_percentage") %>
 	<label>
 		<input type="checkbox" name="priceToggle" class="pricedToggle"
 
-			<% if(Cookie.get("pricesEnteredFilter") === "true"){ %>
+			<% if(Cookie.get("pricesEnteredFilter") != null){ 
+			if(Cookie.get("pricesEnteredFilter") === "true"){ %>
 				checked
-			<% } %>
+			<% }} %>
 		/>
 		View Only Priced Products
 	</label>

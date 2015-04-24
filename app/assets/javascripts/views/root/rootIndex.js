@@ -326,7 +326,11 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			// How long to wait after typing has stopped before searching can start
 			wait: 250
 		});
-		productsFilter.pricesEnteredFilter = Cookie.get("pricesEnteredFilter") === "true";
+		if(Cookie.get("pricesEnteredFilter") != null){
+			productsFilter.pricesEnteredFilter = Cookie.get("pricesEnteredFilter") === "true";
+		}
+
+
 		productsFilter.setfilterColumn("category");
 		$('input.categoryFilter').change(function(e) {
 			productsFilter.setPickFilter($('input:checkbox.categoryFilter:checked').map(function() {
