@@ -17,15 +17,18 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 	},
 
 	handleGraphFilters: function(event){
-		// var limit = 3;
-		// var $checkboxes = $(".graphCheckBoxes").find("input:checkbox");
-		// var numCheckBoxes = $checkboxes.filter(":checked").length;
-
-		// if(numCheckBoxes >= limit){
-		// 	$checkboxes.not(":checked").attr("disabled","disabled");
-		// } else {
-		// 	$checkboxes.removeAttr("disabled");
-		// }
+		console.log("Handling Filters");
+		var limit = 3;
+		var $checkboxes = $(".graphCheckBoxes").find("input:checkbox");
+		var numCheckBoxes = $checkboxes.filter(":checked").length;
+		console.log("numcheckboxes : " + numCheckBoxes)
+		if(numCheckBoxes >= limit){
+			console.log("bad");
+			$checkboxes.not(":checked").attr("disabled","disabled");
+		} else {
+			console.log("good");
+			$checkboxes.removeAttr("disabled");
+		}
 
 		this.drawGoogleGraph();
 	},
@@ -48,8 +51,6 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 			return
 		}
 		var historicals = this.model.get("historicalPrices")
-
-		console.log(historicals)
 
 		var historical_data = [['Month', "Your Price"]];
 		for(var i = 0; i < numberSelectedCompanies; i++){
@@ -79,8 +80,6 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 		}
 
 		var data = google.visualization.arrayToDataTable(historical_data)
-
-		console.log(data)
 
 		var options = {
 			title : this.model.escape("category")  + '\n' + this.model.escape("name") + '\n' + this.model.escape("dosage") + '\n' + this.model.escape("package"),

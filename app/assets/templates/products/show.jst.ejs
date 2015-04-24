@@ -4,7 +4,10 @@
 			<input type="checkbox" name="graphFilter" value="<%= company.escape("name") %>" class="graphFilter" 
 				<% if(selectedCompanies.indexOf(company.escape("name")) > -1){ %>
 					checked
-				<% } %>s
+				<% } else if(selectedCompanies.length >= 3){ %>
+					disabled="disabled"
+				<% } %>
+
 			/>
 			<%= company.escape("name") %>
 		</label>
