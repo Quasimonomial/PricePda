@@ -22,6 +22,7 @@
 //= require backgrid-paginator
 //= require backgrid-filter
 //= require backgrid.custom
+//= require cookie
 //
 //= require vex
 //= require vex.dialog

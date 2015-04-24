@@ -262,7 +262,8 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		}
 
 		console.log(checkboxValues);
-		document.cookie = "selectedCompanies="+ checkboxValues + "; path=/;";
+
+		Cookie.set("selectedCompanies=", checkboxValues.join(), 480, '/', false, false);// = "selectedCompanies="+ checkboxValues + "; path=/;";
 
 		this.renderTable();
 	},
@@ -340,18 +341,31 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 	},
 
 	render: function(){
-		function getCookie(cname) {
-		    var name = cname + "=";
-		    var ca = document.cookie.split(';');
-		    for(var i=0; i<ca.length; i++) {
-		        var c = ca[i];
-		        while (c.charAt(0)==' ') c = c.substring(1);
-		        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-		    }
-		    return "";
+		// function getCookie(cname) {
+		//     var name = cname + "=";
+		//     var ca = document.cookie.split(';');
+		//     for(var i=0; i<ca.length; i++) {
+		//         var c = ca[i];
+		//         while (c.charAt(0)==' ') c = c.substring(1);
+		//         if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+		//     }
+		//     return "";
+		// }
+				
+
+		var selectedCompanies = Cookie.get("selectedCompanies");
+		console.log("cookie")
+		console.log("rendering with cookie " + document.cookie)
+		console.log("rendering with selected companies: " + selectedCompanies)
+
+		if(selectedCompanies == null){
+			console.log("Fixing Cookies")
+			selectedCompanies = []
 		}
-		
-		var selectedCompanies = getCookie("selectedCompanies").split(',')
+
+		selectedCompanies = selectedCompanies.slice( 1 ).split(",");
+		console.log("Split selected companies: " + selectedCompanies)
+
 		var content = this.template({
 			products: this.collection,
 			companies: this.companyCollection,
