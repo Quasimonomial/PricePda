@@ -259,7 +259,7 @@ class Product < ActiveRecord::Base
 
     current_year =  DateTime.now.year
     
-    return historical_hash unless historical_hash[current_year - 2]["Year"]["User"].is_a? Numeric
+    return historical_hash unless historical_hash[current_year - 2]["January"]["User"].is_a? Numeric
 
 
     two_year_back_average = 0
