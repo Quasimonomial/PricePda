@@ -251,7 +251,6 @@ class Product < ActiveRecord::Base
 
     historical_hash = self.graph_hash_full_user_prices current_user
 
-    return historical_hash unless historical_hash[current_year - 2]["Year"]["User"].is_a? Numeric
 
 
     month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
@@ -260,6 +259,8 @@ class Product < ActiveRecord::Base
 
     current_year =  DateTime.now.year
     
+    return historical_hash unless historical_hash[current_year - 2]["Year"]["User"].is_a? Numeric
+
 
     two_year_back_average = 0
     month_names.first(12).each do |month|
