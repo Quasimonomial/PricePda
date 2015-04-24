@@ -198,13 +198,13 @@ class Product < ActiveRecord::Base
     historical_hash = self.graph_hash_user_prices current_user
 
     month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-    "November", "December", "Quarter 1", "Quarter 2", "Quarter 3", "Quarter 4", "Year"]
+    "November", "December"]
 
     current_year =  DateTime.now.year
     current_month = month_names[DateTime.now.month]
 
-    # years_of_interest = [current_year - 2, current_year - 1, current_year]
-    years_of_interest = [current_year]
+    years_of_interest = [current_year - 2, current_year - 1, current_year]
+    # years_of_interest = [current_year]
 
     user_price = self.prices.where({pricer_type: "User", pricer_id: current_user.id}).first
     return historical_hash unless user_price
@@ -245,7 +245,89 @@ class Product < ActiveRecord::Base
   end
 
   def graph_hash_calculated_user_prices current_user
-    #skip this for beta
+    #need year -1, year -2
+    # need year Q1 - Q4, year - 1  Q1 - Q4
+
+
+    historical_hash = self.graph_hash_full_user_prices current_user
+
+
+    month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+    "November", "December", "Quarter 1", "Quarter 2", "Quarter 3", "Quarter 4", "Year"]
+    current_month = DateTime.now.month
+
+    current_year =  DateTime.now.year
+    
+
+    two_year_back_average = 0
+    month_names.first(12).each do |month|
+      two_year_back_average += historical_hash[current_year - 2][month]["User"]
+    end
+    historical_hash[current_year - 2]["Year"]["User"] = two_year_back_average/12.0
+
+
+    one_year_back_average = 0
+    month_names.first(12).each do |month|
+      one_year_back_average += historical_hash[current_year - 1][month]["User"]
+    end
+    historical_hash[current_year - 1]["Year"]["User"] = two_year_back_average/12.0
+
+
+    one_year_back_q1 = 0
+    one_year_back_q2 = 0
+    one_year_back_q3 = 0
+    one_year_back_q4 = 0
+
+    current_year_q1 = 0
+    current_year_q2 = 0
+    current_year_q3 = 0
+    current_year_q4 = 0
+
+
+    month_names[0..2].each do |month|
+      one_year_back_q1 += historical_hash[current_year - 1][month]["User"]
+    end
+    month_names[3..5].each do |month|
+      one_year_back_q2 += historical_hash[current_year - 1][month]["User"]
+    end
+    month_names[6..8].each do |month|
+      one_year_back_q3 += historical_hash[current_year - 1][month]["User"]
+    end
+    month_names[9..11].each do |month|
+      one_year_back_q4 += historical_hash[current_year - 1][month]["User"]
+    end
+
+
+    historical_hash[current_year - 1]["Quarter 1"]["User"] = one_year_back_q1/3.0
+    historical_hash[current_year - 1]["Quarter 2"]["User"] = one_year_back_q2/3.0
+    historical_hash[current_year - 1]["Quarter 3"]["User"] = one_year_back_q3/3.0
+    historical_hash[current_year - 1]["Quarter 4"]["User"] = one_year_back_q4/3.0
+
+
+    if current_month > 3
+      month_names[0..2].each do |month|
+        current_year_q1 += historical_hash[current_year][month]["User"]
+      end
+      historical_hash[current_year]["Quarter 1"]["User"] = current_year_q1/3.0 
+    end
+
+    if current_month > 6
+      month_names[3..5].each do |month|
+        current_year_q2 += historical_hash[current_year][month]["User"]
+      end
+      historical_hash[current_year]["Quarter 2"]["User"] = current_year_q2/3.0 
+
+    end
+
+    if current_month > 9
+      month_names[6..8].each do |month|
+        current_year_q3 += historical_hash[current_year][month]["User"]
+      end
+      historical_hash[current_year]["Quarter 3"]["User"] = current_year_q3/3.0
+    end
+
+
+    historical_hash
   end
 
   def graph_hash_full_set current_user
@@ -261,8 +343,6 @@ class Product < ActiveRecord::Base
     current_year =  DateTime.now.year
     years_of_interest = [current_year - 2, current_year - 1, current_year]
 
-    puts "MONTH #{current_month}, YEAR #{current_year}"
-
     order_array = self.graph_columns_by_month current_month, current_year
 
     self.prices.where({pricer_type: "Company"}).each do |price|
@@ -271,7 +351,7 @@ class Product < ActiveRecord::Base
         historical_hash[historical_price.year][month_names[historical_price.month - 1]][companies.find(price.pricer_id).name]
       end
     end
-    historical_hash = historical_hash.deep_merge(self.graph_hash_full_user_prices current_user)
+    historical_hash = historical_hash.deep_merge(self.graph_hash_calculated_user_prices current_user)
     historical_hash["order_array"] = order_array
 
     historical_hash = ensure_full_order_array historical_hash
