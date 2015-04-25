@@ -54,8 +54,10 @@ User percentage: <%= user.escape("price_range_percentage") %>
 <form class="companiesCheckBoxes">
 	<% companies.each( function(company) { %>
 		<label>
-			<input type="checkbox" name="companiesFilter" value="<%= company.escape("name") %>" class="tableFilter" 
-				<% if(selectedCompanies.indexOf(company.escape("name")) > -1){ %>
+			<input type="checkbox" name="companiesFilter" value="<%= company.escape("name") %>" class="tableFilter"
+				<% if(user.get("comparison_company_id") === company.id){ %>
+					checked disabled="disabled"
+				<% } else if(selectedCompanies.indexOf(company.escape("name")) > -1){ %>
 					checked
 				<% } else if(selectedCompanies.length >= 3){ %>
 					disabled="disabled"

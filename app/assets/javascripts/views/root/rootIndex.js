@@ -196,8 +196,8 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 					companiesOutOfRange.push(company.get("name"));
 				}
 			});
-			if(typeof currentUser !== 'undefined' && typeof product !== "undefined" && typeof thatCompanyCollection !== "undefined"){
-				if (currentUser.get("comparison_company_id")) {
+			if(typeof currentUser !== 'undefined' && typeof product !== "undefined" && thatCompanyCollection.length > 0){
+				if(currentUser.get("comparison_company_id")) {
 					if(100 * (product.get("User") - product.get(thatCompanyCollection.get(currentUser.get("comparison_company_id")).get("name")) )/product.get("User") >= product.get("priceRangePercentage") ){
 						companiesOutOfRange.push("User");
 					}
@@ -251,7 +251,10 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			$checkboxes.not(":checked").attr("disabled","disabled");
 		} else {
 			$checkboxes.removeAttr("disabled");
+			var currentComparisonCompany = this.companyCollection.get(this.currentUser.get("comparison_company_id")).get("name")
+			$checkboxes.filter(function(){return this.value == currentComparisonCompany}).attr("disabled","disabled");
 		}
+
 		var checkboxesSelected = $(".companiesCheckBoxes").find("input:checkbox").filter(":checked").map(function(i, el) {
     		return $(el).val();
 		});
@@ -349,7 +352,11 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		$("#productsTable").prepend(productsFilter.render().el);
 		this.categoryFilter = productsFilter;
 
-		productsFilter.setPickFilter(Cookie.get("categoriesSelected").split(","));
+
+
+		if(Cookie.get("categoriesSelected") !== null){
+			productsFilter.setPickFilter(Cookie.get("categoriesSelected").split(","));
+		}
 
 
 		productsFilter.search()
