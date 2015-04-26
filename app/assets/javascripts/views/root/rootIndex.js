@@ -192,14 +192,18 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			}
 			var companiesOutOfRange = [];
 			thatCompanyCollection.each(function(company){
-				if(100 * (product.get("User") - product.get(company.get("name")))/product.get("User") >= product.get("priceRangePercentage")){
-					companiesOutOfRange.push(company.get("name"));
+				if(product.get(company.get("name")) > 0){
+					if(100 * (product.get("User") - product.get(company.get("name")))/product.get("User") >= product.get("priceRangePercentage")){
+						companiesOutOfRange.push(company.get("name"));
+					}
 				}
 			});
 			if(typeof currentUser !== 'undefined' && typeof product !== "undefined" && thatCompanyCollection.length > 0){
 				if(currentUser.get("comparison_company_id")) {
-					if(100 * (product.get("User") - product.get(thatCompanyCollection.get(currentUser.get("comparison_company_id")).get("name")) )/product.get("User") >= product.get("priceRangePercentage") ){
+					if(100 * (product.get("User") - product.get(thatCompanyCollection.get(currentUser.get("comparison_company_id")).get("name")) )/product.get("User") >= product.get("priceRangePercentage") ){						
+						if(product.get("User") > 0){
 						companiesOutOfRange.push("User");
+						}
 					}
 				}
 			}
