@@ -383,6 +383,7 @@ class Product < ActiveRecord::Base
     @pricesForProduct = self.prices.includes(:pricer)
 
     @pricesForProduct.each do |price|
+      next unless price.price > 0
       next if price.pricer.nil?
       if price.pricer_type == "Company"
         @pricesArray << [price.pricer.name, price.price]

@@ -184,9 +184,9 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			});
 			if (pricesArr.length === 0) {
 				product.set({
-				min: -1,
-				max: -1,
-				average: -1
+				min: null,
+				max: null,
+				average: null
 			});
 			}
 
@@ -283,10 +283,10 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		console.log("saving")
 		this.updateUserModel();
 
+		this.collection.each(function(product){
+			product.save();
+		});
 		this.currentUser.save();
-		// this.collection.each(function(product){
-		// 	product.save();
-		// });
 	},
 
 	updateUserModel:function(event){
