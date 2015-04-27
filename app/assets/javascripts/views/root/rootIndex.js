@@ -70,7 +70,8 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			console.log("Click Detected");
 			var productView = new Vetpda.Views.ProductShow({
 				model: product,
-				collection: that.companyCollection
+				collection: that.companyCollection,
+				user: that.currentUser
 			});
 
 			vex.open({

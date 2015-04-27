@@ -1,12 +1,17 @@
 Vetpda.Views.ProductShow = Backbone.View.extend({
 	template: JST['products/show'],
 
-	initialize: function(){
+	initialize: function(options){
 		console.log("initializing Products show view");
-		this.listenTo(this.model, 'sync', this.drawGoogleGraph);
+		this.currentUser = options.user;
+
+		console.log(this.currentUser)
+
 		this.listenTo(this.model, 'sync', this.drawGoogleGraph);
 		this.listenTo(this.collection, 'sync', this.render);
-		this.listenTo(this.collection, 'sync', this.render);
+		if(typeof this.currentUser !== 'undefined'){
+			this.listenTo(this.currentUser, 'sync', this.render);
+		}
 		this.model.getHistoricalCompanyPrices(this.render);
 		
 		google.setOnLoadCallback(this.drawGoogleGraph);
@@ -36,6 +41,10 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 	drawGoogleGraph: function(){
 		console.log("drawing graph")
 
+		if(typeof this.currentUser === 'undefined'){
+			return
+		}
+
 		var checkboxesSelected = $(".graphCheckBoxes").find("input:checkbox").filter(":checked").map(function(i, el) {
     		return $(el).val();
 		});
@@ -52,7 +61,7 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 		}
 		var historicals = this.model.get("historicalPrices")
 
-		var historical_data = [['Month', "Your Price"]];
+		var historical_data = [['Month', this.currentUser.get("abbreviation")]];
 		for(var i = 0; i < numberSelectedCompanies; i++){
 			historical_data[0].push(checkboxValues[i])
 		};
