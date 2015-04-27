@@ -8,6 +8,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		this.currentUser = options.user;
 		this.listenTo(this.companyCollection, 'sync', this.render);
 		this.listenTo(this.collection, 'sync', this.render);
+		this.listenTo(this.collection, 'sync add remove', function(){console.log("Synch Occured")});
 		this.listenTo(this.currentUser, 'sync', this.render);
 		$.ajax({
 			url: "/api/products/distinct_categories",
@@ -285,8 +286,9 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		this.currentUser.save();
 	},
 
-	updateUserModel:function(){
+	updateUserModel:function(event){
 		console.log("updating percentage")
+		event.preventDefault();
 		var currentComparisonCompany = this.companyCollection.get(this.currentUser.get("comparison_company_id")).get("name")
 
 		$(".companiesCheckBoxes").find("input:checkbox").filter(function(){return this.value == currentComparisonCompany}).removeAttr("disabled");
