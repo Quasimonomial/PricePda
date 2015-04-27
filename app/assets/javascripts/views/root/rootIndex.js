@@ -163,7 +163,6 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		var currentUser = this.currentUser
 		var thatCompanyCollection = this.companyCollection
 		this.collection.fullCollection.each(function(product){
-			console.log("Calculating stats for product " + product.id)
 			var pricesArr = [];
 			var pricesArrSum = 0;
 			for(var i = 0; i < activeCompanies.length; i++){
@@ -281,17 +280,20 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 	saveAllProducts: function(){
 		//also saves our user
+		console.log("saving")
 		this.updateUserModel();
 
-		this.collection.each(function(product){
-			product.save();
-		});
 		this.currentUser.save();
+		// this.collection.each(function(product){
+		// 	product.save();
+		// });
 	},
 
 	updateUserModel:function(event){
 		console.log("updating percentage")
-		event.preventDefault();
+		if(typeof event !== "undefined"){
+			event.preventDefault();
+		}
 		var currentComparisonCompany = this.companyCollection.get(this.currentUser.get("comparison_company_id")).get("name")
 
 		$(".companiesCheckBoxes").find("input:checkbox").filter(function(){return this.value == currentComparisonCompany}).removeAttr("disabled");

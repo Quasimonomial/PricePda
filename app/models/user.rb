@@ -55,6 +55,7 @@ class User < ActiveRecord::Base
       user_price = product.prices.where({pricer_type: "User", pricer_id: self.id}).first
       competitor_price = product.prices.where({pricer_type: "Company", pricer_id: self.comparison_company_id}).first
       next unless user_price && competitor_price
+      next unless user_price > 0 && competitor_price > 0
       user_price_value = user_price.price
       competitor_price_value = competitor_price.price
       if (100.0 * (user_price_value - competitor_price_value)/user_price_value) >= self.price_range_percentage
