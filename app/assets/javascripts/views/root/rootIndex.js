@@ -158,10 +158,12 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 
 	calculateProductStats: function(){
+		// console.log(this.collection.fullCollection)
 		var activeCompanies = this.activeCompanies();
 		var currentUser = this.currentUser
 		var thatCompanyCollection = this.companyCollection
-		this.collection.each(function(product){
+		this.collection.fullCollection.each(function(product){
+			console.log("Calculating stats for product " + product.id)
 			var pricesArr = [];
 			var pricesArrSum = 0;
 			for(var i = 0; i < activeCompanies.length; i++){
