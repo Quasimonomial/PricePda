@@ -7,7 +7,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		this.companyCollection = options.companies;
 		this.currentUser = options.user;
 		this.listenTo(this.companyCollection, 'sync', this.render);
-		this.listenTo(this.collection, 'sync', this.render);
+		this.listenTo(this.collection, 'sync', this.renderTable);
 		this.listenTo(this.collection, 'sync add remove', function(){console.log("Synch Occured")});
 		this.listenTo(this.currentUser, 'sync', this.render);
 		$.ajax({
@@ -283,8 +283,23 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		console.log("saving")
 		this.updateUserModel();
 
-		this.collection.each(function(product){
-			product.save();
+		this.collection.fullCollection.each(function(product){
+			product.save()
+			// var productData = {
+			// 	"id": product.id,
+			// 	"product": {"User": product.get("User")}
+			// };
+			// //product.toJSON();
+			// // console.log("product:"{product.toJSON()"}")
+			// //  Parameters: {"id"=>"25", "category"=>"Flea/Tick", "dosage"=>"Feline (Purple) Over 9 lbs", "package"=>" 12product"=>{"id"=>"25"}}
+			// $.ajax({
+			// 	url: "api/products/" + product.id,
+			// 	method: "PUT",
+			// 	data: productData,
+	  // 			success: function(){
+	 	// 			console.log("Posted Product " + product.id);
+			// 	}
+			// });
 		});
 		this.currentUser.save();
 	},
