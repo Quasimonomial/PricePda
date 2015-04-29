@@ -25,6 +25,7 @@ class Price < ActiveRecord::Base
   has_many :historical_prices
 
   def self.update_user_prices_via_table price_data, user
+    return unless price_data
     price_data.each do |product_id, new_price|
 
       
