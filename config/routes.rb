@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: :json} do
     get 'products/distinct_categories' => 'products#distinct_categories'
     resources :products, except: [:edit, :new]
+    post 'products/mass_user_prices'
     get 'products/:id/historical_prices' => 'products#historical_prices'
     resources :companies, except: [:edit, :new]
     resource :user_percents, only: [:show, :create]

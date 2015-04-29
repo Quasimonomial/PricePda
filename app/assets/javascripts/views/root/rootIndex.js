@@ -8,6 +8,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		this.currentUser = options.user;
 		this.listenTo(this.companyCollection, 'sync', this.render);
 		this.listenTo(this.collection, 'sync', this.renderTable);
+		// this.listenTo(this.collection, 'change', function(){console.log("Model Changed")});
 		this.listenTo(this.collection, 'sync add remove', function(){console.log("Synch Occured")});
 		this.listenTo(this.currentUser, 'sync', this.render);
 		$.ajax({
@@ -282,24 +283,22 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		//also saves our user
 		console.log("saving")
 		this.updateUserModel();
+		
+		var userPriceData = {}
 
 		this.collection.fullCollection.each(function(product){
-			product.save()
-			// var productData = {
-			// 	"id": product.id,
-			// 	"product": {"User": product.get("User")}
-			// };
-			// //product.toJSON();
-			// // console.log("product:"{product.toJSON()"}")
-			// //  Parameters: {"id"=>"25", "category"=>"Flea/Tick", "dosage"=>"Feline (Purple) Over 9 lbs", "package"=>" 12product"=>{"id"=>"25"}}
-			// $.ajax({
-			// 	url: "api/products/" + product.id,
-			// 	method: "PUT",
-			// 	data: productData,
-	  // 			success: function(){
-	 	// 			console.log("Posted Product " + product.id);
-			// 	}
-			// });
+			userPriceData[product.id] = product.get("User");
+		});
+		
+		var userPriceDataFull = {'prices': userPriceData}		
+
+		$.ajax({
+			url: "/api/products/mass_user_prices",
+			method: "POST",
+			data: userPriceDataFull,
+  			success: function(){
+ 				console.log("User Saved Price changes");
+			}
 		});
 		this.currentUser.save();
 	},

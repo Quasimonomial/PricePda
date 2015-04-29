@@ -24,6 +24,25 @@ class Price < ActiveRecord::Base
 	belongs_to :product
   has_many :historical_prices
 
+  def self.update_user_prices_via_table price_data, user
+    price_data.each do |product_id, new_price|
+
+      
+      price = Price.where({pricer_type: "User", pricer_id: user.id, product_id: product_id.to_i}).first
+      unless price
+        price = Price.new({pricer_type: "User", pricer_id: user.id, product_id: product_id.to_i, price: new_price.to_f})
+        price.save
+        price.create_historical_price
+      end
+
+      if price.price != new_price.to_f
+        price.price = new_price.to_f
+        price.save
+        price.create_historical_price
+      end
+    end   
+  end
+
   def self.export_user_data year
     puts "exporting!"
     workbook = RubyXL::Workbook.new

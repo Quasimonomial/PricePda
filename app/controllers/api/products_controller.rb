@@ -53,9 +53,15 @@ module Api
 
     def historical_prices
       @product = Product.find(params[:id])
-      puts "HEY LOOK AT ME"
-      puts @product.graph_hash_full_set(current_user)
       render json: @product.graph_hash_full_set(current_user)
+    end
+
+    def mass_user_prices
+      puts "mass uploading user prices"
+      # puts params
+      # puts params["prices"]
+      Price.update_user_prices_via_table params["prices"], current_user
+      render json: {}
     end
 
     private
