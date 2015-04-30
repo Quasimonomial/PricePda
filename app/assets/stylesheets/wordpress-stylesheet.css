@@ -393,7 +393,7 @@ footer .widget_contact_info li a:hover{color:#fff; text-decoration: none}
     transition-duration: 0.4s;}
 #respond .logged-in-as a{color:#666; font-weight:500}
 #respond .logged-in-as a:hover{text-decoration: none}
-#respond input{ border-radius: 6px; -webkit-border-radius:6px; -}
+#respond input{ border-radius: 6px; -webkit-border-radius:6px;}
 .comment-form-author, .comment-form-email, .comment-form-url {float:left;}
 .comment-form-author, .comment-form-email{padding-right: 20px;}
 .form-submit #submit {
