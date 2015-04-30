@@ -32,5 +32,6 @@ gem 'jsonify', '~> 0.4.1'
 # gem 'csv'
 gem 'rubyXL'
 gem 'paperclip'
+gem 'newrelic_rpm'
 
 ruby '2.1.3'
