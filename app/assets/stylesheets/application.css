@@ -16,7 +16,13 @@
  *= require backgrid-paginator
  *= reqiore vex
  *= require vex-theme-flat-attack
- *=
+ 
  *= require vetpda
+
+ *= require wordpress-boostrap-responsive
+ *= require wordpress-bootstrap
+ *= require wordpress-inline-styles
+ *= require wordpress-stylesheet
+ 
 
  */

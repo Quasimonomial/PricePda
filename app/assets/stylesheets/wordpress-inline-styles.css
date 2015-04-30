@@ -1,0 +1,81 @@
+body{background: #ffffff 
+
+	
+	}
+
+	input,button,select,textarea,body,span, aside .widget_twitter li{font-family: Roboto; font-size: 13px; color:#000000 }
+
+	h1,h2,h3,h4,h5,h6, nav .menu li a{font-family: Roboto}
+
+	
+
+	h1{font-size: 30px}
+
+	h2{font-size: 22px}
+
+	h3{font-size: 16px}
+
+	h4{font-size: 14px}
+	nav .menu li{font-size:13px}
+	h5{font-size: 13px}
+
+	h6{font-size: 12px}
+
+	nav .menu li.current-menu-item a{border-bottom:2px solid #0092cb; color:#0092cb}
+
+	.page_parents li a:hover, .header_page .subtitle, .blog-article h2 a:hover, .blog-article .read_more:hover span, #portfolio-filter ul li.active a, .single_content .single_info li a:hover, .carousel_blog li.blog-article .content h5 a:hover, .services_medium h2 a:hover, .services_medium a.link, .textbar h3, .services_small a:hover, .recent_news .news-article h3 a:hover, #faq-filter ul li.active a, .side-nav li.current_page_item a, .dyn_side_title h6, .dyn_widget .widget_contact_info li a:hover, .button_left_desc span, .comment a:hover, aside h5.widget-title, .services_list li i, .slider_font_color, .quote_container i{color:#0092cb}
+
+    .blog-article .date, nav .menu li ul li:hover, .flex-control-paging li a.flex-active, #portfolio-preview-items .portfolio-item .project:hover, .tpl2 .center-bar a.link, .tpl2 .center-bar a.lightbox, .carousel_blog li.blog-article:hover .date_dyn, .default-btn, .recent_news .news-article .date, .more-large, .services_list dt:hover , .slider_overlay, .top_footer, .top_nav .social_widget li:hover, .one-staff li:hover, .social_icons  li:hover, .dyn_widget .social_widget li:hover, nav .menu li ul li.current-menu-item, .pagination ul > li:hover a, .pagination ul > li.active a{background:#0092cb}
+    .progress-striped .bar{background-color:#0092cb;}
+    nav .menu li ul{border-top:2px solid #0092cb}
+    .widget_flickr img:hover{border:3px solid #0092cb;}
+        .not_found_error h1{color:#fff; margin-top:80px; font-size:130px; text-align:center; text-shadow: 1px 1px white, -1px -1px #444; }
+    .not_found_error h3{color:#fff; font-size:60px; margin-top:50px;  text-align:center; line-height:66px}
+    .tpl2 .bg {background-color:rgba(0,0,0,.6);}
+    .button_left_desc:hover i{color:#0092cb !important}
+    .accordion-heading:hover{background-color:rgba(0,146,203,.005)}
+    .top_footer .pagination a i{color:rgba(0,0,0,.2);}
+    .services_full ul li:hover, .quote_container, .sticky{background-color:rgba(0,146,203,.1);}
+    .nav-tabs .active a {color:#0092cb !important;}
+    .tpl2 .center-bar a.link, .tpl2 .center-bar a.lightbox{border:1px solid #0092cb}
+    aside ul li:hover, aside ul li a:hover {color:#0092cb;}
+    select:focus, option:focus, select::-moz-focus-inner, option::-moz-focus-inner {outline:0; border-color: #0092cb; 
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+        -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6) }
+    .not_found_error{background:#0092cb; border:3px solid #fff; border-radius:6px}
+    aside .tagcloud a:hover, .tagcloud a:hover{background:#0092cb !important;}
+   .aside_title, .rsswidget{color:#0092cb;}
+   .in_head, .form-submit #submit {background-color:#0092cb !important;}
+    
+   .side-nav li.current_page_item{border-bottom:1px solid #0092cb;}
+
+   .services_full i{color:#0092cb !important; font-size:64px !important;}
+   .services_list i{color:#4f4f4f; font-size:28px; line-height:60px;}
+   .services_list dt{background:#ffffff; }
+    .services_list dt{border:2px solid #0092cb;}
+   .services_small i{font-size:32px; color:#4f4f4f;}
+
+   .services_medium i{color:#0092cb; font-size:64px;}
+ 
+   .button_left_desc{background:#efefef;}
+   .button_left_desc i{color:#cccccc !important; font-size:48px !important;}
+   .themeple_sc .themeple_blockquote{border-left:4px solid #0092cb;}
+   #content, #comments h5, #respond h3, aside h5.widget-title, .slider#slider-fixed, .row-dynamic-el .header h6:first-child, .row-dynamic-el .header .pagination, .contact_form span.label, .dyn_side_title h6:first-child{background:#ffffff}
+   .header h6, .header h5, .header h4, .header_shadow {background-color:#ffffff}
+   .border_colored{border-color:#0092cb !important;}
+   .footer .price_button{background-color: #0092cb}
+   .price_1_col.level-max {
+      -webkit-box-shadow: 0 0 0 2px #0092cb;
+      -moz-box-shadow: 0 0 0 2px #0092cb;
+      box-shadow: 0 0 0 2px #0092cb;}
+    
+               .top_nav{background-color:#ffffff;}
+       .top_nav .textwidget, .top_nav .widget_search input{color:#666666 !important;}
+	    nav ul li.current-menu-item .current-menu-item{background:#676767 !important}
+
+    footer#footer{background:#444444; color:#aaaaaa}
+    #copyright{background:#333333}
+    .row-dynamic-el h6, .header h6, .header h5, .header h4{color:#999999}
+    nav .menu li a{color:#555555}
+    .post_nav a{color:#0092cb;}
