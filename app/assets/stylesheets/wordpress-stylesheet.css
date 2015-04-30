@@ -632,7 +632,7 @@ aside .widget:first-child{margin-top:0}
 #portfolio-preview-items .portfolio-item.triangle{border:none;}
 #portfolio-preview-items .portfolio-item.hexagonal{border:none;}
 #portfolio-preview-items.two-cols .portfolio-item.circle{width:456px !important;}
-#portfolio-preview-items.three-cols .portfolio-item.circle{width:296px; !important;}
+#portfolio-preview-items.three-cols .portfolio-item.circle{width:296px !important;}
 #portfolio-preview-items.three-cols .portfolio-item.hexagonal{width:296px !important;}
 #portfolio-preview-items.four-cols .portfolio-item.hexagonal{width:216px !important;}
 #portfolio-preview-items.four-cols .portfolio-item.triangle{width:216px !important;}
