@@ -308,17 +308,19 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		if(typeof event !== "undefined"){
 			event.preventDefault();
 		}
-		if(typeof this.currentUser.get("comparison_company_id") !== "undefined"){
+
 			var currentComparisonCompany = this.companyCollection.get(this.currentUser.get("comparison_company_id")).get("name")
-			this.currentUser.set("comparison_company_id", $('#comparisonCompany').val());
 			$(".companiesCheckBoxes").find("input:checkbox").filter(function(){return this.value == currentComparisonCompany}).removeAttr("disabled");
 			$(".companiesCheckBoxes").find("input:checkbox").filter(function(){return this.value == currentComparisonCompany}).prop('checked', false);
-			$(".companiesCheckBoxes").find("input:checkbox").filter(function(){return this.value == currentComparisonCompany}).prop('checked', true);
 		}
-
 
 		var userPercent = $('#percentInputFeild')[0].value;
 		this.currentUser.set("price_range_percentage", userPercent);
+		this.currentUser.set("comparison_company_id", $('#comparisonCompany').val());
+		if(this.currentUser.get("comparison_company_id")){
+			currentComparisonCompany = this.companyCollection.get(this.currentUser.get("comparison_company_id")).get("name")
+			$(".companiesCheckBoxes").find("input:checkbox").filter(function(){return this.value == currentComparisonCompany}).prop('checked', true);
+		}
 		this.handleTableFilters();
 	},
 	
