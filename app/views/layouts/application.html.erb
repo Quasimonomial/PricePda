@@ -148,7 +148,7 @@
     <div class="header_shadow"></div> 
 	</div>
 
-
+    <div style="padding:30px">
 	<% if logged_in? %>
 		<% if current_user.is_admin %>
 			<p>You are an admin!</p>
@@ -167,6 +167,7 @@
 	<%= flash[:errors].join("<br>").html_safe if flash[:errors] %>
 	<%= flash[:info].html_safe if flash[:info] %>
 	<%= yield %>
+    </div>
 
 	<div class="footer_wrapper">
         <div class="top_footer"><div class="container"><ul class='tweet_list' id='tweet_footer'><li>No public Tweets found</li></ul><div class="pagination pull-right"><a href="#" class="back"><i class="icon-arrow-left"></i></a><a href="#" class="next"><i class="icon-arrow-right"></i></a>  </div><span class="shadow_top_footer"></span></div>

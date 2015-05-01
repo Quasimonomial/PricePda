@@ -22,3 +22,42 @@ tr:nth-child(even) {
 .vex.vex-theme-flat-attack .vex-content .graphVexContent{
 	width: 80%;
 }
+
+.tableControls label {
+ 	top-padding: 3px;
+ 	bottom-padding: 3px;
+	display: inline-block;
+}
+
+element {
+}
+.header h6, .header h5, .header h4, .header_shadow {
+    background-color: #FFF;
+}
+.header_shadow {
+    width: 100%;
+    position: relative;
+    z-index: 0;
+    background: url('img/header_shadow.png') no-repeat scroll center bottom transparent;
+    bottom: 0px;
+    float: left;
+    height: 12px;
+}
+
+input, button, select, textarea, body, span, aside .widget_twitter li {
+font-family: Roboto;
+font-size: 13px;
+color: #000;
+}
+body {
+    line-height: 20px;
+    font-weight: 300;
+}
+body {
+    line-height: 20px;
+    color: #333;
+}
+
+html {
+font-size: 100%;
+}

@@ -12,10 +12,12 @@ User percentage: <%= user.escape("price_range_percentage") %>
 			<%= company.escape("name")%></option>
 		<% }); %>
 	</select>
-</form><br>
+</form>
 <button type="button" class="saveProducts">Save Changes</button> <br>
+	<br>
+<div class="tableControls">
 
-<form class="filterCheckBoxes">
+<form class="filterCheckBoxes tableControls">
 	<% if(typeof categoriesArray !== "undefined"){ %>
 		<% for(i = 0; i < categoriesArray.length; i++) { %>
 		<label>
@@ -51,7 +53,7 @@ User percentage: <%= user.escape("price_range_percentage") %>
 	</label>
 </form>
 
-<form class="companiesCheckBoxes">
+<form class="companiesCheckBoxes tableControls">
 	<% companies.each( function(company) { %>
 		<label>
 			<input type="checkbox" name="companiesFilter" value="<%= company.escape("name") %>" class="tableFilter"
@@ -68,6 +70,7 @@ User percentage: <%= user.escape("price_range_percentage") %>
 		</label>
 	<% }); %>
 </form>
+</div>
 
 <div id="productsTable"></div>
 
