@@ -308,8 +308,9 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		if(typeof event !== "undefined"){
 			event.preventDefault();
 		}
-		var currentComparisonCompany = this.companyCollection.get(this.currentUser.get("comparison_company_id")).get("name")
-
+		if(this.currentUser.get("comparison_company_id") !== "undefined"){
+			var currentComparisonCompany = this.companyCollection.get(this.currentUser.get("comparison_company_id")).get("name")
+		}
 		$(".companiesCheckBoxes").find("input:checkbox").filter(function(){return this.value == currentComparisonCompany}).removeAttr("disabled");
 		$(".companiesCheckBoxes").find("input:checkbox").filter(function(){return this.value == currentComparisonCompany}).prop('checked', false);
 
