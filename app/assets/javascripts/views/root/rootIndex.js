@@ -61,7 +61,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 	activeCompanies: function(){
 		return $('input:checkbox.tableFilter:checked').map(function() {
-		    return this.value;
+		    return this.value; 
 		}).get();
 	},
 	
@@ -259,8 +259,10 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 			$checkboxes.not(":checked").attr("disabled","disabled");
 		} else {
 			$checkboxes.removeAttr("disabled");
-			var currentComparisonCompany = this.companyCollection.get(this.currentUser.get("comparison_company_id")).get("name")
-			$checkboxes.filter(function(){return this.value == currentComparisonCompany}).attr("disabled","disabled");
+			if(typeof this.currentUser.get("comparison_company_id") !== "undefined"){
+				var currentComparisonCompany = this.companyCollection.get(this.currentUser.get("comparison_company_id")).get("name")
+				$checkboxes.filter(function(){return this.value == currentComparisonCompany}).attr("disabled","disabled");
+			}
 		}
 
 		var checkboxesSelected = $(".companiesCheckBoxes").find("input:checkbox").filter(":checked").map(function(i, el) {
