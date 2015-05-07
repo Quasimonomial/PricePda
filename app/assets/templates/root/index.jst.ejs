@@ -1,17 +1,18 @@
 <h1> Price Comparison Tool </h1>
 
 <br>
-User percentage: <%= user.escape("price_range_percentage") %>
 <form id="userPercentForm">
-	<input type="text" name="price_range_percentage" value="<%= user.escape("price_range_percentage")%>" id="percentInputFeild"><br>
 	<label>Competitor:</label><br>
 	<select name="selectionCompany" id="comparisonCompany">
-		<option <% if(typeof user.get("comparison_company_id") === "undefined" ){ %> selected <% }else{ %> disabled <% } %> %>>------------</option>
+		<option <% if(typeof user.get("comparison_company_id") === "undefined" ){ %> selected <% }else{ %> disabled <% } %>>------------</option>
 		<% companies.each( function(company) { %>
 			<option value="<%= company.id %>" <% if(user.get("comparison_company_id") === company.id ){ %> selected <% } %>>
 			<%= company.escape("name")%></option>
 		<% }); %>
 	</select>
+	<br>
+	<label>Percent Variance:</label>
+	<input type="text" name="price_range_percentage" value="<%= user.escape("price_range_percentage")%>" id="percentInputFeild"><br>
 </form>
 <button type="button" class="saveProducts">Save Changes</button> <br>
 	<br>
