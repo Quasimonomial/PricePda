@@ -1,5 +1,5 @@
-Vetpda.Collections.Products = Backbone.PageableCollection.extend({
-  model: Vetpda.Models.Product,
+Pricepda.Collections.Products = Backbone.PageableCollection.extend({
+  model: Pricepda.Models.Product,
   url: '/api/products',
 
   // Initial pagination states
@@ -13,7 +13,7 @@ Vetpda.Collections.Products = Backbone.PageableCollection.extend({
     if(model) {
       model.fetch();
     } else {
-      model = new Vetpda.Models.Product({ id: id });
+      model = new Pricepda.Models.Product({ id: id });
       model.fetch({
         success: function () {
           products.add(model);
@@ -25,4 +25,4 @@ Vetpda.Collections.Products = Backbone.PageableCollection.extend({
   }
 });
 
-Vetpda.products = new Vetpda.Collections.Products
+Pricepda.products = new Pricepda.Collections.Products

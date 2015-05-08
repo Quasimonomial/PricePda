@@ -74,7 +74,7 @@ module Api
 
     private
     def product_params
-      params.require(:product).permit(:category, :name, :dosage, :package, :enabled)
+      params.require(:product).permit(:category, :name, :manufacturer, :enabled)
     end
   end
 end

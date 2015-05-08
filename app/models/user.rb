@@ -63,8 +63,7 @@ class User < ActiveRecord::Base
         product_hash[:id] = product.id
         product_hash[:category] = product.category
         product_hash[:name] = product.name
-        product_hash[:dosage] = product.dosage
-        product_hash[:package] = product.package
+        product_hash[:manufacturer] = product.manufacturer
         product_hash[:user_price] = user_price_value.to_f
         product_hash[:competitor_price] = competitor_price_value.to_f
         product_hashes << product_hash

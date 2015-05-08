@@ -2,14 +2,13 @@
 #
 # Table name: products
 #
-#  id         :integer          not null, primary key
-#  category   :string(255)      not null
-#  dosage     :string(255)
-#  package    :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#  name       :string(255)      not null
-#  enabled    :boolean          not null
+#  id           :integer          not null, primary key
+#  category     :string(255)      not null
+#  manufacturer :string(255)
+#  created_at   :datetime
+#  updated_at   :datetime
+#  name         :string(255)      not null
+#  enabled      :boolean          not null
 #
 
 class Hash
@@ -19,7 +18,7 @@ class Hash
 end
 
 class Product < ActiveRecord::Base
-  validates :category, :name, :dosage, presence: true
+  validates :category, :name, :manufacturer, presence: true
 
   has_many :prices
   has_many :historical_prices, through: :prices
@@ -35,8 +34,7 @@ class Product < ActiveRecord::Base
       puts "space cadet" unless product
       product.category = product_data["category"]
       product.name = product_data["name"]
-      product.dosage = product_data["dosage"]
-      product.package = product_data["package"]
+      product.manufacturer = product_data["manufacturer"]
 
       product.save
 
@@ -53,7 +51,7 @@ class Product < ActiveRecord::Base
         end
       end
 
-      set_vars = ["id", "name","category", "dosage", "package", "format", "action", "controller", "product"] #hardcode in some things I don't need    
+      set_vars = ["id", "name","category", "manufacturer", "format", "action", "controller", "product"] #hardcode in some things I don't need    
       product_data.each do |key, value|
         next if set_vars.include?(key) || !company_name_hash.include?(key)
 
@@ -105,7 +103,7 @@ class Product < ActiveRecord::Base
     end            
 
     User.all.order(:id).each do |product|
-      product_cells = [product.id, product.category, product.name, product.dosage, product.package]
+      product_cells = [product.id, product.category, product.name, product.manufacturer]
       while j <  product_cells.length
         worksheet.add_cell(i, j, product_cells[j])
         j += 1
@@ -131,7 +129,7 @@ class Product < ActiveRecord::Base
     puts "Wroksheet test"
     puts  worksheet
 
-    headers = ["ID", "Category", "Product", "Dosage", "Package", "Price"]
+    headers = ["ID", "Category", "Product", "Manufacturer", "Price"]
 
     i = 0
     j = 0
@@ -144,8 +142,8 @@ class Product < ActiveRecord::Base
     j = 0
     i += 1
 
-    Product.all.where(enabled: true).order(:category).order(:name).order(:dosage).order(:package).each do |product|
-      product_cells = [product.id, product.category, product.name, product.dosage, product.package]
+    Product.all.where(enabled: true).order(:category).order(:name).order(:manufacturer).each do |product|
+      product_cells = [product.id, product.category, product.name, product.manufacturer]
       while j <  product_cells.length
         worksheet.add_cell(i, j, product_cells[j])
         j += 1
@@ -172,8 +170,7 @@ class Product < ActiveRecord::Base
       
       product.category = product_attrs["Category"]
       product.name = product_attrs["Product"]
-      product.dosage = product_attrs["Dosage"]
-      product.package = product_attrs["Package"]
+      product.manufacturer = product_attrs["Manufacturer"]
       product.enabled = true
       product.save!
     end
@@ -191,8 +188,7 @@ class Product < ActiveRecord::Base
     json_products.products(@products)do |product|
       json_products.id product.id
       json_products.category product.category
-      json_products.dosage product.dosage
-      json_products.package product.package
+      json_products.manufacturer product.manufacturer
       json_products.name product.name
       json_products.enabled product.enabled
       product.prices_array(current_user).each do |price|
@@ -420,8 +416,7 @@ class Product < ActiveRecord::Base
     json_product = Jsonify::Builder.new(:format => :pretty)
     json_product.id self.id
     json_product.category self.category
-    json_product.dosage self.dosage
-    json_product.package self.package
+    json_product.manufacturer self.manufacturer
     json_product.name self.name
     json_product.enabled self.enabled
     self.prices_array(current_user).each do |price|

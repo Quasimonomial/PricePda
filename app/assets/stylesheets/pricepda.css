@@ -8,8 +8,7 @@
 
 .backgrid th.category,
 .backgrid th.name,
-.backgrid th.dosage,
-.backgrid th.package,
+.backgrid th.manufacturer,
 .backgrid th.graph{
 	text-align: left;	
 }

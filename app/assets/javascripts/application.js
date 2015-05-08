@@ -29,7 +29,7 @@
 //
 //= require googlegraph
 //
-//= require vetpda3
+//= require pricepda
 //= require_tree ../templates
 //= require_tree ./models
 //= require_tree ./collections

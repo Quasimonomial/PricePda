@@ -1,4 +1,4 @@
-Vetpda.Models.Product = Backbone.Model.extend({
+Pricepda.Models.Product = Backbone.Model.extend({
 	urlRoot: "/api/products", 
 
 	getHistoricalCompanyPrices: function(callback){

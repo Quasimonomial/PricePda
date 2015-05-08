@@ -1,4 +1,4 @@
-Vetpda.Models.Company = Backbone.Model.extend({
+Pricepda.Models.Company = Backbone.Model.extend({
 	urlRoot: "/api/companies",
 
 	enabledString: function(){

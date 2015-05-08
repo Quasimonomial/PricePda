@@ -80,7 +80,7 @@ class Price < ActiveRecord::Base
     worksheet = workbook.add_worksheet("Products")
 
 
-    headers = ["ID", "Category", "Product", "Dosage", "Package"]
+    headers = ["ID", "Category", "Product", "Manufacturer"]
 
     i = 0
     j = 0
@@ -94,7 +94,7 @@ class Price < ActiveRecord::Base
     i += 1
 
     Product.all.order(:id).each do |product|
-      product_cells = [product.id, product.category, product.name, product.dosage, product.package]
+      product_cells = [product.id, product.category, product.name, product.manufacturer]
       while j <  product_cells.length
         worksheet.add_cell(i, j, product_cells[j])
         j += 1
@@ -234,7 +234,7 @@ class Price < ActiveRecord::Base
 
     company_name_hash = Company.build_name_hash
 
-    set_vars = ["id", "name","category", "dosage", "package", "format", "action", "controller", "product"] #hardcode in some things I don't need    
+    set_vars = ["id", "name","category", "manufacturer", "format", "action", "controller", "product"] #hardcode in some things I don't need    
     products_hash.each do |key, value|
       next if set_vars.include?(key)
       if key == "User" #special case if the user is updating thier price

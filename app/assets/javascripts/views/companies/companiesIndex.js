@@ -1,4 +1,4 @@
-Vetpda.Views.CompaniesIndex = Backbone.View.extend({
+Pricepda.Views.CompaniesIndex = Backbone.View.extend({
 	template: JST['companies/index'],
 
 	initialize: function(){
@@ -16,7 +16,7 @@ Vetpda.Views.CompaniesIndex = Backbone.View.extend({
 	addCompany: function(event){
 		event.preventDefault();
 
-		var company = new Vetpda.Models.Company
+		var company = new Pricepda.Models.Company
 		
 		console.log('adding a company');
 		console.log($(event.target))

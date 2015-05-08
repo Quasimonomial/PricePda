@@ -1,4 +1,4 @@
-Vetpda.Views.ProductsDelete = Backbone.View.extend({
+Pricepda.Views.ProductsDelete = Backbone.View.extend({
 	template: JST['products/delete'],
 
 	initialize: function(options){
@@ -32,13 +32,8 @@ Vetpda.Views.ProductsDelete = Backbone.View.extend({
 		    cell: "string",
 		    editable: false 
 		  }, {
-		    name: "dosage",
-		    label: "Dosage",
-		    cell: "string",
-		    editable: false
-		  }, {
-		    name: "package",
-		    label: "Package",
+		    name: "manufacturer",
+		    label: "Manufacturer",
 		    cell: "string",
 		    editable: false
 		  }, {
@@ -91,7 +86,7 @@ Vetpda.Views.ProductsDelete = Backbone.View.extend({
 		var productsFilter = new Backgrid.Extension.ClientSideFilter({
 		  collection: this.collection,
 		  placeholder: "Search Products",
-		  fields: ['category', 'name', 'dosage', 'package'],
+		  fields: ['category', 'name', 'manufacturer'],
 		  wait: 250
 		});
 		$("#productsTable").prepend(productsFilter.render().el);

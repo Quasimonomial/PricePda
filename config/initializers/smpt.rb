@@ -1,4 +1,4 @@
-ActionMailer::Base.default_url_options =  { host: 'http://vetpdav1.herokuapp.com/'}
+ActionMailer::Base.default_url_options =  { host: 'PLACEHOLDER'}
 ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = {
   :user_name => ENV['SENDGRID_USERNAME'],

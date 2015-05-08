@@ -1,4 +1,4 @@
-Vetpda.Views.CompanyEdit = Backbone.View.extend({
+Pricepda.Views.CompanyEdit = Backbone.View.extend({
 	template: JST['companies/edit'],
 
 	initialize: function(){

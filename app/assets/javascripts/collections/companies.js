@@ -1,5 +1,5 @@
-Vetpda.Collections.Companies = Backbone.Collection.extend({
-  model: Vetpda.Models.Company,
+Pricepda.Collections.Companies = Backbone.Collection.extend({
+  model: Pricepda.Models.Company,
   url: '/api/companies',
 
   getOrFetch: function (id) {
@@ -9,7 +9,7 @@ Vetpda.Collections.Companies = Backbone.Collection.extend({
     if(model) {
       model.fetch();
     } else {
-      model = new Vetpda.Models.Company({ id: id });
+      model = new Pricepda.Models.Company({ id: id });
       model.fetch({
         success: function () {
           companies.add(model);
@@ -21,4 +21,4 @@ Vetpda.Collections.Companies = Backbone.Collection.extend({
   }
 });
 
-Vetpda.companies = new Vetpda.Collections.Companies
+Pricepda.companies = new Pricepda.Collections.Companies

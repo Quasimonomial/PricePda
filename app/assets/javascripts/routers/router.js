@@ -1,4 +1,4 @@
-Vetpda.Routers.VetRouter = Backbone.Router.extend({
+Pricepda.Routers.VetRouter = Backbone.Router.extend({
 	initialize: function (options) {
 		this.$rootEl = options.$rootEl;
  	},
@@ -14,13 +14,13 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 
 	rootIndex: function(){
 		console.log("reaching root js index")
-		var currentUser = new Vetpda.Models.User();
+		var currentUser = new Pricepda.Models.User();
 		currentUser.fetch();
-		Vetpda.products.fetch();
-		Vetpda.companies.fetch();
-		var indexView = new Vetpda.Views.RootIndex({
-			collection: Vetpda.products,
-			companies: Vetpda.companies,
+		Pricepda.products.fetch();
+		Pricepda.companies.fetch();
+		var indexView = new Pricepda.Views.RootIndex({
+			collection: Pricepda.products,
+			companies: Pricepda.companies,
 			user: currentUser
 		});
 		this._swapView(indexView);
@@ -29,10 +29,10 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 	companies: function(){
 		var that = this;
 		console.log("routing to companies page")
-		Vetpda.companies.fetch();
-		var currentUser = new Vetpda.Models.User();
-		var companiesView = new Vetpda.Views.CompaniesIndex({
-			collection: Vetpda.companies
+		Pricepda.companies.fetch();
+		var currentUser = new Pricepda.Models.User();
+		var companiesView = new Pricepda.Views.CompaniesIndex({
+			collection: Pricepda.companies
 		});
 
 		currentUser.fetch({
@@ -49,10 +49,10 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 	companiesEdit: function(id){
 		var that = this;
 
-		var company = Vetpda.companies.getOrFetch(id);
+		var company = Pricepda.companies.getOrFetch(id);
 		console.log("routing to companies");
-		var currentUser = new Vetpda.Models.User();
-		var companyView = new Vetpda.Views.CompanyEdit({
+		var currentUser = new Pricepda.Models.User();
+		var companyView = new Pricepda.Views.CompanyEdit({
 			model: company
 		});
 
@@ -71,12 +71,12 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 		var that = this;
 
 		console.log("Routing to Product Index");
-		Vetpda.products.fetch();
-		Vetpda.companies.fetch();
-		var currentUser = new Vetpda.Models.User();
-		var productsView = new Vetpda.Views.ProductsIndex({
-			collection: Vetpda.products,
-			companies: Vetpda.companies,
+		Pricepda.products.fetch();
+		Pricepda.companies.fetch();
+		var currentUser = new Pricepda.Models.User();
+		var productsView = new Pricepda.Views.ProductsIndex({
+			collection: Pricepda.products,
+			companies: Pricepda.companies,
 			user: currentUser
 		});
 
@@ -94,10 +94,10 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 	productsDelete: function(){
 		var that = this;
 		console.log("Routing to Product Delete Page");
-		Vetpda.products.fetch();
-		var currentUser = new Vetpda.Models.User();
-		var productsView = new Vetpda.Views.ProductsDelete({
-			collection: Vetpda.products,
+		Pricepda.products.fetch();
+		var currentUser = new Pricepda.Models.User();
+		var productsView = new Pricepda.Views.ProductsDelete({
+			collection: Pricepda.products,
 			user: currentUser
 		});
 
@@ -111,17 +111,6 @@ Vetpda.Routers.VetRouter = Backbone.Router.extend({
 			}
 		});
 	},	
-
-	// productShow: function(id){
-	// 	var product = Vetpda.products.getOrFetch(id);
-	// 	Vetpda.companies.fetch();
-	// 	console.log("routing to product show page");
-	// 	var productView = new Vetpda.Views.ProductShow({
-	// 		model: product,
-	// 		collection: Vetpda.companies
-	// 	});
-	// 	this._swapView(productView);
-	// },
 
 	_swapView: function (view) {
 		this._currentView && this._currentView.remove();

@@ -1,11 +1,11 @@
-window.Vetpda = {
+window.Pricepda = {
   Models: {},
   Collections: {},
   Views: {},
   Routers: {},
   initialize: function() {
     console.log('Hello from Backbone!');
-    new Vetpda.Routers.VetRouter({$rootEl: $('#primary')});
+    new Pricepda.Routers.VetRouter({$rootEl: $('#primary')});
   	vex.defaultOptions.className = "vex-theme-flat-attack"
     console.log("script initializing");
   	Backbone.history.start();
@@ -14,5 +14,5 @@ window.Vetpda = {
 };
 
 $(document).ready(function(){
-  Vetpda.initialize();
+  Pricepda.initialize();
 });

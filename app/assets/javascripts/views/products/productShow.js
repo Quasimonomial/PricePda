@@ -1,4 +1,4 @@
-Vetpda.Views.ProductShow = Backbone.View.extend({
+Pricepda.Views.ProductShow = Backbone.View.extend({
 	template: JST['products/show'],
 
 	initialize: function(options){
@@ -91,7 +91,7 @@ Vetpda.Views.ProductShow = Backbone.View.extend({
 		var data = google.visualization.arrayToDataTable(historical_data)
 
 		var options = {
-			title : this.model.escape("category")  + '\n' + this.model.escape("name") + '\n' + this.model.escape("dosage") + '\n' + this.model.escape("package"),
+			title : this.model.escape("category")  + '\n' + this.model.escape("name") + '\n' + this.model.escape("manufacturer"),
 			vAxis: {title: "Price in $", minValue: 0},
 			hAxis: {title: "Month"},
 			seriesType: "bars",

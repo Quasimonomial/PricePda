@@ -15,8 +15,7 @@
 				<th>ID</th>
 				<th>Category</th>
 				<th>Product</th>
-				<th>Dosage</th>
-				<th>Package</th>
+				<th>Manufacturer</th>
 				<th><%= Company.find(@user.comparison_company_id).name %> Price</th>
 				<th>Your Price</th>
 			</tr>
@@ -26,8 +25,7 @@
 				<td><%= product[:id] %></td>
 				<td><%= product[:category] %></td>
 				<td><%= product[:name] %></td>
-				<td><%= product[:dosage] %></td>
-				<td><%= product[:package] %></td>
+				<td><%= product[:manufacturer] %></td>
 				<td><%= product[:competitor_price] %></td>
 				<td><%= product[:user_price] %></td>
 			</tr>
@@ -37,6 +35,6 @@
 			<p>Hey, we'd love to give you a report, but it seems as if your account doesn't have a comparison company choosen.  Would you care to log into our site and choose one?</p>
 		<% end %>
 		<br>
-		<a href="vetpdav1.heroku.com">See your full price comparison</a>
+		<a href="PLACEHOLDER">See your full price comparison</a>
 	</body>
 </html>

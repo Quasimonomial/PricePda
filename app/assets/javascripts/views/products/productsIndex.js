@@ -1,4 +1,4 @@
-Vetpda.Views.ProductsIndex = Backbone.View.extend({
+Pricepda.Views.ProductsIndex = Backbone.View.extend({
 	template: JST['products/index'],
 
 	initialize: function(options){
@@ -32,7 +32,7 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 	addProduct: function(event){
 		event.preventDefault();
 
-		var product = new Vetpda.Models.Product
+		var product = new Pricepda.Models.Product
 
 		console.log(product);
 
@@ -76,12 +76,8 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 		    label: "Product",
 		    cell: "string",
 		  }, {
-		    name: "dosage",
-		    label: "Dosage",
-		    cell: "string",
-		  }, {
-		    name: "package",
-		    label: "Package",
+		    name: "manufacturer",
+		    label: "Manufacturer",
 		    cell: "string",
 		  }].concat(this.createCompanyCells());
 		var grid = new Backgrid.Grid({
@@ -128,11 +124,6 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 		});
 
 		console.log(userPriceData)
-		// this.collection.fullCollection.each(function(product){
-		// 	userPriceData[product.id] = product.get("User");
-		// });
-		
-		// var userPriceDataFull = {'prices': userPriceData}		
 
 		$.ajax({
 			url: "/api/products/mass_product_data",
@@ -214,7 +205,7 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 			collection: this.collection,
 
 			placeholder: "Search Products",
-			fields: ['category', 'name', 'dosage', 'package'],
+			fields: ['category', 'name', 'manufacturer'],
 			wait: 250
 		});
 

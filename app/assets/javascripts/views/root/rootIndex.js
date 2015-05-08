@@ -1,4 +1,4 @@
-Vetpda.Views.RootIndex = Backbone.View.extend({
+Pricepda.Views.RootIndex = Backbone.View.extend({
 	template: JST['root/index'],
 
 	initialize: function(options){
@@ -69,7 +69,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		var that = this;
 		var graphButtonCallback = function(product){
 			console.log("Click Detected");
-			var productView = new Vetpda.Views.ProductShow({
+			var productView = new Pricepda.Views.ProductShow({
 				model: product,
 				collection: that.companyCollection,
 				user: that.currentUser
@@ -121,16 +121,11 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 		    cell: "string", 
 		    editable: false
 		  }, {
-		    name: "dosage",
-		    label: "Dosage",
+		    name: "manufacturer",
+		    label: "Manufacturer",
 		    cell: "string",
 		  	editable: false
-		  }, {
-		    name: "package",
-		    label: "Package",
-		    cell: "string",
-		    editable: false
-		}].concat(this.createCompanyCells());
+		  }].concat(this.createCompanyCells());
 
 		if (this.createCompanyCells().length > 0){
 			columns = columns.concat(statColumns)
@@ -364,7 +359,7 @@ Vetpda.Views.RootIndex = Backbone.View.extend({
 
 			placeholder: "Search Products",
 			// The model fields to search for matches
-			fields: ['category', 'name', 'dosage', 'package'],
+			fields: ['category', 'name', 'manufacturer'],
 			// How long to wait after typing has stopped before searching can start
 			wait: 250
 		});
