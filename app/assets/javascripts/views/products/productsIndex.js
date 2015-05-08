@@ -34,6 +34,9 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 
 		var product = new Vetpda.Models.Product
 
+		console.log(product);
+
+
 		var attrs = $(event.target).serializeJSON();
 		
 

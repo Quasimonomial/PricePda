@@ -38,6 +38,7 @@ module Api
     def create
       @product = Product.new(product_params)
       @product.enabled = true
+      @product.id = Product.maximum(:id).next
       if @product.save
         render json: @product
       else
