@@ -61,3 +61,7 @@ body {
 html {
 font-size: 100%;
 }
+
+body input[type="text"] {
+    height: 30px;
+}
