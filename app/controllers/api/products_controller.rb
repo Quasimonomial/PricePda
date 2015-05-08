@@ -66,7 +66,7 @@ module Api
 
     def mass_product_data
       puts "mass uploading user data"
-      Product.update_product_data_va_table params["data"]
+      Product.update_product_data_va_table params["data"] if current_user.is_admin
       render json: {}
     end
 

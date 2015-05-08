@@ -41,6 +41,40 @@ class Product < ActiveRecord::Base
       product.save
 
 
+      prices = product.prices
+
+      prices_hash = Hash.new #has the prices from our datavase
+
+      company_name_hash = Company.build_name_hash
+
+      prices.each do |price|
+        if price.pricer_type == "Company"
+          prices_hash[price.pricer_id] = [price.id, price.price]
+        end
+      end
+
+      set_vars = ["id", "name","category", "dosage", "package", "format", "action", "controller", "product"] #hardcode in some things I don't need    
+      product_data.each do |key, value|
+        next if set_vars.include?(key) || !company_name_hash.include?(key)
+
+        if prices_hash.has_key?(company_name_hash[key])
+          price_data = prices_hash[company_name_hash[key]]
+          
+          unless value == price_data[1]
+            price_to_update = Price.find(price_data[0])
+            price_to_update.price = value
+            price_to_update.save!
+            price_to_update.create_historical_price
+          end
+        else #create new price if we don't jave a real company
+          puts "Attempting to load in new price"
+          new_price = Price.new({product_id: product_data["id"].to_i, pricer_type: "Company", pricer_id: company_name_hash[key], price: value})
+          p new_price
+          new_price.save!
+          new_price.create_historical_price
+        end
+
+      end
     end
 
   end
