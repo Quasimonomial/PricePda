@@ -25,6 +25,25 @@ class Product < ActiveRecord::Base
   has_many :historical_prices, through: :prices
 
 
+  def self.update_product_data_va_table data
+    data.each do |product_data|
+      product_data = product_data[1]
+
+
+
+      product = Product.find(product_data["id"].to_i)
+      puts "space cadet" unless product
+      product.category = product_data["category"]
+      product.name = product_data["name"]
+      product.dosage = product_data["dosage"]
+      product.package = product_data["package"]
+
+      product.save
+
+
+    end
+
+  end
 
   def self.all_categories
     category_relation = Product.select(:category).distinct

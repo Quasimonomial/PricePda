@@ -64,6 +64,13 @@ module Api
       render json: {}
     end
 
+    def mass_product_data
+      puts "mass uploading user data"
+      Product.update_product_data_va_table params["data"]
+      render json: {}
+    end
+
+
     private
     def product_params
       params.require(:product).permit(:category, :name, :dosage, :package, :enabled)

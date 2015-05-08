@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     get 'products/distinct_categories' => 'products#distinct_categories'
     resources :products, except: [:edit, :new]
     post 'products/mass_user_prices'
+    post 'products/mass_product_data'
     get 'products/:id/historical_prices' => 'products#historical_prices'
     resources :companies, except: [:edit, :new]
     resource :user_percents, only: [:show, :create]

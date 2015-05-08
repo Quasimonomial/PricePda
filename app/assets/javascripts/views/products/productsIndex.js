@@ -116,8 +116,28 @@ Vetpda.Views.ProductsIndex = Backbone.View.extend({
 	
 	saveAllProducts: function(){
 		console.log(this.collection);//.save();
-		this.collection.each(function(product){
-			product.save();
+
+
+		var userPriceData = {'data': []}
+
+		this.collection.fullCollection.each(function(product){
+			userPriceData["data"].push(product.toJSON());
+		});
+
+		console.log(userPriceData)
+		// this.collection.fullCollection.each(function(product){
+		// 	userPriceData[product.id] = product.get("User");
+		// });
+		
+		// var userPriceDataFull = {'prices': userPriceData}		
+
+		$.ajax({
+			url: "/api/products/mass_product_data",
+			method: "POST",
+			data: userPriceData,
+  			success: function(){
+ 				console.log("User Saved Price changes");
+			}
 		});
 	},
 
