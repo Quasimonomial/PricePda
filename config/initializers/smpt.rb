@@ -1,4 +1,4 @@
-ActionMailer::Base.default_url_options =  { host: 'PLACEHOLDER'}
+ActionMailer::Base.default_url_options =  { host: 'http://pricepda.herokuapp.com/'}
 ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = {
   :user_name => ENV['SENDGRID_USERNAME'],
