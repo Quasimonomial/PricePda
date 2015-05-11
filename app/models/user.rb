@@ -11,7 +11,7 @@
 #  updated_at             :datetime
 #  first_name             :string(255)      not null
 #  last_name              :string(255)      not null
-#  hospital_name          :string(255)      not null
+#  company_name           :string(255)      not null
 #  city                   :string(255)      not null
 #  state                  :string(255)      not null
 #  zip_code               :string(255)      not null
@@ -27,7 +27,7 @@
 #
 
 class User < ActiveRecord::Base
-  validates :email, :session_token, :password_digest, :first_name, :last_name, :hospital_name, :city, :state, :zip_code, presence: :true
+  validates :email, :session_token, :password_digest, :first_name, :last_name, :company_name, :city, :state, :abbreviation, :zip_code, presence: :true
   validates :email, :session_token, uniqueness: true
   validates :password, length: { minimum: 6, allow_nil: true }
   validates :price_range_percentage, :numericality => { :greater_than_or_equal_to => 0, less_than_or_equal_to: 100, allow_nil: true}

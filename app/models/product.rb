@@ -92,7 +92,7 @@ class Product < ActiveRecord::Base
     worksheet = workbook[0]
     worksheet.sheet_name = 'Users'
     
-    headers = ["ID", "Email", "First Name", "Last Name", "Hospital Name", "Hospital Abbreviation", "City", "State", "Zip", "Phone", "Admin", "Activated", "Price Percentage"]
+    headers = ["ID", "Email", "First Name", "Last Name", "Company Name", "Company Abbreviation", "City", "State", "Zip", "Phone", "Admin", "Activated", "Price Percentage"]
 
     i = 0
     j = 0

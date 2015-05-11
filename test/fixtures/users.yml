@@ -11,7 +11,7 @@
 #  updated_at             :datetime
 #  first_name             :string(255)      not null
 #  last_name              :string(255)      not null
-#  hospital_name          :string(255)      not null
+#  company_name           :string(255)      not null
 #  city                   :string(255)      not null
 #  state                  :string(255)      not null
 #  zip_code               :string(255)      not null

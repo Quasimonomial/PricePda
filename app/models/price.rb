@@ -50,7 +50,7 @@ class Price < ActiveRecord::Base
     worksheet = workbook[0]
     worksheet.sheet_name = 'Users'
     
-    headers = ["ID", "Email", "First Name", "Last Name", "Hospital Name", "Hospital Abbreviation", "City", "State", "Zip", "Phone", "Admin", "Activated", "Price Percentage"]
+    headers = ["ID", "Email", "First Name", "Last Name", "Company Name", "Company Abbreviation", "City", "State", "Zip", "Phone", "Admin", "Activated", "Price Percentage"]
 
     i = 0
     j = 0
@@ -65,7 +65,7 @@ class Price < ActiveRecord::Base
     User.all.order(:id).each do |user|
       puts "User is"
       puts user
-      user_cells = [user.id, user.email, user.first_name, user.last_name, user.hospital_name, user.abbreviation, user.city, user.state, user.zip_code, user.phone, user.is_admin, user.activated, user.price_range_percentage]
+      user_cells = [user.id, user.email, user.first_name, user.last_name, user.company_name, user.abbreviation, user.city, user.state, user.zip_code, user.phone, user.is_admin, user.activated, user.price_range_percentage]
       p user_cells
       while j <  user_cells.length
         puts i
