@@ -31,6 +31,7 @@ gem 'handsontable_rails', '~> 0.0.2'
 gem 'jsonify', '~> 0.4.1'
 # gem 'csv'
 gem 'rubyXL'
+gem 'faker'
 gem 'paperclip'
 gem 'newrelic_rpm'
 
