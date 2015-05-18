@@ -125,4 +125,52 @@ class ExcelController < ApplicationController
 
   end
 
+  def seeded_price_uploads
+    workbook = RubyXL::Workbook.new
+    worksheet = workbook[0]
+    worksheet.sheet_name = 'Mass Price Uplods Uploads'
+
+    headers = ["ID", "Category", "Product", "Manufacturer"]
+    
+    Company.all.each do |company|
+      headers << company.name
+    end
+
+
+
+    i = 0
+    j = 0
+
+    while j < headers.length
+      worksheet.add_cell(i, j, headers[j])
+      j += 1
+    end
+
+    j = 0
+    i += 1
+
+    Product.all.each do |product|
+      product_cells = []
+      product_cells.push(product.id)
+      product_cells.push(product.category)
+      product_cells.push(product.name)
+      product_cells.push(product.manufacturer)      
+
+      
+      price = rand(0..9999)/100.0 
+      while product_cells.length < headers.length
+        product_cells.push(price + price * rand(-10..10)/100.0)
+      end
+      while j <  product_cells.length
+        worksheet.add_cell(i, j, product_cells[j])
+        j += 1
+      end
+      j = 0
+      i += 1
+    end
+
+    send_data workbook.stream.read
+
+  end
+
 end

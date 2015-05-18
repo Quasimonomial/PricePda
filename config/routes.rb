@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
   get 'excel/seeded_products' => 'excel#seeded_products' 
   get 'excel/seeded_user_uploads' => 'excel#seeded_user_uploads' 
+  get 'excel/seeded_price_uploads' => 'excel#seeded_price_uploads'
 
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
