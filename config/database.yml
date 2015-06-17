@@ -10,8 +10,8 @@ default: &default
   pool: 5
   timeout: 5000
   host: localhost
-  username: vetpda
-  password: nicekitty
+  username: postgres
+  password: 
 
 
 development:
