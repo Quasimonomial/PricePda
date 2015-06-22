@@ -1,6 +1,6 @@
 <p>Note: the graph graphs the current user's price over time - the line would show the User's price over time if it had more data points.</p>
 
-<form class="graphCheckBoxes">
+<div class="tableControls"><form class="graphCheckBoxes">
 	<% companies.each( function(company) { %>
 		<label>
 			<input type="checkbox" name="graphFilter" value="<%= company.escape("name") %>" class="graphFilter" 
@@ -14,7 +14,7 @@
 			<%= company.escape("name") %>
 		</label>
 	<% }); %>
-</form>
+</form></div>
 
 
 <div id="chart_div" style="width: 1200 px; height: 500px;"></div>

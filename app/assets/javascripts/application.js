@@ -16,6 +16,7 @@
 //= require jquery.serializejson
 //= require underscore
 //= require backbone
+//= require jquery.collapsible
 //
 //= require backbone.paginator
 //= require backgrid

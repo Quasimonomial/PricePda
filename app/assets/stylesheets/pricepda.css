@@ -2,15 +2,21 @@
 	background-color: red;
 }
 
+.aboveRange{
+    background-color: #99FF99;
+}
+
 .backgrid th{
 	text-align: right;
 }
 
 .backgrid th.category,
 .backgrid th.name,
-.backgrid th.manufacturer,
-.backgrid th.graph{
-	text-align: left;	
+.backgrid th.dosage,
+.backgrid th.package,
+.backgrid th.graph,
+.backgrid th.percentDifference{
+	text-align: left;
 }
 
 tr:nth-child(even) {
@@ -28,8 +34,6 @@ tr:nth-child(even) {
 	display: inline-block;
 }
 
-element {
-}
 .header h6, .header h5, .header h4, .header_shadow {
     background-color: #FFF;
 }
@@ -63,4 +67,47 @@ font-size: 100%;
 
 body input[type="text"] {
     height: 30px;
+}
+
+.backgrid tr:nth-child(even) td.min{
+    background-color: #FFCC00;
+}
+
+.backgrid tr:nth-child(even) td.average{
+    background-color: #FFCC00;
+}
+.backgrid tr:nth-child(even) td.max{
+    background-color: #FFCC00;
+}
+
+
+.backgrid tr:nth-child(odd) td.min,
+.backgrid tr:nth-child(odd) td.average,
+.backgrid tr:nth-child(odd) td.max{
+    background-color: #FFFF99;
+}
+
+.backgrid td.min,{
+    border-left: solid;
+}
+
+.backgrid td.percentDifference{
+    border-left: dotted;   
+}
+
+.backgrid td.user{
+    border-left: solid;   
+}
+
+.backgrid td.max{
+    border-right: solid;
+}
+
+.paneldiv > *{
+    display: inline-block;
+    width: 25%;
+}
+
+h1{
+    text-align: center;
 }

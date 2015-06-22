@@ -1,105 +1,139 @@
 <h1> Price Comparison Tool </h1>
 
-<p>Hey! This is the main table.  Prices that are cheaper than yours but at least your price range percentage are red.  Your column is red if your price is too high above your comparison company.  Check out the graphs!</p>
+<div class="collapsible" id="panel1">Tutorial<span></span></div>
+	<div class="container-collapsable">
+		<div class="paneldiv content">
+			<h3>THERE IS A TUTORIAL HERE</h3>
+		</div>
+	</div>
+</div>
+<div class="collapsible" id="panel2">Price Upload<span></span></div>
+	<div class="container-collapsable">
+		<div class="paneldiv content">
+			<div>
+				<h3>
+					You can upload your prices via an excel document. To do this, download your Price Excel File, fill it out.  Then select your file from the upload form and press upload!
+				</h3>
+				<h3><a href="/excels/user_upload.xlsx">Download your Price Excel File</a></h3>
+				<h3><a href="/excel/seeded_user_uploads.xlsx">Download a sample filled out Price Excel File</a></h3
+			</div>
+			<div>
+				<h3 style="padding-top: 0px; margin-top:0px;"> Upload Your Prices via Excel</h3>
+				<form class="uploadUserPrices" >
+					<label>
+						File: <input type="file" name="sheet" id="userPricesSheet" accept="xls|xlsx">
+					</label>
+					<input type="submit" value="Upload!">
+				</form>
+			</div>
+			<div>
+				<h3><a href="/users/1/edit">Edit your practice settings</a></h3>
+			</div>
+		</div>
+	</div>
+</div>
+<hr>
+<div class="collapsible" id="panel3">Table Controls<span></span></div>
+	<div class="container-collapsable">
+		<div class="paneldiv">
+			<form id="userPercentForm" class="saveChangesForm">
+				<label>Online Pharmacy We Compete With:</label>
+				<select name="selectionCompany" id="comparisonCompany">
+					<option <% if(typeof user.get("comparison_company_id") === "undefined" ){ %> selected <% }else{ %> disabled <% } %>>------------</option>
+					<% companies.each( function(company) { %>
+						<option value="<%= company.id %>" <% if(user.get("comparison_company_id") === company.id ){ %> selected <% } %>>
+						<%= company.escape("name")%></option>
+					<% }); %>
+				</select>
+				<br>
+				<label>Percent Above/Below Our Price:</label>
+				<input type="text" name="price_range_percentage" value="<%= user.escape("price_range_percentage")%>" id="percentInputFeild"><br>
+				<input type="submit" value ="Save Changes"><br>
+			</form>
 
-<br>
-<form id="userPercentForm">
-	<label>Competitor:</label><br>
-	<select name="selectionCompany" id="comparisonCompany">
-		<option <% if(typeof user.get("comparison_company_id") === "undefined" ){ %> selected <% }else{ %> disabled <% } %>>------------</option>
-		<% companies.each( function(company) { %>
-			<option value="<%= company.id %>" <% if(user.get("comparison_company_id") === company.id ){ %> selected <% } %>>
-			<%= company.escape("name")%></option>
-		<% }); %>
-	</select>
-	<br>
-	<label>Percent Variance:</label>
-	<input type="text" name="price_range_percentage" value="<%= user.escape("price_range_percentage")%>" id="percentInputFeild"><br>
-</form>
-<button type="button" class="saveProducts">Save Changes</button> <br>
-	<br>
-<div class="tableControls">
+			<div class="tableControls">
+				<form class="filterCheckBoxes tableControls">
+					<% if(typeof categoriesArray !== "undefined"){ %>
+						<% for(i = 0; i < categoriesArray.length; i++) { %>
+						<label>
+							<input type="checkbox" name="categoryList" value="<%= categoriesArray[i] %>" class="categoryFilter"
+								
 
-<form class="filterCheckBoxes tableControls">
-	<% if(typeof categoriesArray !== "undefined"){ %>
-		<% for(i = 0; i < categoriesArray.length; i++) { %>
-		<label>
-			<input type="checkbox" name="categoryList" value="<%= categoriesArray[i] %>" class="categoryFilter"
-				
+								<% if(Cookie.get("categoriesSelected") != null){ %>
 
-				<% if(Cookie.get("categoriesSelected") != null){ %>
+									<% if(Cookie.get("categoriesSelected").split(",").indexOf(categoriesArray[i]) > -1){ %>
+										checked
+									<% } %>
+								<% } else{ %>
+									checked
+								<% } %>
+							/>
+							<%= categoriesArray[i] %>
+						</label>
+						<% }; %>
+					<% }; %> <br>
+					<button type="button" class="selectAllCategories">Select All</button>
+					<button type="button" class="deselectAllCategories">Deselect All</button>
+				</form>
 
-					<% if(Cookie.get("categoriesSelected").split(",").indexOf(categoriesArray[i]) > -1){ %>
-						checked
-					<% } %>
-				<% } else{ %>
-					checked
-				<% } %>
-			/>
-			<%= categoriesArray[i] %>
-		</label>
-		<% }; %>
-	<% }; %> <br>
-	<button type="button" class="selectAllCategories">Select All</button>
-	<button type="button" class="deselectAllCategories">Deselect All</button>
-</form>
-<form>
-	<label>
-		<input type="checkbox" name="priceToggle" class="pricedToggle"
+				<form class="companiesCheckBoxes tableControls">
+					<% companies.each( function(company) { %>
+						<label>
+							<input type="checkbox" name="companiesFilter" value="<%= company.escape("name") %>" class="tableFilter"
+								<% if(user.get("comparison_company_id") === company.id){ %>
+									checked disabled="disabled"
+								<% } else if(selectedCompanies.indexOf(company.escape("name")) > -1){ %>
+									checked
+								<% } else if(selectedCompanies.length >= 3){ %>
+									disabled="disabled"
+								<% } %>
 
-			<% if(Cookie.get("pricesEnteredFilter") != null){ 
-			if(Cookie.get("pricesEnteredFilter") === "true"){ %>
-				checked
-			<% }} %>
-		/>
-		View Only Priced Products
-	</label>
-</form>
+							/>
+							<%= company.escape("name") %>
+						</label>
+					<% }); %>
+				</form>
+			</div>
+			<div>
+				<form>
+					View Only Products:<br>
+					<label>
+						<input type="checkbox" name="priceToggle" class="pricedToggle"
 
-<form class="companiesCheckBoxes tableControls">
-	<% companies.each( function(company) { %>
-		<label>
-			<input type="checkbox" name="companiesFilter" value="<%= company.escape("name") %>" class="tableFilter"
-				<% if(user.get("comparison_company_id") === company.id){ %>
-					checked disabled="disabled"
-				<% } else if(selectedCompanies.indexOf(company.escape("name")) > -1){ %>
-					checked
-				<% } else if(selectedCompanies.length >= 3){ %>
-					disabled="disabled"
-				<% } %>
+							<% if(Cookie.get("pricesEnteredFilter") != null){ 
+							if(Cookie.get("pricesEnteredFilter") === "true"){ %>
+								checked
+							<% }} %>
+						/>
+						Priced by <%= user.escape("hospital_name")%>
+					</label>
+					<label>
+						<input type="checkbox" name="redProducts" class="redProducts"
 
-			/>
-			<%= company.escape("name") %>
-		</label>
-	<% }); %>
-</form>
+							<% if(Cookie.get("redProductsFilter") != null){ 
+							if(Cookie.get("redProductsFilter") === "true"){ %>
+								checked
+							<% }} %>
+						/>
+						with competitors priced LOWER
+					</label>
+					<label>
+						<input type="checkbox" name="greenProducts" class="greenProducts"
+
+							<% if(Cookie.get("greenProductsFilter") != null){ 
+							if(Cookie.get("greenProductsFilter") === "true"){ %>
+								checked
+							<% }} %>
+						/>
+						with competitors priced HIGHER
+					</label>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div id="productsTable"></div>
-
-
-<br>
-<!-- <button type="button" class="emailSelf">Send my report!</button> <br> -->
-<br>
-<p>
-	You can upload your prices via an excel document. To do this, download your Price Excel File, fill it out.  Then select your file from the upload form and press upload!
-
-	Note also that if you don't want to fill these out by hand because you're demoing the site, a filled out form is also provided for you.
-</p>
-<br>
-<h3> Upload Your Prices via Excel</h3>
-<form class="uploadUserPrices" >
-	<label>
-		File: <input type="file" name="sheet" id="userPricesSheet" accept="xls|xlsx">
-	</label>
-	<input type="submit" value="Upload!">
-</form>
-<br>
-
-<h3><a href="/excel/export_user_uploads.xlsx">Download your Price Excel File</a></h3>
-
-<br>
-<h3><a href="/excel/seeded_user_uploads.xlsx">Download a sample filled out Price Excel File</a></h3
 
 <br>
 <% if(user.get("is_admin") === true){ %>

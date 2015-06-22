@@ -25,7 +25,7 @@ Pricepda.Views.RootIndex = Backbone.View.extend({
 	},
 
 	events: {
-		'click .saveProducts': 'saveAllProducts',
+		'submit .saveChangesForm': 'saveAllProducts',
 		'change .tableFilter' : 'handleTableFilters',
 		'focusout #percentInputFeild': 'updateUserModel',
 		'change #comparisonCompany' : 'updateUserModel',
@@ -33,29 +33,6 @@ Pricepda.Views.RootIndex = Backbone.View.extend({
 		'submit .uploadUserPrices' : 'uploadUserPrices',
 		'click .selectAllCategories' : 'selectAllCategories',
 		'click .deselectAllCategories' : 'deselectAllCategories'
-	},
-
-	selectAllCategories: function(){
-		var $checkboxes = $(".filterCheckBoxes").find("input:checkbox");
-		$checkboxes.each(function(){
-			this.checked = true;
-		});
-
-		this.categoryFilter.setPickFilter($('input:checkbox.categoryFilter:checked').map(function() {
-			return this.value;
-		}).get());
-
-	},
-	
-	deselectAllCategories: function(){
-		var $checkboxes = $(".filterCheckBoxes").find("input:checkbox");
-		$checkboxes.each(function(){
-			this.checked = false;
-		});
-
-		this.categoryFilter.setPickFilter($('input:checkbox.categoryFilter:checked').map(function() {
-			return this.value;
-		}).get());
 	},
 
 
@@ -127,7 +104,7 @@ Pricepda.Views.RootIndex = Backbone.View.extend({
 		  	editable: false
 		  }].concat(this.createCompanyCells());
 
-		if (this.createCompanyCells().length > 0){
+		if (this.createCompanyCells().length > 1){
 			columns = columns.concat(statColumns)
 		}
 
@@ -137,6 +114,14 @@ Pricepda.Views.RootIndex = Backbone.View.extend({
 			cell: "number",
 			editable: true
 		});
+
+	    columns.push({
+	    	name: "percentDifference",
+	    	label: '% Difference',
+	    	cell: "string",
+	    	editable: false
+	    });
+
 		columns.push({
 			name: "View Graph",
 			callback: graphButtonCallback,
@@ -201,12 +186,44 @@ Pricepda.Views.RootIndex = Backbone.View.extend({
 				if(currentUser.get("comparison_company_id")) {
 					if(100 * (product.get("User") - product.get(thatCompanyCollection.get(currentUser.get("comparison_company_id")).get("name")) )/product.get("User") >= product.get("priceRangePercentage") ){						
 						if(product.get(thatCompanyCollection.get(currentUser.get("comparison_company_id")).get("name")) > 0){
-						companiesOutOfRange.push("User");
+							companiesOutOfRange.push("User");
 						}
 					}
 				}
 			}
+
+			var companiesAboveRange = [];
+			thatCompanyCollection.each(function(company){
+				if(product.get(company.get("name")) > 0){
+					if(100 * (product.get(company.get("name")) - product.get("User"))/product.get(company.get("name")) >= product.get("priceRangePercentage")){
+						companiesAboveRange.push(company.get("name"));
+					}
+				}
+			});
+			if(typeof currentUser !== 'undefined' && typeof product !== "undefined" && thatCompanyCollection.length > 0){
+				if(currentUser.get("comparison_company_id")) {
+					if(100 * (product.get(thatCompanyCollection.get(currentUser.get("comparison_company_id")).get("name")) - product.get("User"))/product.get(thatCompanyCollection.get(currentUser.get("comparison_company_id")).get("name")) >= product.get("priceRangePercentage") ){						
+						if(product.get(thatCompanyCollection.get(currentUser.get("comparison_company_id")).get("name")) > 0){
+							companiesAboveRange.push("User");
+						}
+					}
+				}
+			}
+
+
+			if(typeof currentUser !== 'undefined' && typeof product !== "undefined" && thatCompanyCollection.length > 0){
+				if(currentUser.get("comparison_company_id")) {
+					if(product.get(thatCompanyCollection.get(currentUser.get("comparison_company_id")).get("name")) > 0){
+						var percentDifference = (-100 * (product.get("User") - product.get(thatCompanyCollection.get(currentUser.get("comparison_company_id")).get("name")) )/product.get("User"))
+						percentDifference = Math.round(percentDifference);
+						product.set("percentDifference",  percentDifference + '%');
+					}
+				}
+			}
+
+
 			product.set("companiesOutOfRange", companiesOutOfRange);
+			product.set("companiesAboveRange", companiesAboveRange);
 
 		});
 	},
@@ -230,6 +247,19 @@ Pricepda.Views.RootIndex = Backbone.View.extend({
 		}
 
 		return companyCells;
+	},
+
+	deselectAllCategories: function(){
+		Cookie.set("currentGridPage", 1, 480, '/');
+		var $checkboxes = $(".filterCheckBoxes").find("input:checkbox");
+		$checkboxes.each(function(){
+			this.checked = false;
+		});
+
+		this.categoryFilter.setPickFilter($('input:checkbox.categoryFilter:checked').map(function() {
+			return this.value;
+		}).get());
+		Cookie.set("categoriesSelected", ["none"], 480, '/');
 	},
 
 	emailSelf: function(){
@@ -276,8 +306,10 @@ Pricepda.Views.RootIndex = Backbone.View.extend({
 		this.renderTable();
 	},
 
-	saveAllProducts: function(){
+	saveAllProducts: function(event){
+		event.preventDefault();
 		//also saves our user
+		that = this;
 		console.log("saving")
 		this.updateUserModel();
 		
@@ -294,10 +326,28 @@ Pricepda.Views.RootIndex = Backbone.View.extend({
 			method: "POST",
 			data: userPriceDataFull,
   			success: function(){
+ 				that.collection.fetch();
  				console.log("User Saved Price changes");
 			}
 		});
 		this.currentUser.save();
+	},
+
+	selectAllCategories: function(){
+		Cookie.set("currentGridPage", 1, 480, '/');
+		var categoriesSelected = $('input:checkbox.categoryFilter').map(function() {
+		    return this.value;
+		}).get();
+		var $checkboxes = $(".filterCheckBoxes").find("input:checkbox");
+		$checkboxes.each(function(){
+			this.checked = true;
+		});
+
+		this.categoryFilter.setPickFilter($('input:checkbox.categoryFilter:checked').map(function() {
+			return this.value;
+		}).get());
+		console.log(categoriesSelected)
+		Cookie.set("categoriesSelected", categoriesSelected, 480, '/');
 	},
 
 	updateUserModel:function(event){
@@ -366,6 +416,11 @@ Pricepda.Views.RootIndex = Backbone.View.extend({
 		if(Cookie.get("pricesEnteredFilter") != null){
 			productsFilter.pricesEnteredFilter = Cookie.get("pricesEnteredFilter") === "true";
 		}
+		if(Cookie.get("redProductsFilter") != null){
+			productsFilter.redProductsFilter = Cookie.get("redProductsFilter") === "true";
+		}if(Cookie.get("greenProductsFilter") != null){
+			productsFilter.greenProductsFilter = Cookie.get("greenProductsFilter") === "true";
+		}
 
 
 		productsFilter.setfilterColumn("category");
@@ -380,6 +435,14 @@ Pricepda.Views.RootIndex = Backbone.View.extend({
 		$('input.pricedToggle').change(function(e){
 			productsFilter.togglePricesEnteredFilter();
 			Cookie.set("pricesEnteredFilter", productsFilter.pricesEnteredFilter, 480, '/');
+		});
+		$('input.redProducts').change(function(e){
+			productsFilter.toggleRedFilter();
+			Cookie.set("redProductsFilter", productsFilter.redProductsFilter, 480, '/');
+		});
+		$('input.greenProducts').change(function(e){
+			productsFilter.toggleGreenFilter();
+			Cookie.set("greenProductsFilter", productsFilter.greenProductsFilter, 480, '/');
 		});
 
 
@@ -405,9 +468,6 @@ Pricepda.Views.RootIndex = Backbone.View.extend({
 			selectedCompanies = selectedCompanies.slice( 1 ).split(",");
 		}
 
-		
-
-
 		var content = this.template({
 			products: this.collection,
 			companies: this.companyCollection,
@@ -419,6 +479,10 @@ Pricepda.Views.RootIndex = Backbone.View.extend({
 		this.$el.html(content);
 
 		this.renderTable();
+
+		 $('.collapsible').collapsible({
+            defaultOpen: 'panel2,panel3'
+        });
 
 		return this;
 	},

@@ -130,12 +130,12 @@ class User < ActiveRecord::Base
     BCrypt::Password.new(self.reset_digest).is_password?(reset_token)
   end
 
-  private
   def ensure_activation_digest
     # Create the token and digest
     self.activation_token = SecureRandom.urlsafe_base64(16)
     self.activation_digest = BCrypt::Password.create(self.activation_token)
   end
+  private
   
   def ensure_session_token
     self.session_token ||= SecureRandom.urlsafe_base64(16)

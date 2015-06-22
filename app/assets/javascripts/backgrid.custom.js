@@ -47,15 +47,41 @@ var DeleteCell = Backgrid.Cell.extend({
 var StyledByDataRow = Backgrid.Row.extend({
 	render: function () {
       var companiesOutOfRange = this.model.get("companiesOutOfRange");
+      var companiesAboveRange = this.model.get("companiesAboveRange");
+
       this.$el.empty();
 	    var fragment = document.createDocumentFragment();
 	    for (var i = 0; i < this.cells.length; i++) {
-	        if(typeof companiesOutOfRange != "undefined"){
-		    		if(companiesOutOfRange.indexOf(this.cells[i].column.attributes.name) >= 0){
-		    			this.cells[i].el.classList.add("OutOfRange");
-		    		}        	
-	        }
-			fragment.appendChild(this.cells[i].render().el);
+        if(typeof companiesOutOfRange != "undefined"){
+        	if(companiesOutOfRange.indexOf(this.cells[i].column.attributes.name) >= 0){
+        		this.cells[i].el.classList.add("OutOfRange");
+        	}        	
+        }
+
+        if(typeof companiesAboveRange != "undefined"){
+          if(companiesAboveRange.indexOf(this.cells[i].column.attributes.name) >= 0){
+            this.cells[i].el.classList.add("aboveRange");
+          }         
+        }
+        
+        // this.cells[i].el.classList.add(this.cells[i].column.attributes.name);
+        if(this.cells[i].column.attributes.name === "min"){
+          this.cells[i].el.classList.add("min");
+        } 
+        if(this.cells[i].column.attributes.name === "average"){
+          this.cells[i].el.classList.add("average");
+        } 
+        if(this.cells[i].column.attributes.name === "max"){
+          this.cells[i].el.classList.add("max");
+        } 
+        if(this.cells[i].column.attributes.name === "percentDifference"){
+          this.cells[i].el.classList.add("percentDifference");
+        }
+        if(this.cells[i].column.attributes.name === "User"){
+          this.cells[i].el.classList.add("user");
+        }
+
+			  fragment.appendChild(this.cells[i].render().el);
 	    }
 
 	    this.el.appendChild(fragment);
@@ -87,6 +113,37 @@ Backgrid.ClientSideFilterWithPickFilter = Backgrid.Extension.ClientSideFilter.ex
     return this;
   },
 
+  toggleRedFilter: function(value) {
+    if(this.redProductsFilter == true){
+      this.redProductsFilter = false;
+    } else{
+      this.redProductsFilter = true;
+    }
+    this.search();
+    return this;
+  },
+
+  toggleGreenFilter: function(value) {
+    if(this.greenProductsFilter == true){
+      this.greenProductsFilter = false;
+    } else{
+      this.greenProductsFilter = true;
+    }
+    this.search();
+    return this;
+  },
+
+  search: function () {
+    var matcher = _.bind(this.makeMatcher(this.query()), this);
+    var col = this.collection;
+    // if (col.pageableCollection) col.pageableCollection.getFirstPage({silent: true});
+    console.log("searching")
+    console.log(col)
+    console.log(col.pageableCollection)
+    console.log(col.pageableCollection.state)
+    col.reset(this.shadowCollection.filter(matcher), {reindex: false});
+  },
+
   setPickFilter: function (attrs) {
     this.pickFilter = attrs;
     this.search();
@@ -114,6 +171,14 @@ Backgrid.ClientSideFilterWithPickFilter = Backgrid.Extension.ClientSideFilter.ex
       }
       if (this.pricesEnteredFilter === true){
         if(typeof model.get("User") === 'undefined') return false;
+      }
+
+      if (this.redProductsFilter === true){
+        if(model.get("companiesOutOfRange").length < 1) return false; 
+      }
+
+      if (this.greenProductsFilter === true){
+        if(model.get("companiesAboveRange").length < 1) return false; 
       }
 
       // Test the search filter
